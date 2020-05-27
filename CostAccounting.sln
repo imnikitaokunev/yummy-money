@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostAccounting", "CostAccounting\CostAccounting.csproj", "{E1EA1BA6-8201-4F55-B68D-C3922EE8C68C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostAccounting.Web", "CostAccounting\CostAccounting.Web.csproj", "{E1EA1BA6-8201-4F55-B68D-C3922EE8C68C}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CostAccounting.Database", "CostAccounting.Database\CostAccounting.Database.sqlproj", "{327F3EE2-1EAB-4636-B8EB-2EA28980862C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostAccounting.Data", "CostAccounting.Data\CostAccounting.Data.csproj", "{7DE55EC5-73D8-469E-BA6F-33285C4E4FFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostAccounting.Services", "CostAccounting.Services\CostAccounting.Services.csproj", "{743575F6-04AA-4804-8423-616DE30D047A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostAccounting.Core", "CostAccounting.Core\CostAccounting.Core.csproj", "{B5525B5A-A15C-46B9-8525-BF46EB3BE9CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +23,24 @@ Global
 		{E1EA1BA6-8201-4F55-B68D-C3922EE8C68C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1EA1BA6-8201-4F55-B68D-C3922EE8C68C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1EA1BA6-8201-4F55-B68D-C3922EE8C68C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327F3EE2-1EAB-4636-B8EB-2EA28980862C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327F3EE2-1EAB-4636-B8EB-2EA28980862C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327F3EE2-1EAB-4636-B8EB-2EA28980862C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{327F3EE2-1EAB-4636-B8EB-2EA28980862C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327F3EE2-1EAB-4636-B8EB-2EA28980862C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327F3EE2-1EAB-4636-B8EB-2EA28980862C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7DE55EC5-73D8-469E-BA6F-33285C4E4FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE55EC5-73D8-469E-BA6F-33285C4E4FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE55EC5-73D8-469E-BA6F-33285C4E4FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE55EC5-73D8-469E-BA6F-33285C4E4FFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{743575F6-04AA-4804-8423-616DE30D047A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{743575F6-04AA-4804-8423-616DE30D047A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{743575F6-04AA-4804-8423-616DE30D047A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{743575F6-04AA-4804-8423-616DE30D047A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5525B5A-A15C-46B9-8525-BF46EB3BE9CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5525B5A-A15C-46B9-8525-BF46EB3BE9CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5525B5A-A15C-46B9-8525-BF46EB3BE9CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5525B5A-A15C-46B9-8525-BF46EB3BE9CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
