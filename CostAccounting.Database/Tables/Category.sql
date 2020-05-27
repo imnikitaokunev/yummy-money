@@ -2,5 +2,5 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] NVARCHAR(16) NOT NULL, 
-    [Description] NVARCHAR(100) NULL
+    [Description] NVARCHAR(128) NULL
 )

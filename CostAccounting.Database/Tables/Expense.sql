@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Expense]
 (
-	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
+	[Id] BIGINT NOT NULL PRIMARY KEY, 
     [CategoryId] INT NOT NULL CONSTRAINT [FK_Expense_Category] FOREIGN KEY
         REFERENCES [Category]([Id]),
     [Amount] MONEY NOT NULL, 
