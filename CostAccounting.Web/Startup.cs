@@ -1,6 +1,4 @@
-using CostAccounting.Services.Services;
-using CostAccounting.Web.Configures;
-using CostAccounting.Web.Services;
+using CostAccounting.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,10 +18,8 @@ namespace CostAccounting.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            var configure = new DbConfigure();
-            configure.ConfigureServices(services, _configuration);
-            services.AddScoped<ICategoryService, CategoryService>();
-            
+            services.AddDbServices(_configuration);
+            services.AddMvcServices(_configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

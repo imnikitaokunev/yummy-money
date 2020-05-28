@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CostAccounting.Web.Configures
+namespace CostAccounting.Web.Extensions
 {
-    internal sealed class DbConfigure : IConfigure
+    public static class AddDbServicesExtension
     {
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public static void AddDbServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<CostAccountingContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using CostAccounting.Core.Models;
 using CostAccounting.Services.Services;
 using CostAccounting.Services.Models.Category;
@@ -35,11 +36,11 @@ namespace CostAccounting.Web.Controllers
                 return BadRequest();
             }
 
-            return CreatedAtAction("Create", new {created.Id}, model);
+            return CreatedAtAction("Create", model);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult GetById([FromRoute] int id)
+        [HttpGet("{id:guid}")]
+        public IActionResult GetById([FromRoute] Guid id)
         {
             var category = _categoryService.GetById(id);
 
@@ -48,11 +49,11 @@ namespace CostAccounting.Web.Controllers
                 return NotFound();
             }
 
-            return new ObjectResult(category);
+            return Ok(category);
         }
 
-        [HttpPut("{id:int}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] CategoryModel model)
+        [HttpPut("{id:guid}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] CategoryModel model)
         {
             if (model == null || id != model.Id || !ModelState.IsValid)
             {
@@ -69,8 +70,8 @@ namespace CostAccounting.Web.Controllers
             return Ok(model);
         }
 
-        [HttpDelete("{id:int}")]
-        public IActionResult Delete([FromRoute] int id)
+        [HttpDelete("{id:guid}")]
+        public IActionResult Delete([FromRoute] Guid id)
         {
             var category = _categoryService.GetById(id);
 

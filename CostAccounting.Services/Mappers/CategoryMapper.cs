@@ -14,7 +14,7 @@ namespace CostAccounting.Services.Mappers
 
         public static Category ToEntity(this CategoryModel model) => new Category
         {
-            //Id = model.Id,
+            Id = model.Id,
             Name = model.Name,
             Description = model.Description
         };

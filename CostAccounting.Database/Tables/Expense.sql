@@ -1,9 +1,9 @@
-﻿CREATE TABLE [dbo].[Expense]
+﻿create table [dbo].[Expense]
 (
-	[Id] BIGINT NOT NULL PRIMARY KEY, 
-    [CategoryId] INT NOT NULL CONSTRAINT [FK_Expense_Category] FOREIGN KEY
-        REFERENCES [Category]([Id]),
-    [Amount] MONEY NOT NULL, 
-    [Date] DATETIME2 NOT NULL, 
-    [Description] NVARCHAR(128) NULL
+	[Id] bigint not null primary key, 
+    [CategoryId] uniqueidentifier not null constraint [FK_Expense_Category] foreign key
+        references [Category]([Id]),
+    [Amount] money not null, 
+    [Date] datetime2 not null, 
+    [Description] nvarchar(128) null
 )
