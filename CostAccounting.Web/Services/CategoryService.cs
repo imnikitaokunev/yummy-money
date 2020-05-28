@@ -24,9 +24,8 @@ namespace CostAccounting.Web.Services
         {
             var entity = model.ToEntity();
             var isCreated = _repository.CreateAsync(entity).Result;
-            model.Id = entity.Id;
 
-            return isCreated ? model : null;
+            return isCreated ? entity.ToModel() : null;
         }
 
         public CategoryModel GetById(int id)

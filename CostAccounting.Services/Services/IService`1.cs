@@ -5,7 +5,6 @@ namespace CostAccounting.Services.Services
 {
     public interface IService<TModel, in TKey> where TKey : struct
     {
-        // Request model as parameter.
         List<TModel> Get(CategoryRequestModel request);
 
         TModel Create(TModel model);

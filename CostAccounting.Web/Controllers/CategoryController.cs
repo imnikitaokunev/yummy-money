@@ -35,7 +35,7 @@ namespace CostAccounting.Web.Controllers
                 return BadRequest();
             }
 
-            return CreatedAtAction("Create", new {created.Id}, model);
+            return CreatedAtAction("Create", model);
         }
 
         [HttpGet("{id:int}")]
@@ -48,7 +48,7 @@ namespace CostAccounting.Web.Controllers
                 return NotFound();
             }
 
-            return new ObjectResult(category);
+            return Ok(category);
         }
 
         [HttpPut("{id:int}")]
