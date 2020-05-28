@@ -1,6 +1,8 @@
-﻿namespace CostAccounting.Core.Entities
+﻿using System;
+
+namespace CostAccounting.Core.Entities
 {
-    public class Category : Entity<int>
+    public class Category : Entity<Guid>
     {
         public const int NameLength = 16;
         public const int DescriptionLength = 128;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CostAccounting.Core.Entities;
@@ -39,7 +40,7 @@ namespace CostAccounting.Data.Repositories
             return created > 0;
         }
 
-        public async Task<Category> GetByIdAsync(int id)
+        public async Task<Category> GetByIdAsync(Guid id)
         {
             return await _context.Categories.SingleOrDefaultAsync(x => x.Id == id);
         }
@@ -51,7 +52,7 @@ namespace CostAccounting.Data.Repositories
             return updated > 0;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var category = await GetByIdAsync(id);
             _context.Categories.Remove(category);
