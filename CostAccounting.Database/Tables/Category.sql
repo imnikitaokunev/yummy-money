@@ -1,6 +1,6 @@
-﻿CREATE TABLE [dbo].[Category]
+﻿create table [dbo].[Category]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [Name] NVARCHAR(16) NOT NULL, 
-    [Description] NVARCHAR(128) NULL
+	[Id] uniqueidentifier constraint [PK_Category] primary key, 
+    [Name] nvarchar(16) NOT NULL, 
+    [Description] nvarchar(128) NULL
 )

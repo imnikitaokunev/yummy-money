@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using CostAccounting.Core.Models;
 using CostAccounting.Core.Repositories;
 using CostAccounting.Services.Mappers;
 using CostAccounting.Services.Models.Category;
 using CostAccounting.Services.Services;
+using CostAccounting.Shared;
 
 namespace CostAccounting.Web.Services
 {
@@ -22,13 +24,15 @@ namespace CostAccounting.Web.Services
 
         public CategoryModel Create(CategoryModel model)
         {
+            model.Id = SqlServerFriendlyGuid.Generate();
+
             var entity = model.ToEntity();
             var isCreated = _repository.CreateAsync(entity).Result;
 
             return isCreated ? entity.ToModel() : null;
         }
 
-        public CategoryModel GetById(int id)
+        public CategoryModel GetById(Guid id)
         {
             var category = _repository.GetByIdAsync(id).Result;
             return category?.ToModel();
@@ -41,7 +45,7 @@ namespace CostAccounting.Web.Services
             return isUpdated;
         }
 
-        public bool Delete(int id)
+        public bool Delete(Guid id)
         {
             var isDeleted = _repository.DeleteAsync(id).Result;
             return isDeleted;

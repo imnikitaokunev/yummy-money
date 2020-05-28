@@ -1,8 +1,9 @@
-﻿using CostAccounting.Services.Models.Category;
+﻿using System;
+using CostAccounting.Services.Models.Category;
 
 namespace CostAccounting.Services.Services
 {
-    public interface ICategoryService : IService<CategoryModel, int>
+    public interface ICategoryService : IService<CategoryModel, Guid>
     {
     }
 }

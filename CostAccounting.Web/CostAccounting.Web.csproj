@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CostAccounting.Data\CostAccounting.Data.csproj" />
     <ProjectReference Include="..\CostAccounting.Services\CostAccounting.Services.csproj" />
+    <ProjectReference Include="..\CostAccounting.Shared\CostAccounting.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
