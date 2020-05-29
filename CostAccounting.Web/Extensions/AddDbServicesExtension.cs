@@ -17,6 +17,7 @@ namespace CostAccounting.Web.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             // TODO: Add other repositories here.
+            // TODO: Unit of work pattern can be used instead.
         }
     }
 }

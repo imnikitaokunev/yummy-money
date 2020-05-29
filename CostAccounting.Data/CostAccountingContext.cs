@@ -19,6 +19,7 @@ namespace CostAccounting.Data
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new CategoryConfiguration());
+            builder.ApplyConfiguration(new ExpenseConfiguration());
         }
     }
 }
