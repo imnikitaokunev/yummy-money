@@ -6,7 +6,7 @@ namespace CostAccounting.Core.Repositories
 {
     public interface IRepository<TEntity, in TKey> : IRepository where TEntity : Entity
     {
-        List<TEntity> Get(RequestModel request);
+        List<TEntity> Get(RequestModel requestModel);
 
         void Create(TEntity entity);
 

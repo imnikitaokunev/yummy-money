@@ -11,6 +11,7 @@ namespace CostAccounting.Data.Configurations
             builder.ToTable(nameof(Expense));
 
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Amount).IsRequired();
             builder.Property(x => x.Date).IsRequired().HasColumnType("datetime2");
             builder.Property(x => x.Description).HasMaxLength(Expense.DescriptionLength);

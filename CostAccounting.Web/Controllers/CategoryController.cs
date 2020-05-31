@@ -10,14 +10,14 @@ namespace CostAccounting.Web.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly ICategoryService _service;
 
-        public CategoryController(ICategoryService categoryService) => _categoryService = categoryService;
+        public CategoryController(ICategoryService service) => _service = service;
 
         [HttpGet("")]
         public IActionResult Get([FromQuery] CategoryRequestModel request)
         {
-            var categories = _categoryService.Get(request);
+            var categories = _service.Get(request);
             return new ObjectResult(categories);
         }
 
@@ -29,7 +29,7 @@ namespace CostAccounting.Web.Controllers
                 return BadRequest();
             }
 
-            _categoryService.Create(model);
+            _service.Create(model);
 
             return CreatedAtAction("Create", model);
         }
@@ -37,7 +37,7 @@ namespace CostAccounting.Web.Controllers
         [HttpGet("{id:guid}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            var category = _categoryService.GetById(id);
+            var category = _service.GetById(id);
 
             if (category == null)
             {
@@ -55,7 +55,7 @@ namespace CostAccounting.Web.Controllers
                 return BadRequest();
             }
 
-            _categoryService.Update(model);
+            _service.Update(model);
 
             return Ok(model);
         }
@@ -63,14 +63,14 @@ namespace CostAccounting.Web.Controllers
         [HttpDelete("{id:guid}")]
         public IActionResult Delete([FromRoute] Guid id)
         {
-            var category = _categoryService.GetById(id);
+            var category = _service.GetById(id);
 
             if (category == null)
             {
                 return NotFound();
             }
 
-            _categoryService.Delete(id);
+            _service.Delete(id);
 
             return Ok();
         }

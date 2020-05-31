@@ -1,22 +1,56 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 using CostAccounting.Core.Entities;
 using CostAccounting.Core.Models;
 using CostAccounting.Core.Repositories;
 
 namespace CostAccounting.Data.Repositories
 {
-    public class ExpenseRepository : IExpenseRepository
+    public class ExpenseRepository : Repository<Expense, long>, IExpenseRepository
     {
-        public List<Expense> Get(RequestModel request) => throw new System.NotImplementedException();
+        public ExpenseRepository(CostAccountingContext context) : base(context)
+        {
+        }
 
-        public void Create(Expense entity) => throw new System.NotImplementedException();
+        protected override IQueryable<Expense> ApplyFilter(RequestModel requestModel)
+        {
+            var query = DbSet.AsQueryable();
 
-        public Expense GetById(long id) => throw new System.NotImplementedException();
+            if (!(requestModel is ExpenseRequestModel request))
+            {
+                return query;
+            }
 
-        public void Update(Expense entity) => throw new System.NotImplementedException();
+            if (request.CategoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoryId == request.CategoryId);
+            }
 
-        public void Delete(Expense expense) => throw new System.NotImplementedException();
+            if (request.MinimalAmount.HasValue)
+            {
+                query = query.Where(x => x.Amount >= request.MinimalAmount);
+            }
 
-        public void Save() => throw new System.NotImplementedException();
+            if (request.MaximalAmount.HasValue)
+            {
+                query = query.Where(x => x.Amount <= request.MaximalAmount);
+            }
+
+            if (request.StartDate.HasValue)
+            {
+                query = query.Where(x => x.Date >= request.StartDate);
+            }
+
+            if (request.EndDate.HasValue)
+            {
+                query = query.Where(x => x.Date >= request.EndDate);
+            }
+
+            if (!string.IsNullOrEmpty(request.Description))
+            {
+                query = query.Where(x => x.Description.Contains(request.Description));
+            }
+
+            return query;
+        }
     }
 }
