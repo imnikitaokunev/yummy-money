@@ -14,6 +14,7 @@ namespace CostAccounting.Web.Extensions
             services.AddDbContext<CostAccountingContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<CostAccountingContext>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             // TODO: Add other repositories here.

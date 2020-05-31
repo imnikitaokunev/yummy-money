@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CostAccounting.Core\CostAccounting.Core.csproj" />
+    <ProjectReference Include="..\CostAccounting.Shared\CostAccounting.Shared.csproj" />
   </ItemGroup>
 
 </Project>

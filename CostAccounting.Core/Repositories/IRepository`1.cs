@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using CostAccounting.Core.Models;
+using System.Collections.Generic;
 using CostAccounting.Core.Entities;
-using CostAccounting.Core.Models;
 
 namespace CostAccounting.Core.Repositories
 {
     public interface IRepository<TEntity, in TKey> : IRepository where TEntity : Entity
     {
-        Task<List<Category>> GetAsync(RequestModel request);
+        List<TEntity> Get(RequestModel request);
 
-        Task<bool> CreateAsync(TEntity entity);
+        void Create(TEntity entity);
 
-        Task<TEntity> GetByIdAsync(TKey id);
+        TEntity GetById(TKey id);
 
-        Task<bool> UpdateAsync(TEntity entity);
+        void Update(TEntity entity);
 
-        Task<bool> DeleteAsync(TKey id);
+        void Delete(TEntity entity);
+
+        void Save();
     }
 }

@@ -29,12 +29,7 @@ namespace CostAccounting.Web.Controllers
                 return BadRequest();
             }
 
-            var created = _categoryService.Create(model);
-
-            if (created == null)
-            {
-                return BadRequest();
-            }
+            _categoryService.Create(model);
 
             return CreatedAtAction("Create", model);
         }
@@ -60,12 +55,7 @@ namespace CostAccounting.Web.Controllers
                 return BadRequest();
             }
 
-            var isUpdated = _categoryService.Update(model);
-
-            if (!isUpdated)
-            {
-                return BadRequest();
-            }
+            _categoryService.Update(model);
 
             return Ok(model);
         }
@@ -80,12 +70,7 @@ namespace CostAccounting.Web.Controllers
                 return NotFound();
             }
 
-            var isDeleted = _categoryService.Delete(id);
-
-            if (!isDeleted)
-            {
-                return BadRequest();
-            }
+            _categoryService.Delete(id);
 
             return Ok();
         }
