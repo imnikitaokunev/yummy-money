@@ -2,6 +2,6 @@
 /**/obj
 .vs
 .DotSettings
-.dbmdl
-.jfm
-.user
+*.dbmdl
+*.jfm
+*.user

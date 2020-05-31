@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using CostAccounting.Core.Models;
 using CostAccounting.Core.Repositories;
 using CostAccounting.Services.Mappers;
 using CostAccounting.Services.Models.Category;
-using CostAccounting.Services.Services;
 using CostAccounting.Shared;
 
-namespace CostAccounting.Web.Services
+namespace CostAccounting.Services.Services.Implementation
 {
     public class CategoryService : ICategoryService
     {
@@ -18,37 +17,36 @@ namespace CostAccounting.Web.Services
 
         public List<CategoryModel> Get(CategoryRequestModel request)
         {
-            var categories = _repository.GetAsync(request).Result;
+            var categories = _repository.Get(request);
             return categories.Select(x => x.ToModel()).ToList();
         }
 
-        public CategoryModel Create(CategoryModel model)
+        public void Create(CategoryModel model)
         {
             model.Id = SqlServerFriendlyGuid.Generate();
-
             var entity = model.ToEntity();
-            var isCreated = _repository.CreateAsync(entity).Result;
-
-            return isCreated ? entity.ToModel() : null;
+            _repository.Create(entity);
+            _repository.Save();
         }
 
         public CategoryModel GetById(Guid id)
         {
-            var category = _repository.GetByIdAsync(id).Result;
+            var category = _repository.GetById(id);
             return category?.ToModel();
         }
 
-        public bool Update(CategoryModel model)
+        public void Update(CategoryModel model)
         {
             var entity = model.ToEntity();
-            var isUpdated = _repository.UpdateAsync(entity).Result;
-            return isUpdated;
+            _repository.Update(entity);
+            _repository.Save();
         }
 
-        public bool Delete(Guid id)
+        public void Delete(Guid id)
         {
-            var isDeleted = _repository.DeleteAsync(id).Result;
-            return isDeleted;
+            var entity = _repository.GetById(id);
+            _repository.Delete(entity);
+            _repository.Save();
         }
     }
 }

@@ -1,6 +1,8 @@
 using CostAccounting.Web.Extensions;
+using CostAccounting.Web.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,6 +32,7 @@ namespace CostAccounting.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseRouting();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
