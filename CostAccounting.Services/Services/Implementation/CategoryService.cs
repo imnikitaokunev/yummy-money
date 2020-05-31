@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using CostAccounting.Core.Models;
 using CostAccounting.Core.Repositories;
 using CostAccounting.Services.Mappers;
 using CostAccounting.Services.Models.Category;
-using CostAccounting.Services.Services;
 using CostAccounting.Shared;
 
-namespace CostAccounting.Web.Services
+namespace CostAccounting.Services.Services.Implementation
 {
     public class CategoryService : ICategoryService
     {

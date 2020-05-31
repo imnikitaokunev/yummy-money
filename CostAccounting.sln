@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostAccounting.Services", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostAccounting.Core", "CostAccounting.Core\CostAccounting.Core.csproj", "{B5525B5A-A15C-46B9-8525-BF46EB3BE9CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostAccounting.Shared", "CostAccounting.Shared\CostAccounting.Shared.csproj", "{9AAFE4E9-60B6-4201-9379-87009580198E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostAccounting.Shared", "CostAccounting.Shared\CostAccounting.Shared.csproj", "{9AAFE4E9-60B6-4201-9379-87009580198E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostAccounting.Tests", "CostAccounting.Tests\CostAccounting.Tests.csproj", "{C8E0C856-B190-4D5A-A3A3-6DDB6CF86BEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostAccounting.Tests", "CostAccounting.Tests\CostAccounting.Tests.csproj", "{C8E0C856-B190-4D5A-A3A3-6DDB6CF86BEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
