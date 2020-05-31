@@ -13,7 +13,7 @@ namespace CostAccounting.Web.Middleware
 
         public ErrorHandlingMiddleware(RequestDelegate next) => _next = next;
 
-        public async Task Invoke(HttpContext context /* other dependencies */)
+        public async Task Invoke(HttpContext context)
         {
             try
             {
@@ -28,12 +28,14 @@ namespace CostAccounting.Web.Middleware
         private static Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             var code = HttpStatusCode.InternalServerError; // 500 if unexpected
+            var message = ex.Message;
 
             if (ex is RepositoryException)
             {
                 code = HttpStatusCode.BadRequest;
+                message = ex.InnerException?.InnerException?.Message;
             }
-            
+
             //if (ex is MyNotFoundException)
             //{
             //    code = HttpStatusCode.NotFound;
@@ -47,10 +49,11 @@ namespace CostAccounting.Web.Middleware
             //    code = HttpStatusCode.BadRequest;
             //}
 
-            var result = JsonConvert.SerializeObject(new {error = ex.Message});
+            //var message = ex.InnerException?.Message ?? ex.Message;
+
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) code;
-            return context.Response.WriteAsync(result);
+            return context.Response.WriteAsync(JsonConvert.SerializeObject(new {error = message}));
         }
     }
 }
