@@ -1,5 +1,5 @@
-﻿using CostAccounting.Services.Services;
-using CostAccounting.Services.Services.Implementation;
+﻿using CostAccounting.Services.Implementation.Core;
+using CostAccounting.Services.Interfaces.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

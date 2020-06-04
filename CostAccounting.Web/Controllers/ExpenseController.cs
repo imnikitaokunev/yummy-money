@@ -1,6 +1,6 @@
-﻿using CostAccounting.Core.Models;
+﻿using CostAccounting.Core.Models.Core;
+using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Models.Expense;
-using CostAccounting.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CostAccounting.Web.Controllers

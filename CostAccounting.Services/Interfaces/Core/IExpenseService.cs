@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using CostAccounting.Core.Models;
+using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Models.Expense;
 
-namespace CostAccounting.Services.Services
+namespace CostAccounting.Services.Interfaces.Core
 {
     public interface IExpenseService
     {

@@ -9,4 +9,9 @@
     <ProjectReference Include="..\CostAccounting.Shared\CostAccounting.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Implementation\Membership\" />
+    <Folder Include="Interfaces\Membership\" />
+  </ItemGroup>
+
 </Project>

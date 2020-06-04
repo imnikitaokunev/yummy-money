@@ -1,6 +1,6 @@
-﻿using CostAccounting.Core.Repositories;
+﻿using CostAccounting.Core.Repositories.Core;
 using CostAccounting.Data;
-using CostAccounting.Data.Repositories;
+using CostAccounting.Data.Repositories.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

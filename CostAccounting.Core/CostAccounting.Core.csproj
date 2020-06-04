@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\Membership\" />
+    <Folder Include="Models\Membership\" />
+    <Folder Include="Repositories\Membership\" />
+  </ItemGroup>
+
 </Project>

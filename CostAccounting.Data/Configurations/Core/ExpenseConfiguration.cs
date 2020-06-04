@@ -1,8 +1,8 @@
-﻿using CostAccounting.Core.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using CostAccounting.Core.Entities.Core;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CostAccounting.Data.Configurations
+namespace CostAccounting.Data.Configurations.Core
 {
     public class ExpenseConfiguration : IEntityTypeConfiguration<Expense>
     {

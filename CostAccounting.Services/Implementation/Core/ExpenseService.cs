@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using CostAccounting.Core.Models;
-using CostAccounting.Core.Repositories;
+﻿using System.Linq;
+using System.Collections.Generic;
 using CostAccounting.Services.Mappers;
+using CostAccounting.Core.Models.Core;
+using CostAccounting.Core.Repositories.Core;
+using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Models.Expense;
 
-namespace CostAccounting.Services.Services.Implementation
+namespace CostAccounting.Services.Implementation.Core
 {
     public class ExpenseService : IExpenseService
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CostAccounting.Core.Entities
+namespace CostAccounting.Core.Entities.Core
 {
     public class Expense : Entity<long>
     {

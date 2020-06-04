@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using CostAccounting.Core.Models;
-using CostAccounting.Core.Entities;
-using CostAccounting.Core.Repositories;
+using CostAccounting.Core.Entities.Core;
+using CostAccounting.Core.Models.Core;
+using CostAccounting.Core.Repositories.Core;
 
-namespace CostAccounting.Data.Repositories
+namespace CostAccounting.Data.Repositories.Core
 {
     public class CategoryRepository : Repository<Category, Guid>, ICategoryRepository
     {

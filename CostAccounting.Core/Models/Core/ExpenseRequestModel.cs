@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CostAccounting.Core.Models
+namespace CostAccounting.Core.Models.Core
 {
     public class ExpenseRequestModel : RequestModel
     {

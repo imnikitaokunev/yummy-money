@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using CostAccounting.Core.Models;
-using CostAccounting.Services.Services;
+using CostAccounting.Core.Models.Core;
+using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Models.Category;
 
 namespace CostAccounting.Web.Controllers

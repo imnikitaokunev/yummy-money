@@ -7,11 +7,11 @@ using Newtonsoft.Json;
 
 namespace CostAccounting.Web.Middleware
 {
-    public class ErrorHandlingMiddleware
+    public class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public ErrorHandlingMiddleware(RequestDelegate next) => _next = next;
+        public ExceptionHandlingMiddleware(RequestDelegate next) => _next = next;
 
         public async Task Invoke(HttpContext context)
         {
@@ -33,23 +33,8 @@ namespace CostAccounting.Web.Middleware
             if (ex is RepositoryException)
             {
                 code = HttpStatusCode.BadRequest;
-                message = ex.InnerException?.InnerException?.Message;
+                message = ex.InnerException?.InnerException?.Message ?? message;
             }
-
-            //if (ex is MyNotFoundException)
-            //{
-            //    code = HttpStatusCode.NotFound;
-            //}
-            //else if (ex is MyUnauthorizedException)
-            //{
-            //    code = HttpStatusCode.Unauthorized;
-            //}
-            //else if (ex is MyException)
-            //{
-            //    code = HttpStatusCode.BadRequest;
-            //}
-
-            //var message = ex.InnerException?.Message ?? ex.Message;
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int) code;

@@ -1,8 +1,8 @@
-﻿using CostAccounting.Core.Entities;
+﻿using CostAccounting.Core.Entities.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CostAccounting.Data.Configurations
+namespace CostAccounting.Data.Configurations.Core
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {

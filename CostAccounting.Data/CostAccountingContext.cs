@@ -1,5 +1,4 @@
-﻿using CostAccounting.Core.Entities;
-using CostAccounting.Data.Configurations;
+﻿using CostAccounting.Data.Configurations.Core;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,8 +10,6 @@ namespace CostAccounting.Data
             : base(options)
         {
         }
-
-        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
