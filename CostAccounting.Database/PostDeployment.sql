@@ -10,5 +10,8 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-:r .\Scripts\Category.sql
-:r .\Scripts\Expense.sql
+:r .\Scripts\Membership\Roles.sql
+:r .\Scripts\Membership\Users.sql
+:r .\Scripts\Membership\UserRoles.sql
+:r .\Scripts\Core\Categories.sql
+:r .\Scripts\Core\Expenses.sql
