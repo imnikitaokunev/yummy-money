@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using CostAccounting.Services.Mappers;
+using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Core.Repositories.Core;
 using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Models.Expense;
+using Mapster;
 
 namespace CostAccounting.Services.Implementation.Core
 {
@@ -17,26 +18,26 @@ namespace CostAccounting.Services.Implementation.Core
         public List<ExpenseModel> Get(ExpenseRequestModel request)
         {
             var expenses = _repository.Get(request);
-            return expenses.Select(x => x.ToModel()).ToList();
+            return expenses.Select(x => x.Adapt<ExpenseModel>()).ToList();
         }
 
         public ExpenseModel Create(ExpenseModel model)
         {
-            var entity = model.ToEntity();
+            var entity = model.Adapt<Expense>();
             _repository.Create(entity);
             _repository.Save();
-            return entity.ToModel();
+            return entity.Adapt<ExpenseModel>();
         }
 
         public ExpenseModel GetById(long id)
         {
             var expense = _repository.GetById(id);
-            return expense?.ToModel();
+            return expense?.Adapt<ExpenseModel>();
         }
 
         public void Update(ExpenseModel model)
         {
-            var entity = model.ToEntity();
+            var entity = model.Adapt<Expense>();
             _repository.Update(entity);
             _repository.Save();
         }

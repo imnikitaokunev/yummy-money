@@ -3,8 +3,8 @@ using System.Linq;
 using CostAccounting.Core.Models;
 using CostAccounting.Core.Repositories.Membership;
 using CostAccounting.Services.Interfaces.Membership;
-using CostAccounting.Services.Mappers;
 using CostAccounting.Services.Models.Role;
+using Mapster;
 
 namespace CostAccounting.Services.Implementation.Membership
 {
@@ -16,8 +16,8 @@ namespace CostAccounting.Services.Implementation.Membership
 
         public List<RoleModel> Get(RequestModel request)
         {
-            var roles = _repository.Get(request).Select(x => x.ToModel()).ToList();
-            return roles;
+            var roles = _repository.Get(request);
+            return roles.Select(x => x.Adapt<RoleModel>()).ToList();
         }
     }
 }

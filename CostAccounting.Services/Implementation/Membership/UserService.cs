@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using CostAccounting.Core.Models;
-using CostAccounting.Core.Models.Membership;
 using CostAccounting.Core.Repositories.Membership;
 using CostAccounting.Services.Interfaces.Membership;
-using CostAccounting.Services.Mappers;
 using CostAccounting.Services.Models.User;
+using Mapster;
 
 namespace CostAccounting.Services.Implementation.Membership
 {
@@ -18,14 +17,14 @@ namespace CostAccounting.Services.Implementation.Membership
 
         public List<UserModel> Get(RequestModel requestModel)
         {
-            var users = _repository.Get(new UserRequestModel{Includes = new List<string>{"Roles", "Roles.Role"}}).Select(x => x.ToModel()).ToList();
-            return users;
+            requestModel.Includes = new List<string> {"Roles", "Roles.Role"};
+            return _repository.Get(requestModel).Select(x => x.Adapt<UserModel>()).ToList();
         }
 
         public UserModel GetById(Guid id)
         {
             var user = _repository.GetById(id);
-            return user?.ToModel();
+            return user?.Adapt<UserModel>();
         }
     }
 }

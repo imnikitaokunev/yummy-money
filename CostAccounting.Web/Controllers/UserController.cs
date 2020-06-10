@@ -1,4 +1,5 @@
-﻿using CostAccounting.Services.Interfaces.Membership;
+﻿using CostAccounting.Core.Models.Membership;
+using CostAccounting.Services.Interfaces.Membership;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CostAccounting.Web.Controllers
@@ -12,9 +13,9 @@ namespace CostAccounting.Web.Controllers
         public UserController(IUserService service) => _service = service;
 
         [HttpGet("")]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] UserRequestModel request)
         {
-            var users = _service.Get(null);
+            var users = _service.Get(request);
             return new ObjectResult(users);
         }
     }

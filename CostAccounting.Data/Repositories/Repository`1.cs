@@ -129,7 +129,7 @@ namespace CostAccounting.Data.Repositories
         {
             var query = DbSet.AsQueryable();
 
-            if (request.Includes?.Count > 0)
+            if (request?.Includes?.Count > 0)
             {
                 query = request.Includes.Aggregate(query, (current, include) => current.Include(include));
             }
