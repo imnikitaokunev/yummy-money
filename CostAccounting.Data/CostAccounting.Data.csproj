@@ -14,9 +14,4 @@
     <ProjectReference Include="..\CostAccounting.Shared\CostAccounting.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configurations\Membership\" />
-    <Folder Include="Repositories\Membership\" />
-  </ItemGroup>
-
 </Project>

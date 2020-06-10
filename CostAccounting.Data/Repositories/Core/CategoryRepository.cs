@@ -4,6 +4,7 @@ using CostAccounting.Core.Models;
 using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Core.Repositories.Core;
+using CostAccounting.Shared;
 
 namespace CostAccounting.Data.Repositories.Core
 {
@@ -13,9 +14,9 @@ namespace CostAccounting.Data.Repositories.Core
         {
         }
 
-        protected override IQueryable<Category> ApplyFilter(RequestModel requestModel)
+        protected override IQueryable<Category> ApplyFilterInternal(IQueryable<Category> query, RequestModel requestModel)
         {
-            var query = DbSet.AsQueryable();
+            Expect.ArgumentNotNull(query, nameof(query));
 
             if (!(requestModel is CategoryRequestModel request))
             {

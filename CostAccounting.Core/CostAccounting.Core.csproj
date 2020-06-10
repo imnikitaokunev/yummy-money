@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Membership\" />
-    <Folder Include="Models\Membership\" />
-    <Folder Include="Repositories\Membership\" />
+    <ProjectReference Include="..\CostAccounting.Shared\CostAccounting.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using CostAccounting.Data.Configurations.Core;
+using CostAccounting.Data.Configurations.Membership;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,9 @@ namespace CostAccounting.Data
         {
             base.OnModelCreating(builder);
 
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ExpenseConfiguration());
         }
