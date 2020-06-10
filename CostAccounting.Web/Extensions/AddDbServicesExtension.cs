@@ -1,6 +1,8 @@
-﻿using CostAccounting.Core.Repositories;
+﻿using CostAccounting.Core.Repositories.Core;
+using CostAccounting.Core.Repositories.Membership;
 using CostAccounting.Data;
-using CostAccounting.Data.Repositories;
+using CostAccounting.Data.Repositories.Core;
+using CostAccounting.Data.Repositories.Membership;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,8 @@ namespace CostAccounting.Web.Extensions
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<CostAccountingContext>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IExpenseRepository, ExpenseRepository>();
 

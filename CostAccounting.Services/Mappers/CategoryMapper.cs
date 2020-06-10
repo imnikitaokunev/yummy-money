@@ -1,4 +1,4 @@
-﻿using CostAccounting.Core.Entities;
+﻿using CostAccounting.Core.Entities.Core;
 using CostAccounting.Services.Models.Category;
 
 namespace CostAccounting.Services.Mappers

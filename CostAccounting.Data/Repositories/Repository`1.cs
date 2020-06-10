@@ -124,7 +124,19 @@ namespace CostAccounting.Data.Repositories
                 throw new RepositoryException(ex.Message, ex);
             }
         }
+        
+        private IQueryable<TEntity> ApplyFilter(RequestModel request)
+        {
+            var query = DbSet.AsQueryable();
 
-        protected abstract IQueryable<TEntity> ApplyFilter(RequestModel request);
+            if (request.Includes?.Count > 0)
+            {
+                query = request.Includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            return ApplyFilterInternal(query, request);
+        }
+
+        protected abstract IQueryable<TEntity> ApplyFilterInternal(IQueryable<TEntity> query, RequestModel requestModel);
     }
 }

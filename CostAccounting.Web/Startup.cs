@@ -32,7 +32,7 @@ namespace CostAccounting.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseRouting();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

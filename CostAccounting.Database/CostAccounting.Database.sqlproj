@@ -58,17 +58,29 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Scripts" />
+    <Folder Include="Scripts\Core" />
+    <Folder Include="Scripts\Membership" />
+    <Folder Include="Tables\Core" />
+    <Folder Include="Tables\Membership" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\Expense.sql" />
-    <Build Include="Tables\Category.sql" />
+    <None Include="Scripts\Core\Categories.sql" />
+    <None Include="Scripts\Core\Expenses.sql" />
+    <Build Include="Tables\Core\Category.sql" />
+    <Build Include="Tables\Core\Expense.sql" />
+    <None Include="Scripts\Membership\Roles.sql" />
+    <None Include="Scripts\Membership\Users.sql" />
+    <None Include="Scripts\Membership\UserRoles.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CostAccounting.Database.publish.xml" />
-    <None Include="Scripts\Category.sql" />
-    <None Include="Scripts\Expense.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Membership\Role.sql" />
+    <Build Include="Tables\Membership\User.sql" />
+    <Build Include="Tables\Membership\UserRole.sql" />
   </ItemGroup>
 </Project>
