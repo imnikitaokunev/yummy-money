@@ -11,6 +11,8 @@ using Mapster;
 
 namespace CostAccounting.Services.Implementation.Core
 {
+    // TODO: Подогнать сервисы под реальные запросы
+    
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _repository;

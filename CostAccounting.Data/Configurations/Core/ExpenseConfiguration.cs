@@ -17,6 +17,7 @@ namespace CostAccounting.Data.Configurations.Core
             builder.Property(x => x.Description).HasMaxLength(Expense.DescriptionLength);
 
             builder.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
+            builder.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
         }
     }
 }

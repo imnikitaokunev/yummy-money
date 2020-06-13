@@ -27,6 +27,11 @@ namespace CostAccounting.Data.Repositories.Core
                 query = query.Where(x => x.CategoryId == request.CategoryId);
             }
 
+            if (request.UserId.HasValue)
+            {
+                query = query.Where(x => x.UserId == request.UserId);
+            }
+
             if (request.MinimalAmount.HasValue)
             {
                 query = query.Where(x => x.Amount >= request.MinimalAmount);
