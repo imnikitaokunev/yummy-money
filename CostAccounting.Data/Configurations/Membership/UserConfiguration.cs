@@ -12,6 +12,7 @@ namespace CostAccounting.Data.Configurations.Membership
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Email).IsRequired().HasMaxLength(User.EmailLength);
+            builder.Property(x => x.Username).IsRequired().HasMaxLength(User.UsernameLength);
             builder.Property(x => x.PasswordHash).IsRequired().HasMaxLength(User.PasswordHashLength);
             builder.Property(x => x.PasswordSalt).IsRequired().HasMaxLength(User.PasswordSaltLength);
             builder.Property(x => x.FirstName).IsRequired().HasMaxLength(User.FirstNameLength);

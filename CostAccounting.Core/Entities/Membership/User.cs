@@ -8,12 +8,14 @@ namespace CostAccounting.Core.Entities.Membership
     public class User : Entity<Guid>
     {
         public const int EmailLength = 128;
+        public const int UsernameLength = 128;
         public const int PasswordHashLength = 128;
         public const int PasswordSaltLength = 128;
         public const int FirstNameLength = 128;
         public const int LastNameLength = 128;
 
         public string Email { get; set; }
+        public string Username { get; set; }
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
         public string FirstName { get; set; }
