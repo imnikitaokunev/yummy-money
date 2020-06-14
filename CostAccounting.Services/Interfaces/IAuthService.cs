@@ -6,5 +6,6 @@ namespace CostAccounting.Services.Interfaces
     public interface IAuthService
     {
          AuthenticationResult Register(UserRegistrationModel model);
+         AuthenticationResult Login(UserLoginModel model);
     }
 }

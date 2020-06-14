@@ -45,8 +45,5 @@ namespace CostAccounting.Core.Entities.Membership
 
             return this;
         }
-
-        public bool VerifyPassword(string password) => !string.IsNullOrEmpty(password) &&
-                   PasswordHelper.ComputeHash(password, PasswordSalt) == PasswordHash;
     }
 }

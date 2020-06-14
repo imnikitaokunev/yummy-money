@@ -8,6 +8,7 @@ using CostAccounting.Core.Repositories.Membership;
 using CostAccounting.Services.Interfaces.Membership;
 using CostAccounting.Services.Models.User;
 using CostAccounting.Shared;
+using CostAccounting.Shared.Helpers;
 using Mapster;
 
 namespace CostAccounting.Services.Implementation.Membership
@@ -58,6 +59,13 @@ namespace CostAccounting.Services.Implementation.Membership
             });
 
             _repository.Save();
+        }
+
+        public bool VerifyPassword(UserModel user, string password)
+        {
+            Expect.ArgumentNotNull(user, nameof(user));
+
+            return !string.IsNullOrEmpty(password) && PasswordHelper.ComputeHash(password, user.PasswordSalt) == user.PasswordHash;
         }
     }
 }

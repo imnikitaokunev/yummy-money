@@ -46,13 +46,13 @@ namespace CostAccounting.Services.Implementation
                 };
             }
 
-            // TODO: Mapster?
-
             // TODO: Можно вынести pass, email and login в одну таблицу, а остальное в другую
             // и тогда можно будет при регистрации указать только часть информации.
 
             var salt = PasswordHelper.GenerateSalt(_securitySettings.SaltLength);
             var hash = PasswordHelper.ComputeHash(model.Password, salt);
+
+            // TODO: Mapster?
 
             var newUser = new UserModel
             {
@@ -64,10 +64,45 @@ namespace CostAccounting.Services.Implementation
                 FirstName = "Registered",
                 LastName = "Registered",
                 RegisteredAt = DateTime.Now,
-                Photo = null,
+                Photo = null
             };
 
             _userService.CreateUser(newUser);
+
+            return GenerateAuthenticationResultForUser(newUser);
+        }
+
+        public AuthenticationResult Login(UserLoginModel model)
+        {
+            Expect.ArgumentNotNull(model, nameof(model));
+
+            var user = _userService.GetByUsername(model.Username);
+
+            if (user == null)
+            {
+                return new AuthenticationResult
+                {
+                    // TODO: Or user does not exists?
+                    Errors = new[] {"User with that username does not exists."}
+                };
+            }
+
+            var userHasValidPassword = _userService.VerifyPassword(user, model.Password);
+
+            if (!userHasValidPassword)
+            {
+                return new AuthenticationResult
+                {
+                    Errors = new[] {"Invalid password."}
+                };
+            }
+
+            return GenerateAuthenticationResultForUser(user);
+        }
+
+        private AuthenticationResult GenerateAuthenticationResultForUser(UserModel user)
+        {
+            Expect.ArgumentNotNull(user);
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
@@ -75,21 +110,23 @@ namespace CostAccounting.Services.Implementation
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, newUser.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, newUser.Id.ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, newUser.Email),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, newUser.Username),
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                    new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
                 }),
                 Expires = DateTime.Now.AddSeconds(_jwtSettings.TokenLifetimeInSeconds),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha512Signature)
             };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.WriteToken(securityToken);
 
             return new AuthenticationResult
             {
                 Success = true,
-                Token = tokenHandler.WriteToken(token)
+                Token = token
             };
         }
     }

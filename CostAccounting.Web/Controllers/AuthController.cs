@@ -31,5 +31,24 @@ namespace CostAccounting.Web.Controllers
                 Token = authResponse.Token
             });
         }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] UserLoginModel user)
+        {
+            var authResponse = _authService.Login(user);
+
+            if (!authResponse.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = authResponse.Errors
+                });
+            }
+
+            return Ok(new AuthSuccessResponse
+            {
+                Token = authResponse.Token
+            });
+        }
     }
 }

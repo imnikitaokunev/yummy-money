@@ -11,5 +11,6 @@ namespace CostAccounting.Services.Interfaces.Membership
         UserModel GetById(Guid id);
         UserModel GetByUsername(string username);
         void CreateUser(UserModel userModel);
+        bool VerifyPassword(UserModel user, string password);
     }
 }
