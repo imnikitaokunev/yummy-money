@@ -33,6 +33,8 @@ namespace CostAccounting.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
+
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseRouting();
 

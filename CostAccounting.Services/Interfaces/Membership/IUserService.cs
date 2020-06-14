@@ -9,5 +9,7 @@ namespace CostAccounting.Services.Interfaces.Membership
     {
         List<UserModel> Get(RequestModel requestModel);
         UserModel GetById(Guid id);
+        UserModel GetByUsername(string username);
+        void CreateUser(UserModel userModel);
     }
 }

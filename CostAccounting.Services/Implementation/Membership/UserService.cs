@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CostAccounting.Core.Entities.Membership;
 using CostAccounting.Core.Models;
+using CostAccounting.Core.Models.Membership;
 using CostAccounting.Core.Repositories.Membership;
 using CostAccounting.Services.Interfaces.Membership;
 using CostAccounting.Services.Models.User;
+using CostAccounting.Shared;
 using Mapster;
 
 namespace CostAccounting.Services.Implementation.Membership
@@ -25,6 +28,36 @@ namespace CostAccounting.Services.Implementation.Membership
         {
             var user = _repository.GetById(id);
             return user?.Adapt<UserModel>();
+        }
+
+        public UserModel GetByUsername(string username)
+        {
+            var request = new UserRequestModel
+            {
+                Username = username
+            };
+
+            var user = _repository.Get(request).FirstOrDefault();
+
+            return user?.Adapt<UserModel>();
+        }
+
+        public void CreateUser(UserModel userModel)
+        {
+            Expect.ArgumentNotNull(userModel);
+
+            var user = userModel.Adapt<User>();
+            _repository.Create(user);
+
+            // TODO: Update mapster config 
+
+            user.Roles.Add(new UserRole
+            {
+                RoleId = 2,
+                UserId = user.Id
+            });
+
+            _repository.Save();
         }
     }
 }

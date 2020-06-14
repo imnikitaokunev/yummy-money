@@ -36,5 +36,14 @@ namespace CostAccounting.Web.Controllers
             var users = _expenseService.Get(request);
             return new ObjectResult(users);
         }
+
+        [HttpGet("{username}/exists")]
+        public IActionResult IsUserExists([FromRoute] string username)
+        {
+            var userExists = _userService.GetByUsername(username);
+            var isExists = userExists != null;
+
+            return new ObjectResult(new {IsExists = isExists});
+        }
     }
 }
