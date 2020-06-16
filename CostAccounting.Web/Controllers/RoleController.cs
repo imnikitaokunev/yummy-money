@@ -1,10 +1,13 @@
 ﻿using CostAccounting.Services.Interfaces.Membership;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CostAccounting.Web.Controllers
 {
     [ApiController]
     [Route("api/roles")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class RoleController : ControllerBase
     {
         private readonly IRoleService _service;

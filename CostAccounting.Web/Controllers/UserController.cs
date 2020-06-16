@@ -3,12 +3,15 @@ using CostAccounting.Core.Models.Core;
 using CostAccounting.Core.Models.Membership;
 using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Interfaces.Membership;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CostAccounting.Web.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -37,6 +40,7 @@ namespace CostAccounting.Web.Controllers
             return new ObjectResult(users);
         }
 
+        [AllowAnonymous]
         [HttpGet("{username}/exists")]
         public IActionResult IsUserExists([FromRoute] string username)
         {

@@ -23,6 +23,11 @@ namespace CostAccounting.Data.Repositories.Membership
                 return query;
             }
 
+            if (request.Id != Guid.Empty)
+            {
+                query = query.Where(x => x.Id == request.Id);
+            }
+
             if (!string.IsNullOrEmpty(request.Email))
             {
                 query = query.Where(x => x.Email.Contains(request.Email));

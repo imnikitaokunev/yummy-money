@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using CostAccounting.Core.Entities.Membership;
 using CostAccounting.Core.Models;
 using CostAccounting.Core.Models.Membership;
@@ -65,7 +67,34 @@ namespace CostAccounting.Services.Implementation.Membership
         {
             Expect.ArgumentNotNull(user, nameof(user));
 
-            return !string.IsNullOrEmpty(password) && PasswordHelper.ComputeHash(password, user.PasswordSalt) == user.PasswordHash;
+            return !string.IsNullOrEmpty(password) &&
+                   PasswordHelper.ComputeHash(password, user.PasswordSalt) == user.PasswordHash;
+        }
+
+        public List<Claim> GetUserClaimsByUserId(Guid id)
+        {
+            // TODO: GetUserById не включает в себя Includes список - нужно подумать.
+
+            var request = new UserRequestModel
+            {
+                Id = id,
+                Includes = new[] {"Roles", "Roles.Role"}
+            };
+
+            var user = _repository.Get(request).FirstOrDefault();
+            var claims = new List<Claim>();
+
+            // TODO: Or throw ex?
+
+            if (user == null)
+            {
+                return claims;
+            }
+
+            var roleClaims = user.Roles.Select(x => new Claim(ClaimTypes.Role, x.Role.Name));
+            claims.AddRange(roleClaims);
+
+            return claims;
         }
     }
 }

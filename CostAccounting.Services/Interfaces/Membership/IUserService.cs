@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using CostAccounting.Core.Models;
 using CostAccounting.Services.Models.User;
 
@@ -12,5 +13,6 @@ namespace CostAccounting.Services.Interfaces.Membership
         UserModel GetByUsername(string username);
         void CreateUser(UserModel userModel);
         bool VerifyPassword(UserModel user, string password);
+        List<Claim> GetUserClaimsByUserId(Guid id);
     }
 }
