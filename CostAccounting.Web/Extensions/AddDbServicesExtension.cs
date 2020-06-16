@@ -1,8 +1,10 @@
 ﻿using CostAccounting.Core.Repositories.Core;
 using CostAccounting.Core.Repositories.Membership;
+using CostAccounting.Core.Repositories.Security;
 using CostAccounting.Data;
 using CostAccounting.Data.Repositories.Core;
 using CostAccounting.Data.Repositories.Membership;
+using CostAccounting.Data.Repositories.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,7 @@ namespace CostAccounting.Web.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IExpenseRepository, ExpenseRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
             // TODO: Add other repositories here.
             // TODO: Unit of work pattern can be used instead.

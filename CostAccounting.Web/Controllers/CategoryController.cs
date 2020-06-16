@@ -3,11 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Models.Category;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CostAccounting.Web.Controllers
 {
     [Route("api/categories")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _service;

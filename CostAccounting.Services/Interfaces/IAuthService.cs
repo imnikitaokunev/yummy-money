@@ -7,5 +7,6 @@ namespace CostAccounting.Services.Interfaces
     {
          AuthenticationResult Register(UserRegistrationModel model);
          AuthenticationResult Login(UserLoginModel model);
+         AuthenticationResult Refresh(RefreshTokenModel model);
     }
 }

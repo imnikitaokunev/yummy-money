@@ -2,9 +2,11 @@
 using CostAccounting.Services.Implementation;
 using CostAccounting.Services.Implementation.Core;
 using CostAccounting.Services.Implementation.Membership;
+using CostAccounting.Services.Implementation.Security;
 using CostAccounting.Services.Interfaces;
 using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Interfaces.Membership;
+using CostAccounting.Services.Interfaces.Security;
 using CostAccounting.Services.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +29,18 @@ namespace CostAccounting.Web.Extensions
             configuration.Bind(nameof(jwtSettings), jwtSettings);
             services.AddSingleton(jwtSettings);
 
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                RequireExpirationTime = true,
+                ValidateLifetime = true
+            };
+
+            services.AddSingleton(tokenValidationParameters);
+
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -36,15 +50,7 @@ namespace CostAccounting.Web.Extensions
                 .AddJwtBearer(x =>
                 {
                     x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        RequireExpirationTime = false,
-                        ValidateLifetime = true
-                    };
+                    x.TokenValidationParameters = tokenValidationParameters;
                 });
 
             services.AddScoped<IRoleService, RoleService>();
@@ -52,6 +58,7 @@ namespace CostAccounting.Web.Extensions
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
             // TODO: Add other services here.
         }

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using CostAccounting.Core.Entities.Security;
 using CostAccounting.Services.Interfaces;
 using CostAccounting.Services.Interfaces.Membership;
+using CostAccounting.Services.Interfaces.Security;
 using CostAccounting.Services.Models.Auth;
 using CostAccounting.Services.Models.User;
 using CostAccounting.Services.Settings;
@@ -18,14 +21,18 @@ namespace CostAccounting.Services.Implementation
         private readonly IUserService _userService;
         private readonly SecuritySettings _securitySettings;
         private readonly JwtSettings _jwtSettings;
+        private readonly TokenValidationParameters _tokenValidationParameters;
+        private readonly IRefreshTokenService _refreshTokenService;
 
-        public AuthService(IUserService userService, SecuritySettings securitySettings, JwtSettings jwtSettings)
+        public AuthService(IUserService userService, SecuritySettings securitySettings, JwtSettings jwtSettings, TokenValidationParameters tokenValidationParameters, IRefreshTokenService refreshTokenService)
         {
             _userService = userService;
             _securitySettings = securitySettings;
             _jwtSettings = jwtSettings;
+            _tokenValidationParameters = tokenValidationParameters;
+            _refreshTokenService = refreshTokenService;
         }
-
+       
         public AuthenticationResult Register(UserRegistrationModel model)
         {
             // TODO: May be special RegisterModel can be used here?
@@ -100,6 +107,59 @@ namespace CostAccounting.Services.Implementation
             return GenerateAuthenticationResultForUser(user);
         }
 
+        public AuthenticationResult Refresh(RefreshTokenModel token)
+        {
+            var validatedToken = GetPrincipalFromToken(token.Token);
+
+            if (validatedToken == null)
+            {
+                return new AuthenticationResult { Errors = new[] {"Invalid token."}};
+            }
+            
+            var expiryDateTimeUnix = long.Parse(validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
+            var expiryDateTimeUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(expiryDateTimeUnix);
+
+            if (expiryDateTimeUtc > DateTime.UtcNow)
+            {
+                return new AuthenticationResult {Errors = new[] {"This token does not expired yet."}};
+            }
+
+            var jti = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Jti).Value;
+
+            var storedRefreshToken = _refreshTokenService.GetRefreshToken(new Guid(token.RefreshToken));
+
+            if (storedRefreshToken == null)
+            {
+                return new AuthenticationResult { Errors = new[] { "This refresh token does not exist." } };
+            }
+
+            if (DateTime.UtcNow > storedRefreshToken.ExpiryDate)
+            {
+                return new AuthenticationResult { Errors = new[] { "This refresh token has been expired." } };
+            }
+
+            if (storedRefreshToken.IsInvalidated)
+            {
+                return new AuthenticationResult { Errors = new[] { "This refresh token has been invalidated." } };
+            }
+
+            if (storedRefreshToken.IsUsed)
+            {
+                return new AuthenticationResult { Errors = new[] { "This refresh token has been used." } };
+            }
+
+            if (storedRefreshToken.JwtId != jti)
+            {
+                return new AuthenticationResult { Errors = new[] { "This refresh token does not match this JWT." } };
+            }
+
+            storedRefreshToken.IsUsed = true;
+            _refreshTokenService.Update(storedRefreshToken);
+
+            var user = _userService.GetById(new Guid(validatedToken.Claims.Single(x => x.Type == "id").Value));
+            return GenerateAuthenticationResultForUser(user);
+        }
+
         private AuthenticationResult GenerateAuthenticationResultForUser(UserModel user)
         {
             Expect.ArgumentNotNull(user);
@@ -113,21 +173,63 @@ namespace CostAccounting.Services.Implementation
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.UniqueName, user.Username)
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
+                    new Claim("id", user.Id.ToString())
                 }),
-                Expires = DateTime.Now.AddSeconds(_jwtSettings.TokenLifetimeInSeconds),
+                Expires = DateTime.UtcNow.AddSeconds(_jwtSettings.TokenLifetimeInSeconds),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha512Signature)
             };
 
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(securityToken);
+            // TODO: Must be domain object (Model). 
+
+            var refreshToken = new RefreshToken
+            {
+                Id = SqlServerFriendlyGuid.Generate(),
+                JwtId = securityToken.Id,
+                UserId = user.Id,
+                CreatedAt = DateTime.UtcNow,
+                ExpiryDate = DateTime.UtcNow.AddSeconds(_jwtSettings.RefreshTokenLifetimeInSeconds)
+            };
+
+            _refreshTokenService.Create(refreshToken);
 
             return new AuthenticationResult
             {
                 Success = true,
-                Token = token
+                Token = token,
+                RefreshToken = refreshToken.Id
             };
         }
+
+        private ClaimsPrincipal GetPrincipalFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            try
+            {
+                var tokenValidationParameters = _tokenValidationParameters.Clone();
+                tokenValidationParameters.ValidateLifetime = false;
+                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
+
+                if (!IsJwtWithValidSecurityAlgorithm(validatedToken))
+                {
+                    return null;
+                }
+
+                return principal;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private bool IsJwtWithValidSecurityAlgorithm(SecurityToken validatedToken) =>
+            validatedToken is JwtSecurityToken jwtSecurityToken &&
+            jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha512,
+                StringComparison.InvariantCultureIgnoreCase);
     }
 }

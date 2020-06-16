@@ -1,4 +1,5 @@
-﻿using CostAccounting.Services.Interfaces;
+﻿using System.Linq;
+using CostAccounting.Services.Interfaces;
 using CostAccounting.Services.Models.Auth;
 using CostAccounting.Services.Models.User;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,14 @@ namespace CostAccounting.Web.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserRegistrationModel user)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = ModelState.Values.SelectMany(x => x.Errors.Select(xx => xx.ErrorMessage))
+                });
+            }
+
             var authResponse = _authService.Register(user);
 
             if (!authResponse.Success)
@@ -28,13 +37,22 @@ namespace CostAccounting.Web.Controllers
 
             return Ok(new AuthSuccessResponse
             {
-                Token = authResponse.Token
+                Token = authResponse.Token,
+                RefreshToken = authResponse.RefreshToken
             });
         }
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginModel user)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(new AuthFailedResponse
+            //    {
+            //        Errors = ModelState.Values.SelectMany(x => x.Errors.Select(xx => xx.ErrorMessage))
+            //    });
+            //}
+
             var authResponse = _authService.Login(user);
 
             if (!authResponse.Success)
@@ -47,7 +65,30 @@ namespace CostAccounting.Web.Controllers
 
             return Ok(new AuthSuccessResponse
             {
-                Token = authResponse.Token
+                Token = authResponse.Token,
+                RefreshToken = authResponse.RefreshToken
+            });
+        }
+
+        [HttpPost("refresh")]
+        public IActionResult Refresh([FromBody] RefreshTokenModel token)
+        {
+            // TODO: Можно сделать в сервисы/модели папку Requests, в которой хранить реквесты.
+
+            var authResponse = _authService.Refresh(token);
+
+            if (!authResponse.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = authResponse.Errors
+                });
+            }
+
+            return Ok(new AuthSuccessResponse
+            {
+                Token = authResponse.Token,
+                RefreshToken = authResponse.RefreshToken
             });
         }
     }
