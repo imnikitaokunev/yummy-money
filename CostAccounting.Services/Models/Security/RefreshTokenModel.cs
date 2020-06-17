@@ -1,4 +1,4 @@
-﻿namespace CostAccounting.Services.Models.Auth
+﻿namespace CostAccounting.Services.Models.Security
 {
     public class RefreshTokenModel
     {

@@ -2,11 +2,10 @@
 using System.Linq;
 using CostAccounting.Core.Models;
 using CostAccounting.Core.Repositories.Membership;
-using CostAccounting.Services.Interfaces.Membership;
 using CostAccounting.Services.Models.Role;
 using Mapster;
 
-namespace CostAccounting.Services.Implementation.Membership
+namespace CostAccounting.Services.Membership
 {
     public class RoleService : IRoleService
     {

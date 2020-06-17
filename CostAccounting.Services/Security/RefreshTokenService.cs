@@ -3,9 +3,8 @@ using System.Linq;
 using CostAccounting.Core.Entities.Security;
 using CostAccounting.Core.Models.Security;
 using CostAccounting.Core.Repositories.Security;
-using CostAccounting.Services.Interfaces.Security;
 
-namespace CostAccounting.Services.Implementation.Security
+namespace CostAccounting.Services.Security
 {
     public class RefreshTokenService : IRefreshTokenService
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Models.Category;
 
-namespace CostAccounting.Services.Interfaces.Core
+namespace CostAccounting.Services.Core
 {
     public interface ICategoryService
     {

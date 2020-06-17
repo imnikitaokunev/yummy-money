@@ -5,17 +5,17 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using CostAccounting.Core.Entities.Security;
-using CostAccounting.Services.Interfaces;
 using CostAccounting.Services.Interfaces.Membership;
-using CostAccounting.Services.Interfaces.Security;
 using CostAccounting.Services.Models.Auth;
+using CostAccounting.Services.Models.Security;
 using CostAccounting.Services.Models.User;
+using CostAccounting.Services.Security;
 using CostAccounting.Services.Settings;
 using CostAccounting.Shared;
 using CostAccounting.Shared.Helpers;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CostAccounting.Services.Implementation
+namespace CostAccounting.Services.Auth
 {
     public class AuthService : IAuthService
     {
@@ -25,7 +25,8 @@ namespace CostAccounting.Services.Implementation
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly IRefreshTokenService _refreshTokenService;
 
-        public AuthService(IUserService userService, SecuritySettings securitySettings, JwtSettings jwtSettings, TokenValidationParameters tokenValidationParameters, IRefreshTokenService refreshTokenService)
+        public AuthService(IUserService userService, SecuritySettings securitySettings, JwtSettings jwtSettings,
+            TokenValidationParameters tokenValidationParameters, IRefreshTokenService refreshTokenService)
         {
             _userService = userService;
             _securitySettings = securitySettings;
@@ -33,24 +34,21 @@ namespace CostAccounting.Services.Implementation
             _tokenValidationParameters = tokenValidationParameters;
             _refreshTokenService = refreshTokenService;
         }
-       
+
         public AuthenticationResult Register(UserRegistrationModel model)
         {
-            // TODO: May be special RegisterModel can be used here?
-
             Expect.ArgumentNotNull(model, nameof(model));
 
-            // TODO: Check email and username
-
-            var existingUser = _userService.GetByUsername(model.Username);
+            var existingUsername = _userService.GetByUsername(model.Username);
+            var existingEmail = _userService.GetByEmail(model.Username);
 
             // TODO: Discovery: May be such result can be added as controllers response?
 
-            if (existingUser != null)
+            if (existingUsername != null || existingEmail != null)
             {
                 return new AuthenticationResult
                 {
-                    Errors = new[] {"User with this login already exists."}
+                    Errors = new[] {"User with this username or email already exist."}
                 };
             }
 
@@ -90,7 +88,6 @@ namespace CostAccounting.Services.Implementation
             {
                 return new AuthenticationResult
                 {
-                    // TODO: Or user does not exists?
                     Errors = new[] {"User with that username does not exists."}
                 };
             }
@@ -114,10 +111,11 @@ namespace CostAccounting.Services.Implementation
 
             if (validatedToken == null)
             {
-                return new AuthenticationResult { Errors = new[] {"Invalid token."}};
+                return new AuthenticationResult {Errors = new[] {"Invalid token."}};
             }
-            
-            var expiryDateTimeUnix = long.Parse(validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
+
+            var expiryDateTimeUnix =
+                long.Parse(validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
             var expiryDateTimeUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(expiryDateTimeUnix);
 
             if (expiryDateTimeUtc > DateTime.UtcNow)
@@ -131,27 +129,27 @@ namespace CostAccounting.Services.Implementation
 
             if (storedRefreshToken == null)
             {
-                return new AuthenticationResult { Errors = new[] { "This refresh token does not exist." } };
+                return new AuthenticationResult {Errors = new[] {"This refresh token does not exist."}};
             }
 
             if (DateTime.UtcNow > storedRefreshToken.ExpiryDate)
             {
-                return new AuthenticationResult { Errors = new[] { "This refresh token has been expired." } };
+                return new AuthenticationResult {Errors = new[] {"This refresh token has been expired."}};
             }
 
             if (storedRefreshToken.IsInvalidated)
             {
-                return new AuthenticationResult { Errors = new[] { "This refresh token has been invalidated." } };
+                return new AuthenticationResult {Errors = new[] {"This refresh token has been invalidated."}};
             }
 
             if (storedRefreshToken.IsUsed)
             {
-                return new AuthenticationResult { Errors = new[] { "This refresh token has been used." } };
+                return new AuthenticationResult {Errors = new[] {"This refresh token has been used."}};
             }
 
             if (storedRefreshToken.JwtId != jti)
             {
-                return new AuthenticationResult { Errors = new[] { "This refresh token does not match this JWT." } };
+                return new AuthenticationResult {Errors = new[] {"This refresh token does not match this JWT."}};
             }
 
             storedRefreshToken.IsUsed = true;
@@ -174,7 +172,7 @@ namespace CostAccounting.Services.Implementation
                 new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
-                new Claim("id", user.Id.ToString()),
+                new Claim("id", user.Id.ToString())
             };
 
             var userClaims = _userService.GetUserClaimsByUserId(user.Id);
@@ -191,7 +189,6 @@ namespace CostAccounting.Services.Implementation
 
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(securityToken);
-            // TODO: Must be domain object (Model). 
 
             var refreshToken = new RefreshToken
             {
@@ -222,12 +219,7 @@ namespace CostAccounting.Services.Implementation
                 tokenValidationParameters.ValidateLifetime = false;
                 var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
 
-                if (!IsJwtWithValidSecurityAlgorithm(validatedToken))
-                {
-                    return null;
-                }
-
-                return principal;
+                return !IsJwtWithValidSecurityAlgorithm(validatedToken) ? null : principal;
             }
             catch
             {

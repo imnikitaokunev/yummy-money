@@ -33,8 +33,6 @@ namespace CostAccounting.Web.Controllers
         [HttpGet("{id:guid}/expenses")]
         public IActionResult GetExpenses([FromRoute] Guid id, [FromQuery] ExpenseRequestModel request)
         {
-            // TODO: Get user from JWT Token
-
             request.UserId = id;
             var users = _expenseService.Get(request);
             return new ObjectResult(users);

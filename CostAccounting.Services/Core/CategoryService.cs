@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Linq;
-using CostAccounting.Shared;
 using System.Collections.Generic;
+using System.Linq;
 using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Core.Repositories.Core;
-using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Models.Category;
+using CostAccounting.Shared;
 using Mapster;
 
-namespace CostAccounting.Services.Implementation.Core
+namespace CostAccounting.Services.Core
 {
     // TODO: Подогнать сервисы под реальные запросы
     

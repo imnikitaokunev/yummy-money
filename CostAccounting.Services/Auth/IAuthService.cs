@@ -1,7 +1,8 @@
 ﻿using CostAccounting.Services.Models.Auth;
+using CostAccounting.Services.Models.Security;
 using CostAccounting.Services.Models.User;
 
-namespace CostAccounting.Services.Interfaces
+namespace CostAccounting.Services.Auth
 {
     public interface IAuthService
     {

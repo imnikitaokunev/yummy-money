@@ -1,12 +1,12 @@
 ﻿using System.Text;
-using CostAccounting.Services.Implementation;
+using CostAccounting.Services.Auth;
+using CostAccounting.Services.Core;
 using CostAccounting.Services.Implementation.Core;
 using CostAccounting.Services.Implementation.Membership;
-using CostAccounting.Services.Implementation.Security;
-using CostAccounting.Services.Interfaces;
 using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Interfaces.Membership;
-using CostAccounting.Services.Interfaces.Security;
+using CostAccounting.Services.Membership;
+using CostAccounting.Services.Security;
 using CostAccounting.Services.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -19,8 +19,6 @@ namespace CostAccounting.Web.Extensions
     {
         public static void AddMvcServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // TODO: Must be refactored.
-
             var securitySettings = new SecuritySettings();
             configuration.Bind(nameof(securitySettings), securitySettings);
             services.AddSingleton(securitySettings);

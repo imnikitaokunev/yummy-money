@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using CostAccounting.Core.Entities.Membership;
@@ -17,6 +16,8 @@ namespace CostAccounting.Services.Implementation.Membership
 {
     public class UserService : IUserService
     {
+        private const int UserRoleId = 2;
+
         private readonly IUserRepository _repository;
 
         public UserService(IUserRepository repository) => _repository = repository;
@@ -35,9 +36,31 @@ namespace CostAccounting.Services.Implementation.Membership
 
         public UserModel GetByUsername(string username)
         {
+            if (string.IsNullOrEmpty(username))
+            {
+                return null;
+            }
+
             var request = new UserRequestModel
             {
                 Username = username
+            };
+
+            var user = _repository.Get(request).FirstOrDefault();
+
+            return user?.Adapt<UserModel>();
+        }
+
+        public UserModel GetByEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return null;
+            }
+
+            var request = new UserRequestModel
+            {
+                Email = email
             };
 
             var user = _repository.Get(request).FirstOrDefault();
@@ -56,7 +79,7 @@ namespace CostAccounting.Services.Implementation.Membership
 
             user.Roles.Add(new UserRole
             {
-                RoleId = 2,
+                RoleId = UserRoleId,
                 UserId = user.Id
             });
 
@@ -83,8 +106,6 @@ namespace CostAccounting.Services.Implementation.Membership
 
             var user = _repository.Get(request).FirstOrDefault();
             var claims = new List<Claim>();
-
-            // TODO: Or throw ex?
 
             if (user == null)
             {

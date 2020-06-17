@@ -1,7 +1,7 @@
 ﻿using System;
 using CostAccounting.Core.Entities.Security;
 
-namespace CostAccounting.Services.Interfaces.Security
+namespace CostAccounting.Services.Security
 {
     public interface IRefreshTokenService
     {

@@ -13,7 +13,6 @@ namespace CostAccounting.Services
             TypeAdapterConfig.GlobalSettings.ForType<User, UserModel>()
                 .Map(dest => dest, src => Convert.ToBase64String(src.Photo))
                 .Map(dest => dest.Roles, src => src.Roles.Select(x => x.Role.Name));
-            //.IgnoreNullValues(true);
         }
     }
 }

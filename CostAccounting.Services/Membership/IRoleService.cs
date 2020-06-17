@@ -2,7 +2,7 @@
 using CostAccounting.Core.Models;
 using CostAccounting.Services.Models.Role;
 
-namespace CostAccounting.Services.Interfaces.Membership
+namespace CostAccounting.Services.Membership
 {
     public interface IRoleService
     {

@@ -1,4 +1,4 @@
-﻿using CostAccounting.Services.Interfaces.Membership;
+﻿using CostAccounting.Services.Membership;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
