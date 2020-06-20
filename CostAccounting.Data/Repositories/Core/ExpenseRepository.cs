@@ -5,7 +5,7 @@ using CostAccounting.Core.Models.Core;
 using CostAccounting.Core.Repositories.Core;
 using CostAccounting.Shared;
 
-namespace CostAccounting.Data.Repositories.Core
+namespace CostAccounting.Data.EntityFramework.Repositories.Core
 {
     public class ExpenseRepository : Repository<Expense, long>, IExpenseRepository
     {

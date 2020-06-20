@@ -2,7 +2,7 @@
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Models.Expense;
 
-namespace CostAccounting.Services.Interfaces.Core
+namespace CostAccounting.Services.Core
 {
     public interface IExpenseService
     {

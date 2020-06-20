@@ -1,10 +1,10 @@
-﻿using CostAccounting.Data.Configurations.Core;
-using CostAccounting.Data.Configurations.Membership;
-using CostAccounting.Data.Configurations.Security;
+﻿using CostAccounting.Data.EntityFramework.Configurations.Core;
+using CostAccounting.Data.EntityFramework.Configurations.Membership;
+using CostAccounting.Data.EntityFramework.Configurations.Security;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace CostAccounting.Data
+namespace CostAccounting.Data.EntityFramework
 {
     public class CostAccountingContext : IdentityDbContext
     {

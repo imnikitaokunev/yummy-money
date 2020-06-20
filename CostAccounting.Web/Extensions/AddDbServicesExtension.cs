@@ -1,10 +1,10 @@
 ﻿using CostAccounting.Core.Repositories.Core;
 using CostAccounting.Core.Repositories.Membership;
 using CostAccounting.Core.Repositories.Security;
-using CostAccounting.Data;
-using CostAccounting.Data.Repositories.Core;
-using CostAccounting.Data.Repositories.Membership;
-using CostAccounting.Data.Repositories.Security;
+using CostAccounting.Data.EntityFramework;
+using CostAccounting.Data.EntityFramework.Repositories.Core;
+using CostAccounting.Data.EntityFramework.Repositories.Membership;
+using CostAccounting.Data.EntityFramework.Repositories.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

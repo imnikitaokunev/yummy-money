@@ -1,10 +1,10 @@
 ﻿using System.Linq;
-using CostAccounting.Core.Models;
 using CostAccounting.Core.Entities.Membership;
+using CostAccounting.Core.Models;
 using CostAccounting.Core.Repositories.Membership;
 using CostAccounting.Shared;
 
-namespace CostAccounting.Data.Repositories.Membership
+namespace CostAccounting.Data.EntityFramework.Repositories.Membership
 {
     public class RoleRepository : Repository<Role, int>, IRoleRepository
     {

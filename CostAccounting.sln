@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostAccounting.Web", "CostA
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CostAccounting.Database", "CostAccounting.Database\CostAccounting.Database.sqlproj", "{327F3EE2-1EAB-4636-B8EB-2EA28980862C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostAccounting.Data", "CostAccounting.Data\CostAccounting.Data.csproj", "{7DE55EC5-73D8-469E-BA6F-33285C4E4FFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostAccounting.Data.EntityFramework", "CostAccounting.Data\CostAccounting.Data.EntityFramework.csproj", "{7DE55EC5-73D8-469E-BA6F-33285C4E4FFF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostAccounting.Services", "CostAccounting.Services\CostAccounting.Services.csproj", "{743575F6-04AA-4804-8423-616DE30D047A}"
 EndProject

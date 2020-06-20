@@ -1,7 +1,7 @@
 ﻿using System;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Core.Models.Membership;
-using CostAccounting.Services.Interfaces.Core;
+using CostAccounting.Services.Core;
 using CostAccounting.Services.Membership;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

@@ -2,8 +2,6 @@
 using System.Text;
 using CostAccounting.Services.Auth;
 using CostAccounting.Services.Core;
-using CostAccounting.Services.Implementation.Core;
-using CostAccounting.Services.Interfaces.Core;
 using CostAccounting.Services.Membership;
 using CostAccounting.Services.Security;
 using CostAccounting.Services.Settings;

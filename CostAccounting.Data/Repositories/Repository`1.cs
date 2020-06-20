@@ -5,12 +5,12 @@ using CostAccounting.Core.Entities;
 using CostAccounting.Core.Exceptions;
 using CostAccounting.Core.Models;
 using CostAccounting.Core.Repositories;
-using CostAccounting.Data.Extensions;
+using CostAccounting.Data.EntityFramework.Extensions;
 using CostAccounting.Shared;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
-namespace CostAccounting.Data.Repositories
+namespace CostAccounting.Data.EntityFramework.Repositories
 {
     public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : Entity
     {

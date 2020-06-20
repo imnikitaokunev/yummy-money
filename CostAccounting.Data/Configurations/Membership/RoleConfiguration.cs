@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CostAccounting.Data.Configurations.Membership
+namespace CostAccounting.Data.EntityFramework.Configurations.Membership
 {
     public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {

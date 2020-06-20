@@ -1,7 +1,7 @@
 ﻿using CostAccounting.Core.Exceptions;
 using Microsoft.Data.SqlClient;
 
-namespace CostAccounting.Data.Extensions
+namespace CostAccounting.Data.EntityFramework.Extensions
 {
     public static class SqlExceptionExtensions
     {

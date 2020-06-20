@@ -6,7 +6,7 @@ using CostAccounting.Core.Models.Membership;
 using CostAccounting.Core.Repositories.Membership;
 using CostAccounting.Shared;
 
-namespace CostAccounting.Data.Repositories.Membership
+namespace CostAccounting.Data.EntityFramework.Repositories.Membership
 {
     public class UserRepository : Repository<User, Guid>, IUserRepository
     {

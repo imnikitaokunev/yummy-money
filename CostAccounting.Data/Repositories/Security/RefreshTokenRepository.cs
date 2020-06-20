@@ -6,7 +6,7 @@ using CostAccounting.Core.Models.Security;
 using CostAccounting.Core.Repositories.Security;
 using CostAccounting.Shared;
 
-namespace CostAccounting.Data.Repositories.Security
+namespace CostAccounting.Data.EntityFramework.Repositories.Security
 {
     public class RefreshTokenRepository : Repository<RefreshToken, Guid>, IRefreshTokenRepository
     {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CostAccounting.Data.Configurations.Security
+namespace CostAccounting.Data.EntityFramework.Configurations.Security
 {
     public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
     {

@@ -1,5 +1,5 @@
 ﻿using CostAccounting.Core.Models.Core;
-using CostAccounting.Services.Interfaces.Core;
+using CostAccounting.Services.Core;
 using CostAccounting.Services.Models.Expense;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

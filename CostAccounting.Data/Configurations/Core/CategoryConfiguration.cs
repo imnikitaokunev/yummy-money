@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CostAccounting.Data.Configurations.Core
+namespace CostAccounting.Data.EntityFramework.Configurations.Core
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
