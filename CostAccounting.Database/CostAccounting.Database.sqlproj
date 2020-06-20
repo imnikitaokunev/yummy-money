@@ -63,6 +63,7 @@
     <Folder Include="Tables\Core" />
     <Folder Include="Tables\Membership" />
     <Folder Include="Tables\Security" />
+    <Folder Include="Diagrams" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Core\Categories.sql" />
@@ -72,6 +73,8 @@
     <None Include="Scripts\Membership\Roles.sql" />
     <None Include="Scripts\Membership\Users.sql" />
     <None Include="Scripts\Membership\UserRoles.sql" />
+    <None Include="Diagrams\CostAccounting - Logical Model.svg" />
+    <None Include="Diagrams\CostAccounting - Logical Model.xml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CostAccounting.Database.publish.xml" />
