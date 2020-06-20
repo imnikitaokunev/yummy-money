@@ -1,14 +1,35 @@
 ﻿create table [dbo].[User]
 (
-	[Id] uniqueidentifier not null constraint [PK_User] primary key,
-	[Email] nvarchar(128) not null constraint [UK_User_Email] unique,
-	[Username] nvarchar(128) not null constraint [UK_User_Username] unique,
-	[PasswordHash] nvarchar(128) not null,
-	[PasswordSalt] nvarchar(128) not null,
-	[FirstName] nvarchar(128) not null,
-	[LastName] nvarchar(128) not null,
-	[RegisteredAt] datetime2 not null check([RegisteredAt] between '01/01/2020' and '12/31/2099'),
-	[Photo] varbinary(max) null,
+	[Id]              uniqueidentifier    not null,
+	[Email]           nvarchar(128)       not null,
+	[Username]        nvarchar(128)       not null,
+	[PasswordHash]    nvarchar(128)       not null,
+	[PasswordSalt]    nvarchar(128)       not null,
+	[FirstName]       nvarchar(128)       not null,
+	[LastName]        nvarchar(128)       not null,
+	[RegisteredAt]    datetime2           not null,
+	[Photo]           varbinary(max)      null,
 
-	constraint [CK_User_Username] check ([Username] not like '^[a-zA-Z0-9_]*$')
+	constraint [PK_User] primary key (
+	    [Id]
+    ),
 )
+go
+
+alter table [dbo].[User]
+    add constraint [UQ_User_Email] unique (
+	    [Email]
+	)
+go
+
+alter table [dbo].[User]
+    add constraint [UQ_User_Username] unique (
+	    [Username]
+	)
+go
+
+alter table [dbo].[User]
+    add constraint [CK_User_RegisteredAt] check (
+	    [RegisteredAt] between '01/01/2020' and '12/31/2099'
+	)
+go

@@ -1,6 +1,10 @@
 ﻿create table [dbo].[Category]
 (
-	[Id] uniqueidentifier constraint [PK_Category] primary key, 
-    [Name] nvarchar(32) NOT NULL, 
-    [Description] nvarchar(128) NULL
+    [Id]             uniqueidentifier    not null,
+    [Name]           nvarchar(32)        not null, 
+    [Description]    nvarchar(128)       null,
+
+    constraint [PK_Category] primary key (
+        [Id]
+    )
 )
