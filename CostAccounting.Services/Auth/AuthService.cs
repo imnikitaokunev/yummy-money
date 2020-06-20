@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using CostAccounting.Core.Entities.Security;
-using CostAccounting.Services.Interfaces.Membership;
+using CostAccounting.Services.Membership;
 using CostAccounting.Services.Models.Auth;
 using CostAccounting.Services.Models.Security;
 using CostAccounting.Services.Models.User;

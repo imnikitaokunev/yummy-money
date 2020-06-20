@@ -1,16 +1,16 @@
 ﻿using System;
-using Microsoft.AspNetCore.Mvc;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Core;
 using CostAccounting.Services.Models.Category;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+using CostAccounting.Services.Models.Error;
+using Mapster;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CostAccounting.Web.Controllers
 {
     [Route("api/categories")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _service;
@@ -27,14 +27,16 @@ namespace CostAccounting.Web.Controllers
         [HttpPost("")]
         public IActionResult Create([FromBody] CategoryModel model)
         {
-            if (model == null || !ModelState.IsValid)
+            var response = _service.Create(model);
+
+            // TODO: Error handling middleware or RepositoryResponse?
+
+            if (!response.Success)
             {
-                return BadRequest();
+                return BadRequest(response.Adapt<RepositoryFailedResponse>());
             }
 
-            _service.Create(model);
-
-            return CreatedAtAction("Create", model);
+            return CreatedAtAction("Create", response.Target);
         }
 
         [HttpGet("{id:guid}")]
@@ -53,14 +55,19 @@ namespace CostAccounting.Web.Controllers
         [HttpPut("{id:guid}")]
         public IActionResult Update([FromRoute] Guid id, [FromBody] CategoryModel model)
         {
-            if (model == null || id != model.Id || !ModelState.IsValid)
+            if (id != model.Id)
             {
                 return BadRequest();
             }
 
-            _service.Update(model);
+            var response = _service.Update(model);
 
-            return Ok(model);
+            if (!response.Success)
+            {
+                return BadRequest(response.Adapt<RepositoryFailedResponse>());
+            }
+
+            return Ok(response.Target);
         }
 
         [HttpDelete("{id:guid}")]
@@ -73,9 +80,14 @@ namespace CostAccounting.Web.Controllers
                 return NotFound();
             }
 
-            _service.Delete(id);
+            var response = _service.Delete(id);
 
-            return Ok();
+            if (!response.Success)
+            {
+                return BadRequest(response.Adapt<RepositoryFailedResponse>());
+            }
+
+            return NoContent();
         }
     }
 }

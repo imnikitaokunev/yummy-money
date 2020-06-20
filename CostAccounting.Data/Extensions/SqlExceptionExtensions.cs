@@ -8,6 +8,7 @@ namespace CostAccounting.Data.Extensions
         public static RepositoryException ToRepositoryException(this SqlException sqlException)
         {
             var repositoryException = new RepositoryException(sqlException.Message, sqlException);
+
             foreach (SqlError error in sqlException.Errors)
             {
                 var text = $"[#{error.Number}] Message: {error.Message}, " +

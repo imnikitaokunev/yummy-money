@@ -9,7 +9,7 @@ namespace CostAccounting.Web.Controllers
 {
     [Route("api/expenses")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _service;
@@ -23,7 +23,7 @@ namespace CostAccounting.Web.Controllers
             return new ObjectResult(expenses);
         }
 
-        [HttpPost("create")]
+        [HttpPost("")]
         public IActionResult Create([FromBody] ExpenseModel model)
         {
             if (model == null || !ModelState.IsValid)

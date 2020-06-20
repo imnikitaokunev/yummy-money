@@ -19,14 +19,6 @@ namespace CostAccounting.Web.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserRegistrationModel user)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new AuthFailedResponse
-                {
-                    Errors = ModelState.Values.SelectMany(x => x.Errors.Select(xx => xx.ErrorMessage))
-                });
-            }
-
             var authResponse = _authService.Register(user);
 
             if (!authResponse.Success)
@@ -47,14 +39,6 @@ namespace CostAccounting.Web.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] UserLoginModel user)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(new AuthFailedResponse
-            //    {
-            //        Errors = ModelState.Values.SelectMany(x => x.Errors.Select(xx => xx.ErrorMessage))
-            //    });
-            //}
-
             var authResponse = _authService.Login(user);
 
             if (!authResponse.Success)

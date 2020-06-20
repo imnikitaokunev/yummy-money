@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Models.Category;
+using CostAccounting.Services.Models.Error;
 
 namespace CostAccounting.Services.Core
 {
@@ -9,12 +10,12 @@ namespace CostAccounting.Services.Core
     {
         List<CategoryModel> Get(CategoryRequestModel request);
 
-        void Create(CategoryModel model);
+        RepositoryResult Create(CategoryModel model);
 
         CategoryModel GetById(Guid id);
 
-        void Update(CategoryModel model);
+        RepositoryResult Update(CategoryModel model);
 
-        void Delete(Guid id);
+        RepositoryResult Delete(Guid id);
     }
 }

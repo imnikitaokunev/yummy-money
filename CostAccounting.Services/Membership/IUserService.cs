@@ -4,7 +4,7 @@ using System.Security.Claims;
 using CostAccounting.Core.Models;
 using CostAccounting.Services.Models.User;
 
-namespace CostAccounting.Services.Interfaces.Membership
+namespace CostAccounting.Services.Membership
 {
     public interface IUserService
     {
@@ -14,6 +14,6 @@ namespace CostAccounting.Services.Interfaces.Membership
         UserModel GetByEmail(string email);
         void CreateUser(UserModel userModel);
         bool VerifyPassword(UserModel user, string password);
-        List<Claim> GetUserClaimsByUserId(Guid id);
+        IEnumerable<Claim> GetUserClaimsByUserId(Guid id);
     }
 }

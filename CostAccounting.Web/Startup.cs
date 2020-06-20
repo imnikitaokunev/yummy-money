@@ -1,6 +1,5 @@
 using CostAccounting.Services;
 using CostAccounting.Web.Extensions;
-using CostAccounting.Web.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +32,7 @@ namespace CostAccounting.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<ExceptionHandlingMiddleware>();
+            //app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseRouting();
 
             app.UseAuthentication();

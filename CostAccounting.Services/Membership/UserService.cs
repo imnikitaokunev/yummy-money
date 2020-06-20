@@ -6,13 +6,12 @@ using CostAccounting.Core.Entities.Membership;
 using CostAccounting.Core.Models;
 using CostAccounting.Core.Models.Membership;
 using CostAccounting.Core.Repositories.Membership;
-using CostAccounting.Services.Interfaces.Membership;
 using CostAccounting.Services.Models.User;
 using CostAccounting.Shared;
 using CostAccounting.Shared.Helpers;
 using Mapster;
 
-namespace CostAccounting.Services.Implementation.Membership
+namespace CostAccounting.Services.Membership
 {
     public class UserService : IUserService
     {
@@ -94,7 +93,7 @@ namespace CostAccounting.Services.Implementation.Membership
                    PasswordHelper.ComputeHash(password, user.PasswordSalt) == user.PasswordHash;
         }
 
-        public List<Claim> GetUserClaimsByUserId(Guid id)
+        public IEnumerable<Claim> GetUserClaimsByUserId(Guid id)
         {
             // TODO: GetUserById не включает в себя Includes список - нужно подумать.
 

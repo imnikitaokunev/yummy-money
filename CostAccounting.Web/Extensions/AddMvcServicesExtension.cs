@@ -1,13 +1,14 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using CostAccounting.Services.Auth;
 using CostAccounting.Services.Core;
 using CostAccounting.Services.Implementation.Core;
-using CostAccounting.Services.Implementation.Membership;
 using CostAccounting.Services.Interfaces.Core;
-using CostAccounting.Services.Interfaces.Membership;
 using CostAccounting.Services.Membership;
 using CostAccounting.Services.Security;
 using CostAccounting.Services.Settings;
+using CostAccounting.Web.Filters;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,6 +51,15 @@ namespace CostAccounting.Web.Extensions
                     x.SaveToken = true;
                     x.TokenValidationParameters = tokenValidationParameters;
                 });
+
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+                options.Filters.Add<ValidationFilter>();
+                options.Filters.Add<ExceptionHandlingFilter>();
+            }).AddFluentValidation(
+                mvcConfiguration =>
+                    mvcConfiguration.RegisterValidatorsFromAssembly(Assembly.Load("CostAccounting.Services")));
 
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();

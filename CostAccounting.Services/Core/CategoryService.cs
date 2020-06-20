@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using CostAccounting.Core.Entities.Core;
+using CostAccounting.Core.Exceptions;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Core.Repositories.Core;
 using CostAccounting.Services.Models.Category;
-using CostAccounting.Shared;
+using CostAccounting.Services.Models.Error;
 using Mapster;
 
 namespace CostAccounting.Services.Core
@@ -24,12 +25,28 @@ namespace CostAccounting.Services.Core
             return categories.Select(x => x.Adapt<CategoryModel>()).ToList();
         }
 
-        public void Create(CategoryModel model)
+        public RepositoryResult Create(CategoryModel model)
         {
-            model.Id = SqlServerFriendlyGuid.Generate();
+            // TODO: Find more optimal way to generate ids?
+
             var entity = model.Adapt<Category>();
-            _repository.Create(entity);
-            _repository.Save();
+            var response = new RepositoryResult();
+
+            try
+            {
+                _repository.Create(entity);
+                _repository.Save();
+            }
+            catch (Exception ex)
+            {
+                response.Errors = new List<string> { ex.GetBaseException().Message };
+                return response;
+            }
+
+            response.Success = true;
+            response.Target = entity.Adapt<CategoryModel>();
+
+            return response;
         }
 
         public CategoryModel GetById(Guid id)
@@ -38,18 +55,53 @@ namespace CostAccounting.Services.Core
             return category?.Adapt<CategoryModel>();
         }
 
-        public void Update(CategoryModel model)
+        public RepositoryResult Update(CategoryModel model)
         {
             var entity = model.Adapt<Category>();
-            _repository.Update(entity);
-            _repository.Save();
+            var response = new RepositoryResult();
+
+            try
+            {
+                _repository.Update(entity);
+                _repository.Save();
+            }
+            catch (Exception ex)
+            {
+                response.Errors = new List<string> { ex.GetBaseException().Message };
+                return response;
+            }
+
+            response.Success = true;
+            response.Target = entity.Adapt<CategoryModel>();
+
+            return response;
         }
 
-        public void Delete(Guid id)
+        public RepositoryResult Delete(Guid id)
         {
             var entity = _repository.GetById(id);
-            _repository.Delete(entity);
-            _repository.Save();
+            var response = new RepositoryResult();
+
+            try
+            {
+                _repository.Delete(entity);
+                _repository.Save();
+            }
+            catch (RepositoryException ex)
+            {
+                response.Errors = ex.Errors;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Errors = new List<string> { ex.GetBaseException().Message };
+                return response;
+            }
+
+            response.Success = true;
+            //response.Target = entity.Adapt<CategoryModel>();
+
+            return response;
         }
     }
 }
