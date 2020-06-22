@@ -1,0 +1,27 @@
+@import "../abstracts/mixins";
+
+.button {
+    display: inline-block;
+    text-align: center;
+    // vertical-align: middle;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    user-select: none;
+    line-height: 18px;
+
+    &:not(:disabled) {
+        cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(99, 99, 99, 0.25);
+    }
+
+    &-grey {
+        @include button(white, $grey-color, $grey-color);
+        @include button-hover(darken($grey-color, 10%), white);
+    }
+}

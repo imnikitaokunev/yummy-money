@@ -1,0 +1,4 @@
+<div class="form-group">
+    <label [for]="name">{{ name }}</label>
+    <input (focus)="onFocus($event)" (focusout)="onFocus(!$event)" class="form-input" type="text" [id]="name" />
+</div>

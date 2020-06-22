@@ -1,0 +1,37 @@
+@import "../base/typography";
+
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans";
+}
+
+html,
+body {
+    height: 100%;
+}
+
+// Move to another file
+
+.background-gray {
+    background-color: $background-gray-color;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
