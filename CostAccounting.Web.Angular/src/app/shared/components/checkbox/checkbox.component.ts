@@ -9,8 +9,6 @@ export class CheckboxComponent implements OnInit {
     @Input() label: string = null;
     @Output() checked = new EventEmitter<boolean>();
 
-    //public isChecked: boolean;
-
     onChecked(isChecked: boolean): void {
         this.checked.emit(isChecked);
     }
