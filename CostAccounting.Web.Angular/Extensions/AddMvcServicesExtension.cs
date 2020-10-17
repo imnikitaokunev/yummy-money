@@ -5,6 +5,7 @@ using CostAccounting.Services.Core;
 using CostAccounting.Services.Membership;
 using CostAccounting.Services.Security;
 using CostAccounting.Services.Settings;
+using CostAccounting.Web.Angular.Filters;
 using CostAccounting.Web.Filters;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CostAccounting.Web.Extensions
+namespace CostAccounting.Web.Angular.Extensions
 {
     public static class AddMvcServicesExtension
     {

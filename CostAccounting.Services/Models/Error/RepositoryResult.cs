@@ -2,11 +2,11 @@
 
 namespace CostAccounting.Services.Models.Error
 {
-    public class RepositoryResult
+    public class RepositoryResult<T>
     {
         public bool Success { get; set; }
         // TODO: Think about name.
-        public object Target { get; set; }
+        public T Target { get; set; }
         public IEnumerable<string> Errors { get; set; }
     }
 }

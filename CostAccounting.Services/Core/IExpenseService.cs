@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
+using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Models.Core;
-using CostAccounting.Services.Models.Expense;
+using CostAccounting.Services.Models.Error;
 
 namespace CostAccounting.Services.Core
 {
     public interface IExpenseService
     {
-        List<ExpenseModel> Get(ExpenseRequestModel request);
+        IEnumerable<Expense> Get(ExpenseRequestModel request);
+        
+        RepositoryResult<Expense> Create(Expense model);
 
-        ExpenseModel Create(ExpenseModel model);
+        Expense GetById(long id);
 
-        ExpenseModel GetById(long id);
+        RepositoryResult<Expense> Update(Expense model);
 
-        void Update(ExpenseModel model);
-
-        void Delete(long id);
+        RepositoryResult<Expense> Delete(long id);
     }
 }

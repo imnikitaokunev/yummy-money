@@ -16,3 +16,30 @@
         color: $background-color;
     }
 }
+
+@mixin ball-clip-rotate-animation($width, $height, $border-width) {
+    width: $width;
+    height: $height;
+
+    border: $border-width solid #737373;
+    border-radius: 100%;
+    border-bottom-color: transparent;
+
+    animation: rotate 0.625s 0s linear infinite;
+}
+
+@mixin shadow {
+    box-shadow: 0 0.25rem 0.625rem 0.25rem rgba(0, 0, 0, 0.06);
+}
+
+@mixin theme($bgColor, $textColor) {
+    background-color: $bgColor;
+    color: $textColor;
+}
+
+@mixin interaction {
+    &:focus,
+    &:active {
+        @content;
+    }
+}

@@ -1,4 +1,5 @@
 @import "../base/typography";
+@import "../abstracts/variables";
 
 *,
 ::before,
@@ -6,7 +7,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Open Sans";
+    color: $primary-black;
+    // font-family: "Open Sans";
+}
+
+*::selection {
+    background-color: $blue-color-selection;
 }
 
 html,
@@ -24,14 +30,6 @@ body {
     width: 50%;
 }
 
-.d-flex {
-    display: flex;
-}
-
-.justify-content-center {
-    justify-content: center;
-}
-
-.align-items-center {
-    align-items: center;
+.badge {
+    line-height: normal !important;
 }

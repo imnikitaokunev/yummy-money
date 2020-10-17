@@ -1,66 +1,64 @@
 ﻿using System;
+using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Core;
-using CostAccounting.Services.Models.Category;
 using CostAccounting.Services.Models.Error;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CostAccounting.Web.Controllers
+namespace CostAccounting.Web.Angular.Controllers
 {
     [Route("api/categories")]
     [ApiController]
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategoryService _service;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(ICategoryService service) => _service = service;
+        public CategoryController(ICategoryService service) => _categoryService = service;
 
         [HttpGet("")]
         public IActionResult Get([FromQuery] CategoryRequestModel request)
         {
-            var categories = _service.Get(request);
+            var categories = _categoryService.Get(request);
             return new ObjectResult(categories);
         }
 
         [HttpPost("")]
-        public IActionResult Create([FromBody] CategoryModel model)
+        public IActionResult Create([FromBody] Category category)
         {
-            var response = _service.Create(model);
+            var result = _categoryService.Create(category);
 
-            // TODO: Error handling middleware or RepositoryResponse?
-
-            if (!response.Success)
+            if (!result.Success)
             {
-                return BadRequest(response.Adapt<RepositoryFailedResponse>());
+                return BadRequest(result.Adapt<RepositoryFailedResponse>());
             }
 
-            return CreatedAtAction("Create", response.Target);
+            return CreatedAtAction("Create", result.Target);
         }
 
         [HttpGet("{id:guid}")]
         public IActionResult GetById([FromRoute] Guid id)
         {
-            var category = _service.GetById(id);
+            var category = _categoryService.GetById(id);
 
             if (category == null)
             {
                 return NotFound();
             }
 
-            return Ok(category);
+            return new ObjectResult(category);
         }
 
         [HttpPut("{id:guid}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] CategoryModel model)
+        public IActionResult Update([FromRoute] Guid id, [FromBody] Category category)
         {
-            if (id != model.Id)
+            if (id != category.Id)
             {
                 return BadRequest();
             }
 
-            var response = _service.Update(model);
+            var response = _categoryService.Update(category);
 
             if (!response.Success)
             {
@@ -73,14 +71,14 @@ namespace CostAccounting.Web.Controllers
         [HttpDelete("{id:guid}")]
         public IActionResult Delete([FromRoute] Guid id)
         {
-            var category = _service.GetById(id);
+            var category = _categoryService.GetById(id);
 
             if (category == null)
             {
                 return NotFound();
             }
 
-            var response = _service.Delete(id);
+            var response = _categoryService.Delete(id);
 
             if (!response.Success)
             {

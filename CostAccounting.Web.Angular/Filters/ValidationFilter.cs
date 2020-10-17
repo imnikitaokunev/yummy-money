@@ -4,7 +4,7 @@ using CostAccounting.Services.Models.Error;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace CostAccounting.Web.Filters
+namespace CostAccounting.Web.Angular.Filters
 {
     public class ValidationFilter : IAsyncActionFilter
     {

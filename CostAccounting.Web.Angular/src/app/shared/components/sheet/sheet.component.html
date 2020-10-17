@@ -1,0 +1,29 @@
+<!-- <div [ngClass]="{ 'sheet-secondary': !isCurrentMonth, 'sheet-today': isToday }" class="sheet w-100 d-flex"> -->
+<div [ngClass]="{ 'sheet-secondary': !isCurrentMonth }" class="sheet w-100 d-flex">
+    <div [ngClass]="{ 'sheet-secondary-title': !isCurrentMonth }" class="sheet-title">{{ day }}</div>
+    <div *ngIf="isToday" class="expenses">
+        <div class="expense positive">
+            <div class="cost">+25$</div>
+            <div class="category">salary</div>
+        </div>
+        <div class="expense negative">
+            <div class="cost">+25$</div>
+            <div class="category">salary</div>
+        </div>
+        <div class="expense expense-important positive">
+            <div class="badge bg-success">+100$</div>
+            <div class="category">flat</div>
+        </div>
+        <div class="expense expense-important negative">
+            <div class="badge bg-danger">+54$</div>
+            <div class="category">podachki</div>
+        </div>
+        <div class="expense negative">
+            <div class="cost">+25$</div>
+            <div class="category">salary</div>
+        </div>
+
+        <button class="break">&middot;&middot;&middot;</button>
+    </div>
+    <!-- <div class="ball-clip-rotate"><div></div></div> -->
+</div>

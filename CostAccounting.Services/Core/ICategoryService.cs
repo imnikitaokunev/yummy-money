@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Models.Core;
-using CostAccounting.Services.Models.Category;
 using CostAccounting.Services.Models.Error;
 
 namespace CostAccounting.Services.Core
 {
     public interface ICategoryService
     {
-        List<CategoryModel> Get(CategoryRequestModel request);
+        IEnumerable<Category> Get(CategoryRequestModel request);
 
-        RepositoryResult Create(CategoryModel model);
+        RepositoryResult<Category> Create(Category model);
 
-        CategoryModel GetById(Guid id);
+        Category GetById(Guid id);
 
-        RepositoryResult Update(CategoryModel model);
+        RepositoryResult<Category> Update(Category model);
 
-        RepositoryResult Delete(Guid id);
+        RepositoryResult<Category> Delete(Guid id);
     }
 }

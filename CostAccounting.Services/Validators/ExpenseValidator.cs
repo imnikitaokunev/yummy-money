@@ -1,12 +1,12 @@
 ﻿using System;
+using CostAccounting.Core.Entities.Core;
 using CostAccounting.Services.Core;
 using CostAccounting.Services.Membership;
-using CostAccounting.Services.Models.Expense;
 using FluentValidation;
 
 namespace CostAccounting.Services.Validators
 {
-    public class ExpenseValidator : AbstractValidator<ExpenseModel>
+    public class ExpenseValidator : AbstractValidator<Expense>
     {
         public const string CategoryIdErrorMessage = "This category doesn't exists.";
         public const string UserIdErrorMessage = "This user doesn't exists.";

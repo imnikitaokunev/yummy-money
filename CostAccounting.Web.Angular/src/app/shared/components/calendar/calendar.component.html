@@ -1,0 +1,43 @@
+<div class="w-100 justify-content-center">
+    <div class="calendar-navigation d-flex justify-content-center">
+        <button [disabled]="isLoading" class="calendar-navigation-month" (click)="prevMonth()">
+            &laquo; {{ getMonthName(-1) | slice: 0:3 }}
+        </button>
+        <div class="calendar-navigation-year">{{ getMonthName(0) | slice: 0:3 }} {{ currentDate.year() }}</div>
+        <button [disabled]="isLoading" class="calendar-navigation-month" (click)="nextMonth()">
+            {{ getMonthName(1) | slice: 0:3 }} &raquo;
+        </button>
+    </div>
+
+    <div class="calendar">
+        <div class="calendar-header d-flex justify-content-between text-center">
+            <div class="sheet-header w-100" *ngFor="let dayOfWeek of daysOfWeek | keyvalue: originalOrder">
+                {{ dayOfWeek.value }}
+            </div>
+        </div>
+
+        <ng-container *ngIf="!isLoading; else loading">
+            <div class="calendar-content">
+                <ng-container *ngFor="let week of weeks">
+                    <div class="d-flex justify-content-between">
+                        <ng-container *ngFor="let day of week">
+                            <app-sheet
+                                class="w-100"
+                                [day]="day.day"
+                                [date]="day.date"
+                                [isCurrentMonth]="day.isCurrentMonth"
+                                [isToday]="day.isToday"
+                            ></app-sheet>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+
+        <ng-template #loading>
+            <div class="d-flex justify-content-center align-items-center h-100 bg-grey">
+                <app-loading-indicator [isLoading]="isLoading"></app-loading-indicator>
+            </div>
+        </ng-template>
+    </div>
+</div>

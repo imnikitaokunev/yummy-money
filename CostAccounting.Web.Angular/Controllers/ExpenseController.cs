@@ -1,45 +1,50 @@
-﻿using CostAccounting.Core.Models.Core;
+﻿using CostAccounting.Core.Entities.Core;
+using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Core;
-using CostAccounting.Services.Models.Expense;
+using CostAccounting.Services.Models.Error;
+using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CostAccounting.Web.Controllers
+namespace CostAccounting.Web.Angular.Controllers
 {
     [Route("api/expenses")]
     [ApiController]
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class ExpenseController : ControllerBase
     {
-        private readonly IExpenseService _service;
+        private readonly IExpenseService _expenseService;
 
-        public ExpenseController(IExpenseService service) => _service = service;
+        public ExpenseController(IExpenseService expenseService) => _expenseService = expenseService;
 
+        // TODO: GetExpensesRequestModel?
         [HttpGet("")]
         public IActionResult Get([FromQuery] ExpenseRequestModel request)
         {
-            var expenses = _service.Get(request);
+            var expenses = _expenseService.Get(request);
             return new ObjectResult(expenses);
         }
 
         [HttpPost("")]
-        public IActionResult Create([FromBody] ExpenseModel model)
+        public IActionResult Create([FromBody] Expense expense)
         {
-            if (model == null || !ModelState.IsValid)
+            var result = _expenseService.Create(expense);
+
+            // TODO: Mb rename RepositoryResult to RepositoryResponse to have consistent naming?
+
+            if (!result.Success)
             {
-                return BadRequest();
+                return BadRequest(result.Adapt<RepositoryFailedResponse>());
             }
 
-            var created = _service.Create(model);
-
-            return Ok(created);
+            return CreatedAtAction("Create", result.Target);
         }
 
         [HttpGet("{id:long}")]
-        public IActionResult GetById(long id)
+        public IActionResult GetById([FromRoute] long id)
         {
-            var expense = _service.GetById(id);
+            var expense = _expenseService.GetById(id);
 
             if (expense == null)
             {
@@ -50,31 +55,41 @@ namespace CostAccounting.Web.Controllers
         }
 
         [HttpPut("{id:long}")]
-        public IActionResult Update([FromRoute] long id, [FromBody] ExpenseModel model)
+        public IActionResult Update([FromRoute] long id, [FromBody] Expense expense)
         {
-            if (model == null || id != model.Id || !ModelState.IsValid)
+            if (id != expense.Id)
             {
                 return BadRequest();
             }
 
-            _service.Update(model);
+            var result = _expenseService.Update(expense);
 
-            return Ok(model);
+            if (!result.Success)
+            {
+                return BadRequest(result.Adapt<RepositoryFailedResponse>());
+            }
+
+            return Ok(result.Target);
         }
 
         [HttpDelete("{id:long}")]
         public IActionResult Delete([FromRoute] long id)
         {
-            var expense = _service.GetById(id);
+            var expense = _expenseService.GetById(id);
 
             if (expense == null)
             {
                 return NotFound();
             }
 
-            _service.Delete(id);
+            var result = _expenseService.Delete(id);
 
-            return Ok();
+            if (!result.Success)
+            {
+                return BadRequest(result.Adapt<RepositoryFailedResponse>());
+            }
+
+            return NoContent();
         }
     }
 }
