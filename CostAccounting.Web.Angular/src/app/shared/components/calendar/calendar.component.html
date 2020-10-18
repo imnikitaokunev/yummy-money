@@ -22,7 +22,9 @@
                     <div class="d-flex justify-content-between">
                         <ng-container *ngFor="let day of week">
                             <app-sheet
-                                class="w-100"
+                                class="min-w-0 w-100"
+                                [expenses]="getExpenses(day.date)"
+                                [incomes]="getIncomes(day.date)"
                                 [day]="day.day"
                                 [date]="day.date"
                                 [isCurrentMonth]="day.isCurrentMonth"

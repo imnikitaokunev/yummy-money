@@ -1,3 +1,5 @@
+import { IncomesService } from "./../../../core/services/incomes.service";
+import { ExpensesService } from "./../../../core/services/expenses.service";
 import { DayOfWeek } from "./../../models/day-of-week";
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { KeyValue } from "@angular/common";
@@ -5,6 +7,8 @@ import { Moment } from "moment";
 import { Sheet } from "../../models/sheet";
 import * as moment from "moment";
 import * as range from "lodash.range";
+import { Expense } from "src/app/core/models/expense";
+import { Income } from "src/app/core/models/income";
 
 @Component({
     selector: "app-calendar",
@@ -13,11 +17,22 @@ import * as range from "lodash.range";
 export class CalendarComponent implements OnInit {
     public weeks: Array<Sheet[]> = [];
     public daysOfWeek = DayOfWeek;
+    public expenses: Expense[];
+    public incomes: Income[];
+
     // public selectedDate: string;
     public currentDate: Moment;
-    public isLoading: boolean = false;
+    public isLoading: boolean = true;
 
-    constructor() {}
+    constructor(private expensesService: ExpensesService, private incomesService: IncomesService) {
+        expensesService.getExpenses().subscribe((data) => {
+            this.expenses = data;
+            incomesService.getIncomes().subscribe((data) => {
+                this.incomes = data;
+                this.isLoading = false;
+            });
+        });
+    }
 
     ngOnInit(): void {
         this.currentDate = moment();
@@ -26,7 +41,7 @@ export class CalendarComponent implements OnInit {
         // setTimeout(() => (this.isLoading = false), 5000);
     }
 
-    originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
+    public originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
         return 0;
     };
 
@@ -79,5 +94,13 @@ export class CalendarComponent implements OnInit {
 
     public getMonthName(offset: number): string {
         return this.currentDate.clone().add(offset, "months").format("MMMM");
+    }
+
+    public getExpenses(date: Date): Expense[] {
+        return this.expenses.filter((x) => moment(x.date).isSame(date, "day"));
+    }
+
+    public getIncomes(date: Date): Income[] {
+        return this.incomes.filter((x) => moment(x.date).isSame(date, "day"));
     }
 }

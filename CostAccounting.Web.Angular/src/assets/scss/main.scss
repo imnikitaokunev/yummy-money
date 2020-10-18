@@ -3,7 +3,6 @@
 @import "components/calendar";
 @import "components/loaders";
 
-@import "abstracts/bootstrap";
 @import "abstracts/animations";
 
 @import "layout/forms";
@@ -11,3 +10,5 @@
 @import "layout/backgrounds";
 
 @import "base/reset";
+
+@import "vendors/bootstrap";

@@ -1,18 +1,18 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Expense } from "../models/expense";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
+import { Income } from "../models/income";
 
 @Injectable({
     providedIn: "root",
 })
-export class ExpensesService {
+export class IncomesService {
     constructor(private http: HttpClient) {}
 
-    public getExpenses(startDate?: Date, endDate?: Date): Observable<Expense[]> {
+    public getIncomes(startDate?: Date, endDate?: Date): Observable<Income[]> {
         return this.http
-            .get("api/expenses?includes=Category")
-            .pipe(map((data: any) => data.map((x: any) => new Expense(x))));
+            .get("api/incomes?includes=Category")
+            .pipe(map((data: any) => data.map((x: any) => new Income(x))));
     }
 }

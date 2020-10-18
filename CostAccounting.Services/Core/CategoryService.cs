@@ -14,7 +14,12 @@ namespace CostAccounting.Services.Core
 
         public CategoryService(ICategoryRepository repository) => _repository = repository;
 
-        public IEnumerable<Category> Get(CategoryRequestModel request) => _repository.Get(request);
+        public IEnumerable<Category> Get(CategoryRequestModel request)
+        {
+            var categories = _repository.Get(request);
+
+            return categories;
+        }
 
         public RepositoryResult<Category> Create(Category category)
         {

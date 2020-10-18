@@ -1,3 +1,5 @@
+import { PositivePipe } from "./pipes/positive.pipe";
+import { NegativePipe } from "./pipes/negative.pipe";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -18,6 +20,8 @@ import { LoadingIndicatorComponent } from "./components/loading-indicator/loadin
         SheetComponent,
         CalendarComponent,
         LoadingIndicatorComponent,
+        NegativePipe,
+        PositivePipe,
     ],
     exports: [
         CheckboxComponent,
@@ -26,6 +30,8 @@ import { LoadingIndicatorComponent } from "./components/loading-indicator/loadin
         SheetComponent,
         CalendarComponent,
         LoadingIndicatorComponent,
+        NegativePipe,
+        PositivePipe,
     ],
 })
 export class SharedModule {}

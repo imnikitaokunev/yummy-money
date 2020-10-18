@@ -1,6 +1,7 @@
 .sheet {
     // cursor: pointer;
     width: 100%;
+    min-width: 0;
     background-color: #f6f6f6;
     border: 0.0625rem solid darken(#f6f6f6, 5%);
     height: 128px;
@@ -121,6 +122,7 @@ $cost-margin-left: 0.25rem;
         }
 
         .category {
+            display: -webkit-box;
             margin-left: $cost-margin-left;
         }
 

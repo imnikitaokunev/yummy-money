@@ -1,6 +1,6 @@
 import { Category } from "./category";
 
-export class Expense {
+export class Income {
     amount: number;
     category: Category;
     date: Date;

@@ -26,10 +26,16 @@ body {
     background-color: $background-gray-color;
 }
 
-.w-50 {
-    width: 50%;
-}
-
 .badge {
     line-height: normal !important;
+}
+
+// TODO: Use loop.
+
+// .w-50 {
+//     width: 50%;
+// }
+
+.min-w-0 {
+    min-width: 0;
 }

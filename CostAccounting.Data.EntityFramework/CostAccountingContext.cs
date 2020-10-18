@@ -22,6 +22,7 @@ namespace CostAccounting.Data.EntityFramework
             builder.ApplyConfiguration(new UserRoleConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new ExpenseConfiguration());
+            builder.ApplyConfiguration(new IncomeConfiguration());
             builder.ApplyConfiguration(new RefreshTokenConfiguration());
         }
     }

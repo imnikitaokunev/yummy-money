@@ -75,6 +75,7 @@
     <None Include="Scripts\Membership\UserRoles.sql" />
     <None Include="Diagrams\CostAccounting - Logical Model.svg" />
     <None Include="Diagrams\CostAccounting - Logical Model.xml" />
+    <None Include="Scripts\Core\Incomes.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CostAccounting.Database.publish.xml" />
@@ -87,6 +88,7 @@
     <Build Include="Tables\Membership\User.sql" />
     <Build Include="Tables\Membership\UserRole.sql" />
     <Build Include="Tables\Security\RefreshToken.sql" />
+    <Build Include="Tables\Core\Income.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CostAccounting.Database.refactorlog" />
