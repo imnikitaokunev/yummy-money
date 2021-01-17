@@ -69,14 +69,14 @@ export class CalendarComponent implements OnInit {
         this.expensesService
             .getExpenses({
                 startDate: this.firstDayOfGrid.toDate(),
-                endDate: this.lastDayOfGrid.subtract(1, "days").toDate(),
+                endDate: moment(this.lastDayOfGrid).subtract(1, "days").toDate(),
             })
             .subscribe((data) => {
                 this.expenses = data;
                 this.incomesService
                     .getIncomes({
                         startDate: this.firstDayOfGrid.toDate(),
-                        endDate: this.lastDayOfGrid.subtract(1, "days").toDate(),
+                        endDate: moment(this.lastDayOfGrid).subtract(1, "days").toDate(),
                     })
                     .subscribe((data) => {
                         this.incomes = data;
