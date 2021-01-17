@@ -1,0 +1,22 @@
+@import "../abstracts/variables";
+
+$navbar-padding-y: 0;
+
+$nav-link-padding-y: 0.5rem;
+$nav-link-padding-x: 0;
+
+$navbar-nav-link-padding-x: 0;
+
+// $link-color: $primary-grey;
+// $link-hover-color: $primary-blue;
+
+$navbar-light-color: $primary-color;
+$navbar-light-hover-color: $primary-blue;
+$navbar-light-active-color: $primary-blue;
+$navbar-light-disabled-color: $secondary-grey;
+
+$danger: $primary-red;
+$success: $primary-green;
+$badge-font-size: 0.8125rem;
+$badge-padding-y: 0;
+$badge-padding-x: 0.125rem;

@@ -19,23 +19,3 @@ html,
 body {
     height: 100%;
 }
-
-// Move to another file
-
-.background-gray {
-    background-color: $background-gray-color;
-}
-
-.badge {
-    line-height: normal !important;
-}
-
-// TODO: Use loop.
-
-// .w-50 {
-//     width: 50%;
-// }
-
-.min-w-0 {
-    min-width: 0;
-}

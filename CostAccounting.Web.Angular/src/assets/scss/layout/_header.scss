@@ -38,15 +38,11 @@ $nav-link-after-left: 50%;
                 &:after {
                     content: "";
                     position: absolute;
-
                     top: $nav-link-after-top;
                     left: $nav-link-after-left;
-
                     width: $nav-link-after-width;
                     height: $nav-link-after-height;
-
                     background: $primary-blue;
-
                     transform: translateX(-50%);
                 }
             }

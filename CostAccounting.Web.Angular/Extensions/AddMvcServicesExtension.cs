@@ -51,14 +51,13 @@ namespace CostAccounting.Web.Angular.Extensions
                     x.TokenValidationParameters = tokenValidationParameters;
                 });
 
-            services.AddMvc(options =>
+            services.AddControllers(options =>
             {
                 options.EnableEndpointRouting = false;
                 options.Filters.Add<ValidationFilter>();
                 options.Filters.Add<ExceptionHandlingFilter>();
-            }).AddFluentValidation(
-                mvcConfiguration =>
-                    mvcConfiguration.RegisterValidatorsFromAssembly(Assembly.Load("CostAccounting.Services")));
+            }).AddFluentValidation(mvcConfiguration =>
+                mvcConfiguration.RegisterValidatorsFromAssembly(Assembly.Load("CostAccounting.Services")));
 
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();

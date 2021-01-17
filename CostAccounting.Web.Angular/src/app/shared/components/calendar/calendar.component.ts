@@ -1,7 +1,7 @@
 import { IncomesService } from "./../../../core/services/incomes.service";
 import { ExpensesService } from "./../../../core/services/expenses.service";
 import { DayOfWeek } from "./../../models/day-of-week";
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { KeyValue } from "@angular/common";
 import { Moment } from "moment";
 import { Sheet } from "../../models/sheet";
@@ -20,30 +20,18 @@ export class CalendarComponent implements OnInit {
     public expenses: Expense[];
     public incomes: Income[];
 
-    // public selectedDate: string;
+    public firstDayOfGrid: Moment;
+    public lastDayOfGrid: Moment;
     public currentDate: Moment;
-    public isLoading: boolean = true;
+    public isLoading: boolean;
 
-    constructor(private expensesService: ExpensesService, private incomesService: IncomesService) {
-        expensesService.getExpenses().subscribe((data) => {
-            this.expenses = data;
-            incomesService.getIncomes().subscribe((data) => {
-                this.incomes = data;
-                this.isLoading = false;
-            });
-        });
-    }
+    constructor(private expensesService: ExpensesService, private incomesService: IncomesService) {}
 
     ngOnInit(): void {
         this.currentDate = moment();
-        // this.selectedDate = moment(this.currentDate).format("DD/MM/YYYY");
         this.generateCalendar();
-        // setTimeout(() => (this.isLoading = false), 5000);
+        this.loadData();
     }
-
-    public originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
-        return 0;
-    };
 
     private generateCalendar(): void {
         const dates = this.fillDates(this.currentDate);
@@ -58,19 +46,47 @@ export class CalendarComponent implements OnInit {
         const firstOfMonth = moment(currentMoment).startOf("month").day();
         const lastOfMonth = moment(currentMoment).endOf("month").day();
 
-        const firstDayOfGrid = moment(currentMoment).startOf("month").subtract(firstOfMonth, "days");
-        const lastDayOfGrid = moment(currentMoment).endOf("month").subtract(lastOfMonth, "days").add(7, "days");
-        const startCalendar = firstDayOfGrid.date();
+        this.firstDayOfGrid = moment(currentMoment).startOf("month").subtract(firstOfMonth, "days");
+        this.lastDayOfGrid = moment(currentMoment).endOf("month").subtract(lastOfMonth, "days").add(7, "days");
 
-        return range(startCalendar, startCalendar + lastDayOfGrid.diff(firstDayOfGrid, "days")).map((date) => {
-            const newDate = moment(firstDayOfGrid).date(date);
-            return {
-                isToday: this.isToday(newDate),
-                isCurrentMonth: this.isCurrentMonth(newDate),
-                date: newDate.toDate(),
-                day: newDate.date(),
-            };
-        });
+        const startCalendar = this.firstDayOfGrid.date();
+
+        return range(startCalendar, startCalendar + this.lastDayOfGrid.diff(this.firstDayOfGrid, "days")).map(
+            (date) => {
+                const newDate = moment(this.firstDayOfGrid).date(date);
+                return {
+                    isToday: this.isToday(newDate),
+                    isCurrentMonth: this.isCurrentMonth(newDate),
+                    date: newDate.toDate(),
+                    day: newDate.date(),
+                };
+            }
+        );
+    }
+
+    public loadData(): void {
+        this.isLoading = true;
+        this.expensesService
+            .getExpenses({
+                startDate: this.firstDayOfGrid.toDate(),
+                endDate: this.lastDayOfGrid.subtract(1, "days").toDate(),
+            })
+            .subscribe((data) => {
+                this.expenses = data;
+                this.incomesService
+                    .getIncomes({
+                        startDate: this.firstDayOfGrid.toDate(),
+                        endDate: this.lastDayOfGrid.subtract(1, "days").toDate(),
+                    })
+                    .subscribe((data) => {
+                        this.incomes = data;
+                        this.isLoading = false;
+                    });
+            });
+    }
+
+    public refresh(): void {
+        this.loadData();
     }
 
     public isCurrentMonth(currentDate): boolean {
@@ -85,22 +101,24 @@ export class CalendarComponent implements OnInit {
     public prevMonth(): void {
         this.currentDate = moment(this.currentDate).subtract(1, "months");
         this.generateCalendar();
+        this.refresh();
     }
 
     public nextMonth(): void {
         this.currentDate = moment(this.currentDate).add(1, "months");
         this.generateCalendar();
+        this.refresh();
     }
 
     public getMonthName(offset: number): string {
         return this.currentDate.clone().add(offset, "months").format("MMMM");
     }
 
-    public getExpenses(date: Date): Expense[] {
-        return this.expenses.filter((x) => moment(x.date).isSame(date, "day"));
+    public getFromDay(array: { date: Date }[], date: Date): any[] {
+        return array.filter((x) => moment(x.date).isSame(date, "day"));
     }
 
-    public getIncomes(date: Date): Income[] {
-        return this.incomes.filter((x) => moment(x.date).isSame(date, "day"));
-    }
+    public originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
+        return 0;
+    };
 }

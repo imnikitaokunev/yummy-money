@@ -1,12 +1,25 @@
 <div class="w-100 justify-content-center">
-    <div class="calendar-navigation d-flex justify-content-center">
-        <button [disabled]="isLoading" class="calendar-navigation-month" (click)="prevMonth()">
-            &laquo; {{ getMonthName(-1) | slice: 0:3 }}
-        </button>
-        <div class="calendar-navigation-year">{{ getMonthName(0) | slice: 0:3 }} {{ currentDate.year() }}</div>
-        <button [disabled]="isLoading" class="calendar-navigation-month" (click)="nextMonth()">
-            {{ getMonthName(1) | slice: 0:3 }} &raquo;
-        </button>
+    <div class="calendar-navigation d-flex justify-content-between">
+        <div class="navigation-controls">
+            <button class="navigation-controls-item btn btn-light" title="New Transaction">
+                <i class="fas fa-plus"></i>
+            </button>
+            <button class="navigation-controls-item btn btn-light" (click)="refresh()" title="Refresh">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+        </div>
+
+        <div class="navigation-date d-flex justify-content-center">
+            <button [disabled]="isLoading" class="navigation-date-month" (click)="prevMonth()" title="Previous Month">
+                &laquo; {{ getMonthName(-1) | slice: 0:3 }}
+            </button>
+            <div class="navigation-date-year">{{ getMonthName(0) | slice: 0:3 }} {{ currentDate.year() }}</div>
+            <button [disabled]="isLoading" class="navigation-date-month" (click)="nextMonth()" title="Next Month">
+                {{ getMonthName(1) | slice: 0:3 }} &raquo;
+            </button>
+        </div>
+
+        <app-calendar-summary [isLoading]="isLoading" [expenses]="expenses" [incomes]="incomes"></app-calendar-summary>
     </div>
 
     <div class="calendar">
@@ -23,8 +36,8 @@
                         <ng-container *ngFor="let day of week">
                             <app-sheet
                                 class="min-w-0 w-100"
-                                [expenses]="getExpenses(day.date)"
-                                [incomes]="getIncomes(day.date)"
+                                [expenses]="getFromDay(expenses, day.date)"
+                                [incomes]="getFromDay(incomes, day.date)"
                                 [day]="day.day"
                                 [date]="day.date"
                                 [isCurrentMonth]="day.isCurrentMonth"

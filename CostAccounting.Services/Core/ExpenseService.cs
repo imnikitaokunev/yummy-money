@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Exceptions;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Core.Repositories.Core;
+using CostAccounting.Services.Models.Dtos;
 using CostAccounting.Services.Models.Error;
+using Mapster;
 
 namespace CostAccounting.Services.Core
 {
@@ -14,8 +17,7 @@ namespace CostAccounting.Services.Core
 
         public ExpenseService(IExpenseRepository repository) => _repository = repository;
 
-        // TODO: May be IEnumerable?
-        public IEnumerable<Expense> Get(ExpenseRequestModel request) => _repository.Get(request);
+        public IEnumerable<ExpenseDto> Get(ExpenseRequestModel request) => _repository.Get(request).Select(x => x.Adapt<ExpenseDto>());
 
         public RepositoryResult<Expense> Create(Expense expense)
         {

@@ -27,7 +27,7 @@ $loader-height: 2.5rem;
 
 .ball-clip-rotate {
     > div {
-        @include ball-clip-rotate-animation(26px, 26px, 4px);
+        @include ball-clip-rotate-animation(24px, 24px, 3px);
     }
 
     &-large > div {

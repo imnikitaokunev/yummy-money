@@ -12,167 +12,184 @@
 
     .color-name {
         width: 190px;
+        font-family: "Open Sans";
+        font-size: 1rem;
     }
 </style>
 
-<!-- Colors -->
-<div class="mx-5 mt-4">
-    <h3 class="font-weight-bold" style="font-family: 'Nimbus Sans D'"><u>Colors</u></h3>
-    <div class="colors" style="display: flex">
-        <div>
-            <div class="pair">
-                <div class="color-name">$primary-color: #2d3436</div>
-                <div class="color" style="background-color: #2d3436"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$danger-color: #ff4949</div>
-                <div class="color" style="background-color: #ff4949"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$success-color: #19cc95</div>
-                <div class="color" style="background-color: #19cc95"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$secondary-color: #b2bec3</div>
-                <div class="color" style="background-color: #b2bec3"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$purple-color: #8572a5</div>
-                <div class="color" style="background-color: #8572a5"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$dark-purple-color: #494452</div>
-                <div class="color" style="background-color: #494452"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$blue-color: #00b2d1</div>
-                <div class="color" style="background-color: #00b2d1"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$blue-color2: #9cd9e6</div>
-                <div class="color" style="background-color: #9cd9e6"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$blue-color3: #63b4c7</div>
-                <div class="color" style="background-color: #63b4c7"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$pink-color: #f6b7ac</div>
-                <div class="color" style="background-color: #f6b7ac"></div>
-            </div>
-        </div>
-        <div>
-            <div class="pair">
-                <div class="color-name">$orange-color: #ff4500</div>
-                <div class="color" style="background-color: #ff4500"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$background-gray-color: #f0f0f0</div>
-                <div class="color" style="background-color: #f0f0f0"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$grey-color: #737373</div>
-                <div class="color" style="background-color: #737373"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$grey-color-2: #c7c7c7</div>
-                <div class="color" style="background-color: #c7c7c7"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$grey-color-3: #5b5b5b</div>
-                <div class="color" style="background-color: #5b5b5b"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$grey-color-4: #f9f9f9</div>
-                <div class="color" style="background-color: #f9f9f9"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$invalid-input-1: #f9dbd2</div>
-                <div class="color" style="background-color: #f9dbd2"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$invalid-input-2: #ee3e54</div>
-                <div class="color" style="background-color: #ee3e54"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$valid-input-1: #e6edb7</div>
-                <div class="color" style="background-color: #e6edb7"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$valid-input-2: #93bc39</div>
-                <div class="color" style="background-color: #93bc39"></div>
-            </div>
-        </div>
-        <div>
-            <div class="pair">
-                <div class="color-name">$yellow: #f8e473</div>
-                <div class="color" style="background-color: #f8e473"></div>
-            </div>
-            <div class="pair">
-                <div class="color-name">$fire: #fda50f</div>
-                <div class="color" style="background-color: #fda50f"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Checkboxes -->
-<div class="d-flex">
-    <div class="mx-5 mt-5">
-        <div style="width: 200px">
-            <h3 class="font-weight-bold mb-3" style="font-family: 'Nimbus Sans D'"><u>Checkboxes</u></h3>
-            <div class="mb-2">
-                <app-checkbox class="mb-2" name="checkbox1" label="Not checked"></app-checkbox>
-            </div>
-            <div class="mb-2">
-                <app-checkbox class="mb-2" name="checkbox2" label="Checked" [model]="true"></app-checkbox>
-            </div>
-            <div class="mb-2">
-                <app-checkbox
-                    class="mb-2"
-                    name="checkbox3"
-                    label="Disabled not checked"
-                    [disabled]="true"
-                ></app-checkbox>
-            </div>
-            <div class="mb-2">
-                <app-checkbox
-                    class="mb-2"
-                    name="checkbox4"
-                    label="Disabled checked"
-                    [disabled]="true"
-                    [model]="true"
-                ></app-checkbox>
-            </div>
-        </div>
-    </div>
-    <div class="mx-5 mt-5">
-        <div>
-            <h3 class="font-weight-bold" style="font-family: 'Nimbus Sans D'"><u>Inputs</u></h3>
-            <app-input name="input" model="Input" placeholder="Input..."></app-input>
-            <app-password name="password" model="Password" label="Password" placeholder="Password..."></app-password>
-        </div>
-    </div>
-    <div class="mx-5 mt-5">
-        <div>
-            <h3 class="font-weight-bold" style="font-family: 'Nimbus Sans D'"><u>Badges</u></h3>
+<div class="containerx">
+    <!-- Colors -->
+    <div class="mx-5 mt-4">
+        <h3 class="fw-bold fs-4" style="font-family: 'Nimbus Sans D'"><u>Colors</u></h3>
+        <div class="colors" style="display: flex">
             <div>
-                <div class="badge bg-success px-1">Success</div>
+                <div class="pair">
+                    <div class="color-name">$primary-color: #2d3436</div>
+                    <div class="color" style="background-color: #2d3436"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$danger-color: #ff4949</div>
+                    <div class="color" style="background-color: #ff4949"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$success-color: #19cc95</div>
+                    <div class="color" style="background-color: #19cc95"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$secondary-color: #b2bec3</div>
+                    <div class="color" style="background-color: #b2bec3"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$purple-color: #8572a5</div>
+                    <div class="color" style="background-color: #8572a5"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$dark-purple-color: #494452</div>
+                    <div class="color" style="background-color: #494452"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$blue-color: #00b2d1</div>
+                    <div class="color" style="background-color: #00b2d1"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$blue-color2: #9cd9e6</div>
+                    <div class="color" style="background-color: #9cd9e6"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$blue-color3: #63b4c7</div>
+                    <div class="color" style="background-color: #63b4c7"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$pink-color: #f6b7ac</div>
+                    <div class="color" style="background-color: #f6b7ac"></div>
+                </div>
             </div>
             <div>
-                <div class="badge bg-danger px-1">Danger</div>
+                <div class="pair">
+                    <div class="color-name">$orange-color: #ff4500</div>
+                    <div class="color" style="background-color: #ff4500"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$background-gray-color: #f0f0f0</div>
+                    <div class="color" style="background-color: #f0f0f0"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$grey-color: #737373</div>
+                    <div class="color" style="background-color: #737373"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$grey-color-2: #c7c7c7</div>
+                    <div class="color" style="background-color: #c7c7c7"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$grey-color-3: #5b5b5b</div>
+                    <div class="color" style="background-color: #5b5b5b"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$grey-color-4: #f9f9f9</div>
+                    <div class="color" style="background-color: #f9f9f9"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$invalid-input-1: #f9dbd2</div>
+                    <div class="color" style="background-color: #f9dbd2"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$invalid-input-2: #ee3e54</div>
+                    <div class="color" style="background-color: #ee3e54"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$valid-input-1: #e6edb7</div>
+                    <div class="color" style="background-color: #e6edb7"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$valid-input-2: #93bc39</div>
+                    <div class="color" style="background-color: #93bc39"></div>
+                </div>
+            </div>
+            <div>
+                <div class="pair">
+                    <div class="color-name">$yellow: #f8e473</div>
+                    <div class="color" style="background-color: #f8e473"></div>
+                </div>
+                <div class="pair">
+                    <div class="color-name">$fire: #fda50f</div>
+                    <div class="color" style="background-color: #fda50f"></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Loader -->
-<div>
-    <div class="d-flex my-3">
-        <div class="mx-3 ball-clip-rotate"><div></div></div>
-        <div class="mx-3 ball-clip-rotate-large"><div></div></div>
-        <div class="mx-3 rotate-loader"></div>
-        <img src="/assets/images/load.png" class="mx-3 loader" />
-        <img src="/assets/images/load1.png" class="mx-3 loader" />
+    <!-- Checkboxes -->
+    <div class="d-flex">
+        <div class="mx-5 mt-5">
+            <div style="width: 200px">
+                <h3 class="fw-bold mb-3 fs-4" style="font-family: 'Nimbus Sans D'"><u>Checkboxes (TBD)</u></h3>
+                <div class="mb-2">
+                    <app-checkbox class="mb-2" name="checkbox1" label="Not checked"></app-checkbox>
+                </div>
+                <div class="mb-2">
+                    <app-checkbox class="mb-2" name="checkbox2" label="Checked" [model]="true"></app-checkbox>
+                </div>
+                <div class="mb-2">
+                    <app-checkbox
+                        class="mb-2"
+                        name="checkbox3"
+                        label="Disabled not checked"
+                        [disabled]="true"
+                    ></app-checkbox>
+                </div>
+                <div class="mb-2">
+                    <app-checkbox
+                        class="mb-2"
+                        name="checkbox4"
+                        label="Disabled checked"
+                        [disabled]="true"
+                        [model]="true"
+                    ></app-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="mx-5 mt-5">
+            <div>
+                <h3 class="fw-bold fs-4 mb-3" style="font-family: 'Nimbus Sans D'"><u>Inputs (TBD)</u></h3>
+                <app-input name="input" model="Input" placeholder="Input..."></app-input>
+                <app-password
+                    name="password"
+                    model="Password"
+                    label="Password"
+                    placeholder="Password..."
+                ></app-password>
+            </div>
+        </div>
+        <div class="mx-5 mt-5">
+            <div>
+                <h3 class="fw-bold fs-4 mb-3" style="font-family: 'Nimbus Sans D'"><u>Badges</u></h3>
+                <div>
+                    <div class="badge bg-success px-1">Success</div>
+                </div>
+                <div>
+                    <div class="badge bg-danger px-1">Danger</div>
+                </div>
+            </div>
+        </div>
+        <div class="mx-5 mt-5">
+            <div>
+                <h3 class="fw-bold fs-4 mb-3" style="font-family: 'Nimbus Sans D'"><u>Buttons</u></h3>
+                <div class="m-1"><button class="btn btn-light">Light</button></div>
+                <div class="m-1"><button class="btn btn-danger">Danger</button></div>
+                <div class="m-1"><button class="btn btn-success">Success</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div>
+        <div class="d-flex my-3">
+            <div class="mx-3 ball-clip-rotate"><div></div></div>
+            <div class="mx-3 ball-clip-rotate-large"><div></div></div>
+            <div class="mx-3 rotate-loader"></div>
+            <img src="/assets/images/load.png" class="mx-3 loader" />
+            <img src="/assets/images/load1.png" class="mx-3 loader" />
+        </div>
     </div>
 </div>

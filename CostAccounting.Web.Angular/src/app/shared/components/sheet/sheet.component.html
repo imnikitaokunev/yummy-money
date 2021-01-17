@@ -4,24 +4,23 @@
     </div>
 
     <ng-container *ngIf="expenses.length || incomes.length">
-        <div class="expenses">
-            <ng-container *ngFor="let expense of expenses">
-                <div class="expense negative">
-                    <div class="cost">{{ expense.amount | negative }}</div>
+        <div class="notes">
+            <ng-container *ngFor="let expense of expenses | slice: 0:5">
+                <div class="note">
+                    <div class="cost text-danger">-{{ expense.amount }}</div>
                     <div class="category text-truncate">{{ expense.category.name }}</div>
                 </div>
             </ng-container>
-            <ng-container *ngFor="let income of incomes">
-                <div class="expense positive">
-                    <div class="cost">{{ income.amount | positive }}</div>
+            <ng-container *ngFor="let income of incomes | slice: 0:sheetItemsCount - expenses.length">
+                <div class="note">
+                    <div class="cost text-success">+{{ income.amount }}</div>
                     <div class="category text-truncate">{{ income.category.name }}</div>
                 </div>
             </ng-container>
-            <!-- <ng-container *ngIf="expenses.length > 5">
+
+            <ng-container *ngIf="expenses.length + incomes.length > 5">
                 <button class="break">&middot;&middot;&middot;</button>
-            </ng-container> -->
+            </ng-container>
         </div>
     </ng-container>
-
-    <!-- <div class="ball-clip-rotate"><div></div></div> -->
 </div>

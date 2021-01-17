@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Models.Core;
+using CostAccounting.Services.Models.Dtos;
 using CostAccounting.Services.Models.Error;
 
 namespace CostAccounting.Services.Core
 {
     public interface IExpenseService
     {
-        IEnumerable<Expense> Get(ExpenseRequestModel request);
+        IEnumerable<ExpenseDto> Get(ExpenseRequestModel request);
         
         RepositoryResult<Expense> Create(Expense model);
 

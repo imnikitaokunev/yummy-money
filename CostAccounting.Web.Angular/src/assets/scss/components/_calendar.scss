@@ -1,3 +1,7 @@
+app-sheet {
+    min-width: 0;
+}
+
 .sheet {
     // cursor: pointer;
     width: 100%;
@@ -67,31 +71,55 @@
     &-navigation {
         font-family: "Inter";
         align-items: center;
-        margin: 1rem;
+        margin: 1rem 0;
 
-        &-year {
-            color: $primary-black;
-            font-size: 3rem;
-            font-weight: bold;
-            // user-select: none;
+        .navigation-controls {
+            &-item {
+                margin-left: 0.25rem;
+            }
         }
 
-        &-month {
-            color: $primary-black;
-            border: none;
-            background: #fff;
-            font-size: 1rem;
-            font-weight: bold;
-            margin: 0 3rem;
-            user-select: none;
-            outline: none !important;
+        .navigation-date {
+            &-year {
+                color: $primary-black;
+                font-size: 3rem;
+                font-weight: bold;
+                // user-select: none;
+            }
 
-            &:hover {
-                color: $fire;
-                // color: darken($yellow, 20%);
-                &::not(:disabled) {
-                    cursor: pointer;
+            &-month {
+                color: $primary-black;
+                border: none;
+                background: #fff;
+                font-size: 1rem;
+                font-weight: bold;
+                margin: 0 3rem;
+                user-select: none;
+                cursor: pointer;
+                outline: none !important;
+
+                &:hover {
+                    color: $fire;
+                    // color: darken($yellow, 20%);
+                    &:disabled {
+                        cursor: default;
+                    }
                 }
+            }
+        }
+
+        .navigation-statistics {
+            &-details {
+                &-item {
+                    margin: 0.125rem 0;
+                    font-size: 0.8125rem;
+                    border-bottom: 0.0625rem solid $light;
+                }
+            }
+
+            &-total {
+                padding-left: 1rem;
+                font-size: 2rem;
             }
         }
     }
@@ -106,10 +134,10 @@ $expense-line-height: 1.0625rem;
 
 $cost-margin-left: 0.25rem;
 
-.expenses {
+.notes {
     padding: $expenses-padding-y $expenses-padding-x;
 
-    .expense {
+    .note {
         display: flex;
         padding-bottom: $expense-padding-bottom;
 
@@ -126,23 +154,8 @@ $cost-margin-left: 0.25rem;
             margin-left: $cost-margin-left;
         }
 
-        &.negative .cost {
-            color: $primary-red;
-        }
-
-        &.positive .cost {
-            color: $primary-green;
-        }
-
         &-important {
             font-weight: bold;
-
-            &.negative .category {
-                color: $primary-red;
-            }
-            &.positive .category {
-                color: $primary-green;
-            }
         }
     }
 

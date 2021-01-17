@@ -11,8 +11,10 @@ export class SheetComponent implements OnInit {
     @Input() day: number;
     @Input() isToday: boolean;
     @Input() isCurrentMonth: boolean;
-    @Input() expenses: Expense[];
-    @Input() incomes: Income[];
+    @Input() expenses: Expense[] = [];
+    @Input() incomes: Income[] = [];
+
+    public readonly sheetItemsCount: number = 5;
 
     constructor() {}
 

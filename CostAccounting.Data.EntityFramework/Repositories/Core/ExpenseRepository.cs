@@ -49,7 +49,7 @@ namespace CostAccounting.Data.EntityFramework.Repositories.Core
 
             if (request.EndDate.HasValue)
             {
-                query = query.Where(x => x.Date >= request.EndDate);
+                query = query.Where(x => x.Date <= request.EndDate);
             }
 
             if (!string.IsNullOrEmpty(request.Description))

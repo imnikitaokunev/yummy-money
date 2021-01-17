@@ -1,6 +1,8 @@
-﻿using CostAccounting.Core.Entities.Core;
+﻿using System.Collections.Generic;
+using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Core;
+using CostAccounting.Services.Models.Dtos;
 using CostAccounting.Services.Models.Error;
 using Mapster;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,11 +22,7 @@ namespace CostAccounting.Web.Angular.Controllers
 
         // TODO: GetExpensesRequestModel?
         [HttpGet("")]
-        public IActionResult Get([FromQuery] ExpenseRequestModel request)
-        {
-            var expenses = _expenseService.Get(request);
-            return new ObjectResult(expenses);
-        }
+        public ActionResult<IEnumerable<ExpenseDto>> Get([FromQuery] ExpenseRequestModel request) => Ok(_expenseService.Get(request));
 
         [HttpPost("")]
         public IActionResult Create([FromBody] Expense expense)
