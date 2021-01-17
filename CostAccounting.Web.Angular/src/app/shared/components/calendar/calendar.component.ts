@@ -118,7 +118,7 @@ export class CalendarComponent implements OnInit {
         return array.filter((x) => moment(x.date).isSame(date, "day"));
     }
 
-    public originalOrder = (a: KeyValue<number, string>, b: KeyValue<number, string>): number => {
+    public originalOrder = (a: KeyValue<string, DayOfWeek>, b: KeyValue<string, DayOfWeek>): number => {
         return 0;
     };
 }
