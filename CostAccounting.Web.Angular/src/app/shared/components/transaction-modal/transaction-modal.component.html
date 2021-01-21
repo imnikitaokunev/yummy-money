@@ -1,0 +1,48 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <div class="modal-title text-success fw-bold">Income</div>
+
+        <button class="not-btn p-2 bg-light" title="Close" (click)="modal.dismiss('Cross click')">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+            <label class="label" for="inpt">Label: </label>
+            <input type="text" class="form-control form-control-sm" id="inpt" placeholder="Input..." />
+        </div>
+        <div class="mb-3">
+            <label class="label" for="textarea">Textarea: </label>
+            <textarea class="form-control form-control-sm" id="textarea" placeholder="Input..." rows="2"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="label" for="textarea">Textarea: </label>
+            <textarea class="form-control form-control-sm" id="textarea" placeholder="Input..." rows="2"></textarea>
+        </div>
+
+        <div class="d-flex mb-3">
+            <div class="col">
+                <label class="label" for="inpt1">Label: </label>
+                <input type="text" class="form-control form-control-sm" id="inpt1" placeholder="Input..." />
+            </div>
+            <div class="col">
+                <label class="label" for="inpt2">Label: </label>
+                <input type="text" class="form-control form-control-sm" id="inpt2" placeholder="Input..." />
+            </div>
+        </div>
+
+        <div>
+            <select class="form-select form-select-sm">
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer border-0 pt-0">
+        <button class="btn btn-success text-light" (click)="modal.close('Save click')">Enter income</button>
+    </div>
+</ng-template>
+
+<button class="btn btn-light" (click)="open(content)"><i class="fas fa-plus"></i></button>

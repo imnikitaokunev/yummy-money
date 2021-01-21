@@ -1,3 +1,16 @@
+input,
+label,
+select,
+textarea {
+    font-family: "Nimbus Sans D";
+}
+
+label {
+    font-size: 0.9375rem;
+    font-weight: bold;
+    color: $grey-color-3;
+}
+
 // .checkbox {
 //     position: absolute;
 //     opacity: 0;

@@ -1,9 +1,7 @@
 <div class="w-100 justify-content-center">
     <div class="calendar-navigation d-flex justify-content-between">
         <div class="navigation-controls">
-            <button class="navigation-controls-item btn btn-light" title="New Transaction">
-                <i class="fas fa-plus"></i>
-            </button>
+            <app-transaction-modal class="navigation-controls-item"></app-transaction-modal>
             <button class="navigation-controls-item btn btn-light" (click)="refresh()" title="Refresh">
                 <i class="fas fa-sync-alt"></i>
             </button>
@@ -29,7 +27,7 @@
             </div>
         </div>
 
-        <ng-container *ngIf="!isLoading; else loading">
+        <ng-template [ngIf]="!isLoading" [ngIfElse]="loading">
             <div class="calendar-content">
                 <ng-container *ngFor="let week of weeks">
                     <div class="d-flex justify-content-between">
@@ -47,10 +45,10 @@
                     </div>
                 </ng-container>
             </div>
-        </ng-container>
+        </ng-template>
 
         <ng-template #loading>
-            <div class="d-flex justify-content-center align-items-center h-100 bg-grey">
+            <div class="d-flex justify-content-center calendar-content align-items-center h-100 bg-grey">
                 <app-loading-indicator [isLoading]="isLoading"></app-loading-indicator>
             </div>
         </ng-template>

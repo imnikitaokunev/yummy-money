@@ -10,6 +10,7 @@ import { CalendarComponent } from "./components/calendar/calendar.component";
 import { LoadingIndicatorComponent } from "./components/loading-indicator/loading-indicator.component";
 import { CalendarSummaryComponent } from "./components/calendar-summary/calendar-summary.component";
 import { LoadingIndicatorSmComponent } from "./components/loading-indicator-sm/loading-indicator-sm.component";
+import { TransactionModalComponent } from './components/transaction-modal/transaction-modal.component';
 
 @NgModule({
     imports: [FormsModule, BrowserModule],
@@ -22,6 +23,7 @@ import { LoadingIndicatorSmComponent } from "./components/loading-indicator-sm/l
         LoadingIndicatorComponent,
         LoadingIndicatorSmComponent,
         CalendarSummaryComponent,
+        TransactionModalComponent,
     ],
     exports: [
         CheckboxComponent,

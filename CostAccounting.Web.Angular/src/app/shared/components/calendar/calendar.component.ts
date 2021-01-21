@@ -1,7 +1,7 @@
 import { IncomesService } from "./../../../core/services/incomes.service";
 import { ExpensesService } from "./../../../core/services/expenses.service";
 import { DayOfWeek } from "./../../models/day-of-week";
-import { Component, OnInit } from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { KeyValue } from "@angular/common";
 import { Moment } from "moment";
 import { Sheet } from "../../models/sheet";
@@ -115,6 +115,10 @@ export class CalendarComponent implements OnInit {
     }
 
     public getFromDay(array: { date: Date }[], date: Date): any[] {
+        if (!array) {
+            return [];
+        }
+
         return array.filter((x) => moment(x.date).isSame(date, "day"));
     }
 

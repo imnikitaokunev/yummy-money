@@ -1,7 +1,9 @@
 @import "abstracts/mixins";
+
 @import "components/inputs";
 @import "components/calendar";
 @import "components/loaders";
+@import "components/modal";
 
 @import "abstracts/animations";
 
@@ -16,3 +18,6 @@
 @import "font-awesome/fontawesome.scss";
 @import "font-awesome/solid.scss";
 @import "font-awesome/brands.scss";
+
+/* Importing Bootstrap SCSS file. */
+// @import "~bootstrap/scss/bootstrap";
