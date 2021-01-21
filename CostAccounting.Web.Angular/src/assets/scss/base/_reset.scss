@@ -1,0 +1,28 @@
+@import "../base/typography";
+@import "../abstracts/variables";
+
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: $primary-black;
+    // font-family: "Open Sans";
+}
+
+*::selection {
+    background-color: $blue-color-selection;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+.not-btn {
+    border: none;
+    outline: none;
+    background: #fff;
+    cursor: pointer;
+}

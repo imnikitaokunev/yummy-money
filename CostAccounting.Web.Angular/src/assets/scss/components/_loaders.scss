@@ -1,0 +1,36 @@
+@import "../abstracts/animations";
+
+$loader-width: 2.5rem;
+$loader-height: 2.5rem;
+
+.loader {
+    width: $loader-width;
+    height: $loader-height;
+
+    animation: rotate 0.625s infinite linear;
+}
+
+.rotate-loader {
+    display: inline-block;
+
+    &:after {
+        content: " ";
+        display: block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 4px solid #fff;
+        border-color: #737373 transparent #737373 transparent;
+        animation: rotate 0.625s linear infinite;
+    }
+}
+
+.ball-clip-rotate {
+    > div {
+        @include ball-clip-rotate-animation(24px, 24px, 3px);
+    }
+
+    &-large > div {
+        @include ball-clip-rotate-animation(36px, 36px, 4px);
+    }
+}

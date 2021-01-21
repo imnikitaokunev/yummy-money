@@ -1,0 +1,125 @@
+// @import "../base/typography";
+// @import "../abstracts/variables";
+
+// .form {
+//     width: 100%;
+//     min-width: 320px;
+//     user-select: none;
+//     padding: 40px 30px;
+//     background-color: $grey-color-4;
+
+//     .form-group {
+//         width: 100%;
+//         margin-bottom: 16px;
+
+//         .form-input-label {
+//             display: flex;
+//             line-height: 25px;
+//             justify-content: space-between;
+
+//             .label-text {
+//                 font-size: 14px;
+//                 font-weight: bold;
+//                 color: $grey-color-3;
+//             }
+
+//             .label-link {
+//                 font-size: 15px;
+//                 font-weight: bold;
+//                 color: $blue-color;
+//                 text-decoration: none;
+//                 justify-self: flex-end;
+//                 font-family: "Nimbus Sans D";
+//             }
+//         }
+
+//         .focused {
+//             border: 2px solid $blue-color !important;
+//         }
+
+//         .form-input {
+//             display: flex;
+//             border-radius: 3px;
+//             align-items: center;
+//             justify-content: space-between;
+//             border: 2px solid $grey-color-2;
+
+//             .form-input-password {
+//                 width: 100%;
+//                 border: none;
+//                 outline: none;
+//                 border-right: none;
+//                 padding: 0.375rem 0.75rem;
+//             }
+
+//             .form-input-username {
+//                 width: 100%;
+//                 border: none;
+//                 outline: none;
+//                 border-right: none;
+//                 padding: 0.375rem 0.75rem;
+//             }
+//         }
+//     }
+
+//     .input-checkbox {
+//         position: absolute;
+//         opacity: 0;
+
+//         & + label {
+//             position: relative;
+//             font-family: "Nimbus Sans D";
+//             font-size: 15px;
+//             display: flex;
+//             align-items: center;
+//             font-weight: bold;
+//             color: $grey-color-3;
+//             text-align: center;
+//             cursor: pointer;
+//             padding: 6px 16px;
+//         }
+//         & + label:before {
+//             align-self: center;
+//             border: 2px solid $grey-color-2;
+//             border-radius: 4px;
+//             content: "";
+//             margin-right: 10px;
+//             display: flex;
+//             vertical-align: text-top;
+//             min-width: 20px;
+//             min-height: 20px;
+//             background: white;
+//         }
+
+//         &:focus + label:before {
+//             box-shadow: 0 0 0 0.1rem rgba(99, 99, 99, 0.25);
+//         }
+
+//         &:checked + label:before {
+//             background-color: $blue-color;
+//         }
+
+//         &:disabled + label {
+//             color: $grey-color-2;
+//             cursor: auto;
+//         }
+
+//         &:disabled + label:before {
+//             cursor: auto;
+//         }
+
+//         &:checked + label:after {
+//             content: "";
+//             position: absolute;
+//             left: 24px;
+//             width: 5px;
+//             top: 10px;
+//             height: 10px;
+//             border: solid white;
+//             border-width: 0 3px 3px 0;
+//             -webkit-transform: rotate(45deg);
+//             -ms-transform: rotate(45deg);
+//             transform: rotate(45deg);
+//         }
+//     }
+// }

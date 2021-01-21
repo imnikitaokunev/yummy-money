@@ -1,0 +1,70 @@
+<ng-template [ngIf]="!isLoading" [ngIfElse]="loading">
+    <div class="navigation-statistics d-flex">
+        <div class="navigation-statistics-details">
+            <div class="navigation-statistics-details-item d-flex justify-content-between">
+                <ng-container
+                    [ngTemplateOutlet]="summaryRow"
+                    [ngTemplateOutletContext]="{
+                        Text: 'Incomes',
+                        Amount: incomesSum,
+                        Class: 'text-success',
+                        Sign: '+'
+                    }"
+                ></ng-container>
+            </div>
+            <div class="navigation-statistics-details-item d-flex justify-content-between">
+                <ng-container
+                    [ngTemplateOutlet]="summaryRow"
+                    [ngTemplateOutletContext]="{
+                        Text: 'Expenses',
+                        Amount: expensesSum,
+                        Class: 'text-danger',
+                        Sign: '-'
+                    }"
+                ></ng-container>
+            </div>
+            <div class="navigation-statistics-details-item d-flex justify-content-between">
+                <ng-container
+                    [ngTemplateOutlet]="summaryRow"
+                    [ngTemplateOutletContext]="{ Text: 'Net', Amount: net }"
+                ></ng-container>
+            </div>
+        </div>
+
+        <ng-container
+            [ngTemplateOutlet]="summaryPercent"
+            [ngTemplateOutletContext]="{ Percent: netPercent }"
+        ></ng-container>
+    </div>
+</ng-template>
+
+<ng-template #loading>
+    <div class="d-flex justify-content-center align-items-center">
+        <app-loading-indicator-sm [isLoading]="isLoading"></app-loading-indicator-sm>
+    </div>
+</ng-template>
+
+<ng-template #summaryRow let-text="Text" let-amount="Amount" let-class="Class" let-sign="Sign">
+    <div>{{ text }}</div>
+
+    <ng-template [ngIf]="amount === 0" [ngIfElse]="amountNotZero">
+        <div class="ms-3 fw-bold">{{ amount | number: "1.0-0" }}</div>
+    </ng-template>
+
+    <ng-template #amountNotZero>
+        <div class="ms-3 fw-bold" [ngClass]="class ? class : amount > 0 ? 'text-success' : 'text-danger'">
+            {{ sign ? sign : amount > 0 ? "+" : "" }}{{ amount | number: "1.0-0" }}
+        </div>
+    </ng-template>
+</ng-template>
+
+<ng-template #summaryPercent let-percent="Percent">
+    <ng-template [ngIf]="percent === 0" [ngIfElse]="percentNotZero">
+        <div class="navigation-statistics-total my-auto">{{ percent | percent }}</div>
+    </ng-template>
+    <ng-template #percentNotZero>
+        <div class="navigation-statistics-total my-auto" [ngClass]="percent > 0 ? 'text-success' : 'text-danger'">
+            {{ percent > 0 ? "+" + (percent | percent) : (percent | percent) }}
+        </div>
+    </ng-template>
+</ng-template>

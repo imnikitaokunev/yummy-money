@@ -1,5 +1,4 @@
-﻿using CostAccounting.Shared.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,12 +7,15 @@ namespace CostAccounting.Core.Entities.Membership
     public class User : Entity<Guid>
     {
         public const int EmailLength = 128;
+        public const int UsernameMinLength = 8;
+        public const int UsernameMaxLength = 128;
         public const int PasswordHashLength = 128;
         public const int PasswordSaltLength = 128;
         public const int FirstNameLength = 128;
         public const int LastNameLength = 128;
 
         public string Email { get; set; }
+        public string Username { get; set; }
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
         public string FirstName { get; set; }
@@ -43,8 +45,5 @@ namespace CostAccounting.Core.Entities.Membership
 
             return this;
         }
-
-        public bool VerifyPassword(string password) => !string.IsNullOrEmpty(password) &&
-                   PasswordHelper.ComputeHash(password, PasswordSalt) == PasswordHash;
     }
 }

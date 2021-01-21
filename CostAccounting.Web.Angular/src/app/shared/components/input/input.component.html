@@ -1,0 +1,11 @@
+<label class="label" [for]="name" [innerHTML]="label" *ngIf="label"></label>
+<input
+    class="input"
+    (focus)="onFocus($event)"
+    (focusout)="onFocus(!$event)"
+    [placeholder]="placeholder"
+    type="text"
+    [id]="name"
+    [disabled]="disabled"
+    [(ngModel)]="model"
+/>

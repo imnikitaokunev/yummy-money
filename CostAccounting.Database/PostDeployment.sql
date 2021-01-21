@@ -15,3 +15,4 @@ Post-Deployment Script Template
 :r .\Scripts\Membership\UserRoles.sql
 :r .\Scripts\Core\Categories.sql
 :r .\Scripts\Core\Expenses.sql
+:r .\Scripts\Core\Incomes.sql

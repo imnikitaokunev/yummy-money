@@ -5,6 +5,7 @@ namespace CostAccounting.Core.Models.Core
     public class ExpenseRequestModel : RequestModel
     {
         public Guid? CategoryId { get; set; }
+        public Guid? UserId { get; set; }
         
         public decimal? MinimalAmount { get; set; }
         public decimal? MaximalAmount { get; set; }
