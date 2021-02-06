@@ -1,3 +1,5 @@
+import { ModalService } from "./../../../core/services/modal.service";
+import { TransactionModalComponent } from "./../transaction-modal/transaction-modal.component";
 import { Expense } from "src/app/core/models/expense";
 import { Component, Input, OnInit } from "@angular/core";
 import { Income } from "src/app/core/models/income";
@@ -16,7 +18,11 @@ export class SheetComponent implements OnInit {
 
     public readonly sheetItemsCount: number = 5;
 
-    constructor() {}
+    constructor(private modalService: ModalService) {}
 
     ngOnInit(): void {}
+
+    public openModal(): void {
+        this.modalService.open(TransactionModalComponent, { ariaLabelledBy: "modal-basic-title" }, this);
+    }
 }

@@ -1,4 +1,8 @@
-<div [ngClass]="{ 'sheet-secondary': !isCurrentMonth, 'sheet-today': isToday }" class="sheet w-100 d-flex">
+<div
+    [ngClass]="{ 'sheet-secondary': !isCurrentMonth, 'sheet-today': isToday }"
+    class="sheet w-100 d-flex"
+    (click)="openModal()"
+>
     <div [ngClass]="{ 'sheet-secondary-title': !isCurrentMonth }" class="sheet-title">
         {{ day }}
     </div>

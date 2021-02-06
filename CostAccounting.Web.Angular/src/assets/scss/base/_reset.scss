@@ -20,9 +20,19 @@ body {
     height: 100%;
 }
 
+p {
+    padding-top: 0.25rem;
+    font-family: "Nimbus Sans D";
+    font-size: 0.9375rem;
+}
+
 .not-btn {
     border: none;
     outline: none;
     background: #fff;
     cursor: pointer;
+}
+
+textarea {
+    resize: vertical;
 }

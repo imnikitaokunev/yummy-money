@@ -26,13 +26,20 @@ $modal-header-padding: 0.75rem 1rem;
 // $input-border-width: 0.125rem;
 $input-border-width: 0.0625rem;
 $input-border-color: $borders-color;
-$input-border-radius: 0.1875rem;
-// $input-border-radius: 0;
+// $input-border-radius: 0.1875rem;
+$input-border-radius: 0;
+
+$input-border-radius-sm: 0;
+// $input-border-radius-sm: 0.1875rem;
+
 $input-focus-box-shadow: none;
 $input-focus-border-color: $primary-blue;
 
 $form-select-border-color: $borders-color;
-$form-select-border-radius: 0.1875rem;
+// $form-select-border-radius: 0.1875rem;
+$form-select-border-radius: 0;
 $form-select-focus-box-shadow: none;
 $form-select-focus-border-color: $primary-blue;
 $form-select-bg-position: right 0.5rem center;
+
+$modal-transition: transform 0.2s ease-in;

@@ -1,3 +1,15 @@
+@import "../abstracts/variables";
+
+.ng-valid.ng-touched,
+.ng-valid.ng-dirty {
+    border-color: $success; /* green */
+}
+
+.ng-touched.ng-invalid:not(form),
+.ng-dirty.ng-invalid:not(form) {
+    border-color: $primary-red; /* red */
+}
+
 // @import "../base/typography";
 // @import "../abstracts/variables";
 

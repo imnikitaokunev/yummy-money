@@ -1,3 +1,5 @@
+import { TransactionModalComponent } from "./../transaction-modal/transaction-modal.component";
+import { ModalService } from "./../../../core/services/modal.service";
 import { IncomesService } from "./../../../core/services/incomes.service";
 import { ExpensesService } from "./../../../core/services/expenses.service";
 import { DayOfWeek } from "./../../models/day-of-week";
@@ -25,7 +27,13 @@ export class CalendarComponent implements OnInit {
     public currentDate: Moment;
     public isLoading: boolean;
 
-    constructor(private expensesService: ExpensesService, private incomesService: IncomesService) {}
+    public transactionModalComponent = TransactionModalComponent;
+
+    constructor(
+        private expensesService: ExpensesService,
+        private incomesService: IncomesService,
+        private modalService: ModalService
+    ) {}
 
     ngOnInit(): void {
         this.currentDate = moment();
@@ -125,4 +133,8 @@ export class CalendarComponent implements OnInit {
     public originalOrder = (a: KeyValue<string, DayOfWeek>, b: KeyValue<string, DayOfWeek>): number => {
         return 0;
     };
+
+    public openModal(content: any) {
+        this.modalService.open(content);
+    }
 }

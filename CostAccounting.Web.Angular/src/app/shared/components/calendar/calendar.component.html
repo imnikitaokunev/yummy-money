@@ -1,7 +1,13 @@
 <div class="w-100 justify-content-center">
     <div class="calendar-navigation d-flex justify-content-between">
         <div class="navigation-controls">
-            <app-transaction-modal class="navigation-controls-item"></app-transaction-modal>
+            <button
+                class="navigation-controls-item btn btn-light"
+                (click)="openModal(transactionModalComponent)"
+                title="New Transaction"
+            >
+                <i class="fas fa-plus"></i>
+            </button>
             <button class="navigation-controls-item btn btn-light" (click)="refresh()" title="Refresh">
                 <i class="fas fa-sync-alt"></i>
             </button>
