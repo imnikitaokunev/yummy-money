@@ -16,39 +16,45 @@ variables:
 
 steps:
 
-- script: dotnet restore
+- task: DotNetCoreCLI@2
   displayName: 'Restore NuGet packages'
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
 
-- script: dotnet build --configuration $(buildConfiguration)
+- task: DotNetCoreCLI@2
   displayName: 'Build Solution'
+  inputs:
+    command: build
+    arguments: '--configuration $(buildConfiguration)'
 
 - task: Npm@1
   displayName: 'npm install'
   inputs:
-    workingDir: $(solutionName)/$(solutionName).Web.Angular
+    workingDir: $(solutionName).Web.Angular
     verbose: false
 
 - task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: custom
-    workingDir: $(solutionName)/$(solutionName).Web.Angular
+    workingDir: $(solutionName).Web.Angular
     verbose: false
     customCommand: 'run build'
 
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet publish $(buildConfiguration)'
+  displayName: 'Publish Solution'
   inputs:
     command: publish
-    publishWebProjects: True
+    publishWebProjects: true
+    projects: $(solution)
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
+    zipAfterPublish: true
 
-- task: AzureRmWebAppDeployment@4
-  displayName: 'Deploy to App Service'
+- task: AzureWebApp@1
+  displayName: 'Publish to Web App'
   inputs:
-    ConnectionType: 'AzureRM'
     azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
     appType: 'webAppLinux'
-    WebAppName: 'yummymoneytest'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    appName: 'yummymoneytest'
+    package: $(Build.ArtifactStagingDirectory)/**/*.zip
