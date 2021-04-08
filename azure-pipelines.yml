@@ -15,30 +15,34 @@ variables:
   solutionName: 'CostAccounting'
 
 steps:
-- task: NuGetToolInstaller@1
-  displayName: Install NuGet
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-    displayName: 'Restore NuGet packages'
+- script: dotnet restore
+  displayName: 'Restore NuGet packages'
 
 - script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'Build $(buildConfiguration)'
+  displayName: 'Build Solution'
 
 - task: Npm@1
-  displayName: 'Restore Angular Dependencies'
+  displayName: 'npm install'
   inputs:
     workingDir: $(solutionName)/$(solutionName).Web.Angular
     verbose: false
 
 - task: Npm@1
-  displayName: 'Build Angular'
+  displayName: 'npm run build'
   inputs:
     command: custom
     workingDir: $(solutionName)/$(solutionName).Web.Angular
     verbose: false
     customCommand: 'run build'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish $(buildConfiguration)'
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
 
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy to App Service'
