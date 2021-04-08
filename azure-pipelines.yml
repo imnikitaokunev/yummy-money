@@ -46,10 +46,10 @@ steps:
   displayName: 'Publish Solution'
   inputs:
     command: publish
-    publishWebProjects: False
+    publishWebProjects: true
     projects: $(solution)
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
+    zipAfterPublish: true
 
 - task: AzureWebApp@1
   displayName: 'Publish to Web App'
