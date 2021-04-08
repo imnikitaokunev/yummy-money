@@ -51,10 +51,10 @@ steps:
     zipAfterPublish: True
 
 - task: AzureRmWebAppDeployment@4
-  displayName: 'Deploy to App Service'
+  displayName: 'Deploy to Web App'
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
     appType: 'webAppLinux'
     WebAppName: 'yummymoneytest'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/*.zip'
