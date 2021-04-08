@@ -43,18 +43,18 @@ steps:
     customCommand: 'run build'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publish Solution'
+  displayName: 'Publish and zip'
   inputs:
-    command: 'publish'
-    publishWebProjects: True
-    arguments: '-c $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    command: publish
+    publishWebProjects: False
+    projects: $(SolutionPath)
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
 
-- task: AzureRmWebAppDeployment@4
-  displayName: 'Deploy to Web App'
+- task: AzureWebApp@1
+  displayName: 'Publish to Web App'
   inputs:
-    ConnectionType: 'AzureRM'
     azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
     appType: 'webAppLinux'
-    WebAppName: 'yummymoneytest'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/*.zip'
+    appName: 'yummymoneytest'
+    package: $(Build.ArtifactStagingDirectory)/**/*.zip
