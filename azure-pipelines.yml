@@ -19,21 +19,21 @@ steps:
   displayName: Install NuGet
 
 - task: NuGetCommand@2
+  displayName: 'Restore NuGet packages'
   inputs:
     restoreSolution: '$(solution)'
-    displayName: 'Restore NuGet packages'
 
 - script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'Build $(buildConfiguration)'
+  displayName: 'Build Solution'
 
 - task: Npm@1
-  displayName: 'Restore Angular Dependencies'
+  displayName: 'Npm install'
   inputs:
     workingDir: $(solutionName)/$(solutionName).Web.Angular
     verbose: false
 
 - task: Npm@1
-  displayName: 'Build Angular'
+  displayName: 'Npm run build'
   inputs:
     command: custom
     workingDir: $(solutionName)/$(solutionName).Web.Angular
