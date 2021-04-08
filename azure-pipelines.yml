@@ -25,24 +25,16 @@ steps:
 - task: Npm@1
   displayName: 'npm install'
   inputs:
-    workingDir: $(solutionName)/$(solutionName).Web.Angular
+    workingDir: $(solutionName).Web.Angular
     verbose: false
 
 - task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: custom
-    workingDir: $(solutionName)/$(solutionName).Web.Angular
+    workingDir: $(solutionName).Web.Angular
     verbose: false
     customCommand: 'run build'
-
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet publish $(buildConfiguration)'
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
 
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy to App Service'
