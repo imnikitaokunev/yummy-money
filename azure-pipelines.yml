@@ -16,11 +16,17 @@ variables:
 
 steps:
 
-- script: dotnet restore
+- task: DotNetCoreCLI@2
   displayName: 'Restore NuGet packages'
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
 
-- script: dotnet build --configuration $(buildConfiguration)
+- task: DotNetCoreCLI@2
   displayName: 'Build Solution'
+  inputs:
+    command: build
+    arguments: '--configuration $(buildConfiguration)'
 
 - task: Npm@1
   displayName: 'npm install'
@@ -35,6 +41,14 @@ steps:
     workingDir: $(solutionName).Web.Angular
     verbose: false
     customCommand: 'run build'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Solution'
+  inputs:
+    command: 'publish'
+    publishWebProjects: True
+    arguments: '-c $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
 
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy to App Service'
