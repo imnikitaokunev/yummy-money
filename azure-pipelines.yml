@@ -43,11 +43,11 @@ steps:
     customCommand: 'run build'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publish and zip'
+  displayName: 'Publish Solution'
   inputs:
     command: publish
     publishWebProjects: False
-    projects: $(SolutionPath)
+    projects: $(solution)
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: True
 
