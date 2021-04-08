@@ -7,7 +7,7 @@ trigger:
 - develop
 
 pool:
-  vmImage: windows-latest
+  vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: 'Debug'
@@ -15,32 +15,34 @@ variables:
   solutionName: 'CostAccounting'
 
 steps:
-- task: NuGetToolInstaller@1
-  displayName: Install NuGet
 
-- task: NuGetCommand@2
+- script: dotnet restore
   displayName: 'Restore NuGet packages'
-  inputs:
-    restoreSolution: '$(solution)'
 
-- task: VSBuild@1
+- script: dotnet build --configuration $(buildConfiguration)
   displayName: 'Build Solution'
-  inputs:
-    configuration: $(buildConfiguration)
 
 - task: Npm@1
-  displayName: 'Npm install'
+  displayName: 'npm install'
   inputs:
     workingDir: $(solutionName)/$(solutionName).Web.Angular
     verbose: false
 
 - task: Npm@1
-  displayName: 'Npm run build'
+  displayName: 'npm run build'
   inputs:
     command: custom
     workingDir: $(solutionName)/$(solutionName).Web.Angular
     verbose: false
     customCommand: 'run build'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish $(buildConfiguration)'
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
 
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy to App Service'
