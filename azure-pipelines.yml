@@ -1,0 +1,47 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: 'Debug'
+  solution: '**/*.sln'
+  solutionName: 'CostAccounting'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
+- task: Npm@1
+  displayName: 'Restore Angular Dependencies'
+  inputs:
+    workingDir: $(solutionName)/$(solutionName).Web.Angular
+    verbose: false
+
+- task: Npm@1
+  displayName: 'Build Angular'
+  inputs:
+    command: custom
+    workingDir: $(solutionName)/$(solutionName).Web.Angular
+    verbose: false
+    customCommand: 'run build'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
+    appType: 'webAppLinux'
+    WebAppName: 'yummymoneytest'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
