@@ -23,8 +23,10 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- script: VSBuild@1 --configuration $(buildConfiguration)
+- task: VSBuild@1
   displayName: 'Build Solution'
+  inputs:
+    configuration: $(buildConfiguration)
 
 - task: Npm@1
   displayName: 'Npm install'
