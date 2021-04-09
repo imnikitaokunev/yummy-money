@@ -7,7 +7,7 @@ trigger:
 - develop
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: windows-latest
 
 variables:
   buildConfiguration: 'Debug'
@@ -70,7 +70,6 @@ steps:
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
-    appType: 'webAppLinux'
-    WebAppName: 'yummymoneytest'
+    appType: 'webApp'
+    WebAppName: 'yummymoneytestwindows'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    StartupCommand: 'dotnet run --urls="http://localhost:8080"'
