@@ -48,7 +48,7 @@ steps:
     command: publish
     publishWebProjects: false
     projects: $(solution)
-    arguments: '-c $(BuildConfiguration) -o $(Build.StagingDirectory)/ci-build --no-build --self-contained -r $(runtime)'
+    arguments: '-c $(BuildConfiguration) -o $(Build.StagingDirectory)/ci-build --no-build --self-contained'
     zipAfterPublish: false
 
 # Archive the /staging/ci-build folder to /staging/RemoteData.<BuildNumber>
