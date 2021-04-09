@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using CostAccounting.Services;
 using CostAccounting.Web.Angular.Extensions;
 using CostAccounting.Web.Extensions;
@@ -30,7 +31,7 @@ namespace CostAccounting.Web.Angular
             //In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "dist";
+                configuration.RootPath = "ClientApp/dist";
             });
         }
 
@@ -57,7 +58,7 @@ namespace CostAccounting.Web.Angular
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = Directory.GetCurrentDirectory();
+                spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
                 {
