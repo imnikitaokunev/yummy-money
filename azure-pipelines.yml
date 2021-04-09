@@ -51,9 +51,18 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
+# Archive the /staging/ci-build folder to /staging/RemoteData.<BuildNumber>
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.StagingDirectory)/ci-build'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/RemoteData.$(Build.BuildNumber).zip'
+    replaceExistingArchive: true
+
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/RemoteData.$(Build.BuildNumber).zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
