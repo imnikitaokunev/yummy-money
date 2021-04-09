@@ -73,4 +73,3 @@ steps:
     appType: 'webAppLinux'
     WebAppName: 'yummymoneytest'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    StartupCommand: 'dotnet run'
