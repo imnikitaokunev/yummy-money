@@ -40,14 +40,14 @@ steps:
 - task: Npm@1
   displayName: 'npm install'
   inputs:
-    workingDir: $(Build.StagingDirectory)/ci-build/ClientApp
+    workingDir: $(Build.StagingDirectory)/ci-build/s/ClientApp
     verbose: false
 
 - task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: custom
-    workingDir: $(Build.StagingDirectory)/ci-build/ClientApp
+    workingDir: $(Build.StagingDirectory)/ci-build/s/ClientApp
     verbose: false
     customCommand: 'run build'
 
