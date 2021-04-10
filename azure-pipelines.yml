@@ -28,6 +28,20 @@ steps:
     command: build
     arguments: '--configuration $(buildConfiguration)'
 
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: $(solutionName).Web.Angular/ClientApp
+    verbose: false
+
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: custom
+    workingDir: $(solutionName).Web.Angular/ClientApp
+    verbose: false
+    customCommand: 'run build'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publish Solution'
   inputs:
@@ -36,20 +50,6 @@ steps:
     projects: $(solution)
     arguments: '-c $(BuildConfiguration) -o $(Build.StagingDirectory)/ci-build --no-build --self-contained'
     zipAfterPublish: false
-
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    workingDir: $(Build.StagingDirectory)/ci-build/s/ClientApp
-    verbose: false
-
-- task: Npm@1
-  displayName: 'npm run build'
-  inputs:
-    command: custom
-    workingDir: $(Build.StagingDirectory)/ci-build/s/ClientApp
-    verbose: false
-    customCommand: 'run build'
 
 # Archive the /staging/ci-build folder to /staging/RemoteData.<BuildNumber>
 - task: ArchiveFiles@2
@@ -73,3 +73,4 @@ steps:
     appType: 'webAppLinux'
     WebAppName: 'yummymoneytest'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
