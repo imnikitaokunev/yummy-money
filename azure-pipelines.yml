@@ -28,15 +28,6 @@ steps:
     command: build
     arguments: '--configuration $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Solution'
-  inputs:
-    command: publish
-    publishWebProjects: false
-    projects: $(solution)
-    arguments: '-c $(BuildConfiguration) -o $(Build.StagingDirectory)/ci-build --no-build --self-contained'
-    zipAfterPublish: false
-
 - task: Npm@1
   displayName: 'npm install'
   inputs:
@@ -50,6 +41,15 @@ steps:
     workingDir: $(Build.StagingDirectory)/ci-build/s/ClientApp
     verbose: false
     customCommand: 'run build'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Solution'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: $(solution)
+    arguments: '-c $(BuildConfiguration) -o $(Build.StagingDirectory)/ci-build --no-build --self-contained'
+    zipAfterPublish: false
 
 # Archive the /staging/ci-build folder to /staging/RemoteData.<BuildNumber>
 - task: ArchiveFiles@2
