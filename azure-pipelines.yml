@@ -28,6 +28,20 @@ steps:
     command: build
     arguments: '--configuration $(buildConfiguration)'
 
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: $(solutionName).Web.Angular/ClientApp
+    verbose: false
+
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: custom
+    workingDir: $(solutionName).Web.Angular/ClientApp
+    verbose: false
+    customCommand: 'run build'
+
 - task: DotNetCoreCLI@2
   displayName: 'Publish Solution'
   inputs:
