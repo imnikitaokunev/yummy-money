@@ -4,44 +4,64 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- develop
+- master
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
-  buildConfiguration: 'Debug'
+  buildConfiguration: 'Release'
   solution: '**/*.sln'
   solutionName: 'CostAccounting'
 
 steps:
-- task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
+  displayName: 'Restore NuGet packages'
   inputs:
-    restoreSolution: '$(solution)'
+    command: restore
+    projects: '$(solution)'
 
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: 'Build Solution'
+  inputs:
+    command: build
+    arguments: '--configuration $(buildConfiguration)'
 
 - task: Npm@1
-  displayName: 'Restore Angular Dependencies'
+  displayName: 'npm install'
   inputs:
-    workingDir: $(solutionName)/$(solutionName).Web.Angular
+    workingDir: $(solutionName).Web.Angular/ClientApp
     verbose: false
 
 - task: Npm@1
-  displayName: 'Build Angular'
+  displayName: 'npm run build'
   inputs:
     command: custom
-    workingDir: $(solutionName)/$(solutionName).Web.Angular
+    workingDir: $(solutionName).Web.Angular/ClientApp
     verbose: false
     customCommand: 'run build'
 
-- task: AzureRmWebAppDeployment@4
+- task: DotNetCoreCLI@2
+  displayName: 'Publish Solution'
   inputs:
-    ConnectionType: 'AzureRM'
+    command: publish
+    publishWebProjects: false
+    projects: $(solution)
+    arguments: '-c $(BuildConfiguration) -o $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: AzureRmWebAppDeployment@4
+  displayName: 'Azure App Service Deploy: yummymoneystaging'
+  inputs:
     azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
-    appType: 'webAppLinux'
-    WebAppName: 'yummymoneytest'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    appType: webAppLinux
+    WebAppName: yummymoneystaging
+    packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
+    StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'

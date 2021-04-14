@@ -17,8 +17,10 @@ namespace CostAccounting.DataGeneration
 
             const string connectionString =
                 "data source=(local);Initial Catalog=CostAccounting;Integrated Security=True;";
+            const string connectionStringTest =
+                "Server=tcp:yummymoney.database.windows.net,1433;Initial Catalog=YummyMoneyTest;Persist Security Info=False;User ID=nikitosinos1;Password=13Nikitos;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             var options = new DbContextOptionsBuilder<CostAccountingContext>();
-            options.UseSqlServer(connectionString);
+            options.UseSqlServer(connectionStringTest);
 
             var context = new CostAccountingContext(options.Options);
 
@@ -72,6 +74,10 @@ namespace CostAccounting.DataGeneration
 
                 foreach (var category in categories)
                 {
+                    category.Description = category.Description.Length > Category.DescriptionLength
+                        ? category.Description.Substring(0, Category.DescriptionLength)
+                        : category.Description;
+
                     categoryRepository.Create(category);
                 }
 

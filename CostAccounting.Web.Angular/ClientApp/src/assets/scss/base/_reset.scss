@@ -1,0 +1,38 @@
+@import "../base/typography";
+@import "../abstracts/variables";
+
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: $primary-black;
+    // font-family: "Open Sans";
+}
+
+*::selection {
+    background-color: $blue-color-selection;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+p {
+    padding-top: 0.25rem;
+    font-family: "Nimbus Sans D";
+    font-size: 0.9375rem;
+}
+
+.not-btn {
+    border: none;
+    outline: none;
+    background: #fff;
+    cursor: pointer;
+}
+
+textarea {
+    resize: vertical;
+}

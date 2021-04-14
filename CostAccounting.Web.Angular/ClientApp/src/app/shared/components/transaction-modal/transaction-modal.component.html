@@ -1,0 +1,66 @@
+<ng-container>
+    <div class="modal-header justify-content-between">
+        <div class="modal-title text-success fw-bold">Income</div>
+        <div class="d-flex">
+            <p class="fw-bold my-auto text-warning">{{ data.date | date: "MMM d, y" }}</p>
+            <button class="not-btn p-2 bg-light" title="Close" (click)="dismiss()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <form #form="ngForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body bg-grey">
+            <div>
+                <label class="label" for="amountWithDescription">Amount with description: </label>
+                <textarea
+                    required
+                    [(ngModel)]="amountWithDescription"
+                    (ngModelChange)="onChange($event)"
+                    name="amountWithDescription"
+                    #amountField="ngModel"
+                    pattern="(^[.0-9]+(\s[\D]*)*$)"
+                    class="form-control form-control-sm"
+                    id="amountWithDescription"
+                    placeholder="Amount with description..."
+                    rows="2"
+                ></textarea>
+
+                <ng-container *ngIf="amountField.invalid && (amountField.dirty || amountField.touched)">
+                    <p class="fw-bold text text-danger">Description must include amount</p>
+                </ng-container>
+
+                <p class="text-center mb-3">{{ amount }} - BYN</p>
+            </div>
+
+            <div>
+                <label for="category">Category</label>
+                <select
+                    class="form-select form-select-sm"
+                    required
+                    [(ngModel)]="category"
+                    #categoryField="ngModel"
+                    name="category"
+                    id="category"
+                >
+                    <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
+                </select>
+                <ng-container *ngIf="categoryField.invalid && (categoryField.dirty || categoryField.touched)">
+                    <p class="fw-bold text text-danger">Category is required</p>
+                </ng-container>
+            </div>
+
+            <ng-container *ngIf="isLoading">
+                <div
+                    class="d-flex justify-content-center align-items-center w-100 h-100 position-absolute bg-grey top-0 start-0"
+                >
+                    <app-loading-indicator [isLoading]="isLoading"></app-loading-indicator>
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="modal-footer border-0">
+            <button [disabled]="isLoading" type="submit" class="btn btn-success text-light">Enter income</button>
+        </div>
+    </form>
+</ng-container>
