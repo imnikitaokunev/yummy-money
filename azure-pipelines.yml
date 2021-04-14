@@ -58,10 +58,10 @@ steps:
     publishLocation: 'Container'
 
 - task: AzureRmWebAppDeployment@4
-  displayName: 'Azure App Service Deploy: yummymoneydev'
+  displayName: 'Azure App Service Deploy: yummymoneytesting'
   inputs:
     azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
     appType: webAppLinux
-    WebAppName: yummymoneydev
+    WebAppName: yummymoneytesting
     packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
     StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
