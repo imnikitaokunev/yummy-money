@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace CostAccounting.Web.Angular.Controllers
@@ -17,8 +18,8 @@ namespace CostAccounting.Web.Angular.Controllers
         [HttpGet("")]
         public IActionResult Get()
         {
-            //var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var environment = _configuration.GetValue<string>("Environment");
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            //var environment = _configuration.GetValue<string>("Environment");
 
             return new ObjectResult(environment);
         }
