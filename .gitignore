@@ -59,3 +59,5 @@ Thumbs.db
 /**/css
 /**/dist
 /БЭМ.txt
+*.css
+*.map

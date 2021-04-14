@@ -74,6 +74,10 @@ namespace CostAccounting.DataGeneration
 
                 foreach (var category in categories)
                 {
+                    category.Description = category.Description.Length > Category.DescriptionLength
+                        ? category.Description.Substring(0, Category.DescriptionLength)
+                        : category.Description;
+
                     categoryRepository.Create(category);
                 }
 
