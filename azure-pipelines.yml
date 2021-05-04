@@ -79,7 +79,7 @@ stages:
           packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
           StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
 
-- stage: DeployToTesting
+- stage: DeployToStaging
   displayName: 'Deploy to Staging'
   dependsOn: 'Build'
   jobs:
