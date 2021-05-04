@@ -10,7 +10,8 @@ trigger:
 stages:
 - stage: Build
   jobs:
-  - job: A1
+  - job: BuildAndPublish
+    displayName: 'Build and Publish'
     pool:
       vmImage: ubuntu-latest
     variables:
@@ -59,9 +60,12 @@ stages:
           ArtifactName: 'drop'
           publishLocation: 'Container'
 
-- stage: DeployTesting
+- stage: DeployToTesting
+  displayName: 'Deploy to Testing'
+  dependsOn: Build
+  condition: succeeded('Build')
   jobs:
-    - job: B1
+    - job: DeployWebApp
       steps:
       - task: AzureRmWebAppDeployment@4
         displayName: 'Azure App Service Deploy: yummymoneytesting'
@@ -69,5 +73,5 @@ stages:
           azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
           appType: webAppLinux
           WebAppName: yummymoneytesting
-          packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
+          packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
           StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
