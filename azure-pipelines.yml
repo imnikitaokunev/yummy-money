@@ -8,7 +8,7 @@ trigger:
 - master
 
 stages:
-- stage: Build and Publish
+- stage: Build
   jobs:
   - job: A1
     pool:
