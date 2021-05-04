@@ -65,19 +65,23 @@ stages:
   displayName: 'Deploy to Testing'
   dependsOn: 'Build'
   jobs:
-    - job: DeployWebApp
+    - deployment: DeployWebApp
       displayName: 'Deploy Web App'
+      environment: 'Testing'
       pool:
         vmImage: ubuntu-latest
-      steps:
-      - task: AzureRmWebAppDeployment@4
-        displayName: 'Azure App Service Deploy: yummymoneytesting'
-        inputs:
-          azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
-          appType: webAppLinux
-          WebAppName: yummymoneytesting
-          packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-          StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+      strategy:
+       runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            displayName: 'Azure App Service Deploy: yummymoneytesting'
+            inputs:
+              azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
+              appType: webAppLinux
+              WebAppName: yummymoneytesting
+              packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+              StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
 
 - stage: DeployToStaging
   displayName: 'Deploy to Staging'
