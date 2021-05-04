@@ -8,7 +8,7 @@ trigger:
 - master
 
 stages:
-- stage: Build
+- stage: 'Build and Publish'
   jobs:
   - job: A1
     pool:
@@ -59,7 +59,7 @@ stages:
           ArtifactName: 'drop'
           publishLocation: 'Container'
 
-- stage: Deploy to Testing
+- stage: 'Deploy to Testing'
   jobs:
     - job: B1
       steps:
