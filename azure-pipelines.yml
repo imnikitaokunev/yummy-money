@@ -62,10 +62,10 @@ stages:
 
 - stage: DeployToTesting
   displayName: 'Deploy to Testing'
-  dependsOn: Build
   condition: succeeded('Build')
   jobs:
     - job: DeployWebApp
+      displayName: 'Deploy Web App'
       steps:
       - task: AzureRmWebAppDeployment@4
         displayName: 'Azure App Service Deploy: yummymoneytesting'
