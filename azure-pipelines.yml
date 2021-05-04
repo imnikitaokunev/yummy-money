@@ -58,12 +58,12 @@ stages:
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
-          publishLocation: 'Container'
 
 
 - stage: DeployToTesting
   displayName: 'Deploy to Testing'
   dependsOn: 'Build'
+  condition: succeeded()
   jobs:
     - deployment: DeployWebApp
       displayName: 'Deploy Web App'
@@ -74,18 +74,22 @@ stages:
        runOnce:
         deploy:
           steps:
+          - download: current
+            artifact: drop
           - task: AzureRmWebAppDeployment@4
             displayName: 'Azure App Service Deploy: yummymoneytesting'
             inputs:
               azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
               appType: webAppLinux
               WebAppName: yummymoneytesting
-              packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
+              packageForLinux: $(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
               StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+
 
 - stage: DeployToStaging
   displayName: 'Deploy to Staging'
   dependsOn: 'Build'
+  condition: succeeded('Build')
   jobs:
     - deployment: DeployWebApp
       displayName: 'Deploy Web App'
@@ -96,12 +100,14 @@ stages:
        runOnce:
         deploy:
           steps:
+          - download: current
+            artifact: drop
           - task: AzureRmWebAppDeployment@4
             displayName: 'Azure App Service Deploy: yummymoneystaging'
             inputs:
               azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
               appType: webAppLinux
               WebAppName: yummymoneystaging
-              packageForLinux: '$(Build.ArtifactStagingDirectory)/**/**/*.zip'
+              packageForLinux: $(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
               StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
 
