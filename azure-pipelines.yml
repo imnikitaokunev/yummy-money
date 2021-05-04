@@ -83,7 +83,7 @@ stages:
               azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
               appType: webAppLinux
               WebAppName: yummymoneytesting
-              packageForLinux: $(Pipeline.Workspace)/drop/*.zip'
+              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
               StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
 
 
@@ -110,6 +110,6 @@ stages:
               azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
               appType: webAppLinux
               WebAppName: yummymoneystaging
-              packageForLinux: $(Pipeline.Workspace)/drop/*.zip'
+              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
               StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
 
