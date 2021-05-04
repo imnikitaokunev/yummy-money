@@ -60,9 +60,10 @@ stages:
           ArtifactName: 'drop'
           publishLocation: 'Container'
 
+
 - stage: DeployToTesting
   displayName: 'Deploy to Testing'
-  condition: false
+  dependsOn: 'Build'
   jobs:
     - job: DeployWebApp
       displayName: 'Deploy Web App'
@@ -77,3 +78,22 @@ stages:
           WebAppName: yummymoneytesting
           packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
           StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+
+- stage: DeployToTesting
+  displayName: 'Deploy to Staging'
+  dependsOn: 'Build'
+  jobs:
+    - job: DeployWebApp
+      displayName: 'Deploy Web App'
+      pool:
+        vmImage: ubuntu-latest
+      steps:
+      - task: AzureRmWebAppDeployment@4
+        displayName: 'Azure App Service Deploy: yummymoneystaging'
+        inputs:
+          azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
+          appType: webAppLinux
+          WebAppName: yummymoneystaging
+          packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+          StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+
