@@ -20,12 +20,11 @@ namespace CostAccounting.Web.Angular
                 {
                     var root = builder.Build();
                     var vaultName = root["KeyVault:Vault"];
-                    var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                    var keyVaultClient =
-                        new KeyVaultClient(
-                            new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-                    builder.AddAzureKeyVault($"https://{vaultName}.vault.azure.net/", keyVaultClient,
-                        new PrefixKeyVaultSecretManager());
+
+                    if (!string.IsNullOrEmpty(vaultName))
+                    {
+                        builder.AddAzureKeyVault($"https://{vaultName}.vault.azure.net/", new PrefixKeyVaultSecretManager());
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
         }
