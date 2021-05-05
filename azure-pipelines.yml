@@ -32,7 +32,7 @@ stages:
           arguments: '--configuration $(buildConfiguration)'
 
       - task: Npm@1
-        displayName: 'npm install'
+        displayName: 'npm installll'
         inputs:
           workingDir: $(solutionName).Web.Angular/ClientApp
           verbose: false
