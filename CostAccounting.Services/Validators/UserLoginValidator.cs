@@ -16,8 +16,8 @@ namespace CostAccounting.Services.Validators
         {
             _userService = userService;
 
-            RuleFor(x => x.Username).NotEmpty().WithMessage(UsernameEmptyErrorMessage).Must(ExistsInUserRepository)
-                .WithMessage(UserDoesNotExistsErrorMessage);
+            RuleFor(x => x.Username).NotEmpty().WithMessage(UsernameEmptyErrorMessage);//.Must(ExistsInUserRepository)
+               // .WithMessage(UserDoesNotExistsErrorMessage);
             RuleFor(x => x.Password).NotEmpty().WithMessage(PasswordEmptyErrorMessage);
         }
 

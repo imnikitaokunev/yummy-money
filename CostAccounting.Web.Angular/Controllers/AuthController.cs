@@ -4,9 +4,9 @@ using CostAccounting.Services.Models.Security;
 using CostAccounting.Services.Models.User;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CostAccounting.Web.Controllers
+namespace CostAccounting.Web.Angular.Controllers
 {
-    [Route("api/users")]
+    [Route("api/")]
     [ApiController]
     public class AuthController : ControllerBase
     {

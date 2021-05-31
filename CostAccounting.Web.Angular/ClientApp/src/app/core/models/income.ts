@@ -1,6 +1,7 @@
 import { Category } from "./category";
 
 export class Income {
+    id: number;
     amount: number;
     category: Category;
     date: Date;

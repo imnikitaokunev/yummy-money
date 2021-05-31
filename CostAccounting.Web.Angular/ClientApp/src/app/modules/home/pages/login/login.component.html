@@ -1,23 +1,80 @@
-<div class="login" style="display: flex; justify-content: center">
+<div class="login-form d-flex justify-content-center align-items-center">
     <div style="min-width: 500px; width: 25%">
-        <div class="form">
-            <!-- <div class="form-group">
-                <app-username-input linkText="I forgot" href="#lala" name="Username"></app-username-input>
-            </div>
-            <div class="form-group">
-                <app-password-input linkText="I forgot" href="#lala" name="Password"></app-password-input>
-            </div> -->
-            <div class="form-group">
-                <div class="d-flex align-items-center">
-                    <button class="w-50 button button-grey">Log In</button>
-                    <app-checkbox
-                        class="background-gray d-flex justify-content-center w-50"
-                        name="StayLogged"
-                        label="Stay logged in"
-                    ></app-checkbox>
+        <form (ngSubmit)="onSubmit()" #form="ngForm">
+
+            <div class="form p-4 bg-grey">
+
+                <div class="form-error mb-3 p-3 bg-pink rounded" *ngIf="errors && errors.length">
+                    <p *ngFor="let error of errors" class="fw-bold text-secondary">{{error}}</p>
                 </div>
-                <div>Help lala</div>
+
+                <div class="form-error mb-3 p-3 bg-light-green rounded" *ngIf="success">
+                    <p class="fw-bold text-secondary">You have been successfully logged in! Redirecting...</p>
+                </div>
+
+                <ng-container *ngIf="!isLoading">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <label for="username">Username:</label>
+                            <a href="#">I forgot</a>
+                        </div>
+                        <input tabindex="1" class="form-control" placeholder="Username..." type="text" name="username" id="username" required [(ngModel)]="username" #usernameField="ngModel" />
+                        
+                        <ng-container *ngIf="usernameField.invalid && (usernameField.dirty || usernameField.touched)">
+                            <p class="fw-bold text text-danger">Username is required</p>
+                        </ng-container>
+                        
+                    </div>
+    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <label for="password">Password: </label>
+                            <a href="#">I forgot</a>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <input tabindex="2" class="form-control" required [type]="showPassword ? 'text' : 'password'" id="password" name="password"
+                                placeholder="Password..." [(ngModel)]="password" #passwordField="ngModel" />
+                            <div class="form-check show-password d-flex align-items-center justify-content-center">
+                                <input novalidate class="form-check-input mt-0" type="checkbox" id="showPassword" name="showPassword" [(ngModel)]="showPassword" />
+                                <label class="form-check-label user-select-none" for="showPassword">Show</label>
+                            </div>
+                        </div>
+                        
+                        <ng-container *ngIf="passwordField.invalid && (passwordField.dirty || passwordField.touched)">
+                            <p class="fw-bold text text-danger">Password is required</p>
+                        </ng-container>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="isLoading">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 130px;">
+                        <app-loading-indicator-sm [isLoading]="isLoading"></app-loading-indicator-sm>
+                    </div>
+                </ng-container>
+
+                <div class="d-flex">
+                    <div class="w-50">
+                        <button class="btn btn-secondary w-100 fw-bold" type="submit" [disabled]="isLoading">Log In</button>
+                    </div>
+                    <div class="w-50">
+                        <div class="form-check py-2 d-flex align-items-center justify-content-center bg-dark-grey">
+                            <input novalidate class="form-check-input mt-0" type="checkbox" id="stayLoggedIn" />
+                            <label class="form-check-label ms-2 user-select-none" for="stayLoggedIn">Stay logged in</label>
+                        </div>
+                    </div>
+                </div>
+
+               
+
+                <div class="d-flex justify-content-center mt-4">
+                    <a class="secondary-link" routerLink="/register">Create an account</a>
+                    <p class="px-1 pt-0">&middot;</p>
+                    <a class="secondary-link" routerLink="/help">Trouble logging in?</a>
+                </div>
+               
             </div>
-        </div>
+        </form>
     </div>
+
+    
 </div>

@@ -10,12 +10,12 @@ namespace CostAccounting.Services.Core
     {
         IEnumerable<IncomeDto> Get(IncomeRequestModel request);
 
-        RepositoryResult<IncomeDto> Create(IncomeDto model);
+        RepositoryResult<Income> Create(Income model);
 
-        IncomeDto GetById(long id);
+        Income GetById(long id);
 
-        RepositoryResult<IncomeDto> Update(IncomeDto model);
+        RepositoryResult<Income> Update(Income model);
 
-        RepositoryResult<IncomeDto> Delete(long id);
+        RepositoryResult<Income> Delete(long id);
     }
 }

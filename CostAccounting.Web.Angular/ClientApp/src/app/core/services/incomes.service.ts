@@ -18,4 +18,12 @@ export class IncomesService {
             .get(`api/incomes?includes=Category&${queryString}`)
             .pipe(map((data: any) => data.map((x: any) => new Income(x))));
     }
+
+    public postIncome(income: Income) {
+        return this.http.post(`api/incomes`, income);
+    }
+
+    public removeIncome(id: number) {
+        return this.http.delete(`api/incomes/${id}`);
+    }
 }

@@ -1,7 +1,6 @@
-<div class="content">
-    <div class="d-flex">
-        <!-- <div class="col-2"></div> -->
-        <app-calendar class="container"></app-calendar>
-        <!-- <div class="col-2"></div> -->
+<div class="home d-flex justify-content-center align-items-center">
+    <div class="text-center">
+        <h1>Welcome to system!</h1>
+        <h3 *ngIf="!isAuthenticated()">Log in or sign in to continue.</h3>
     </div>
 </div>

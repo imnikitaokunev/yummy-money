@@ -1,11 +1,20 @@
-<label class="label" [for]="name" [innerHTML]="label" *ngIf="label"></label>
+<div class="d-flex justify-content-between" *ngIf="label">
+    <label [for]="name">{{label + ':'}}</label>
+    <div [innerHtml]="labelContent"></div>
+</div>
 <input
-    class="input"
+    class="form-control"
     (focus)="onFocus($event)"
     (focusout)="onFocus(!$event)"
     [placeholder]="placeholder"
     type="text"
     [id]="name"
+    [required]="required"
     [disabled]="disabled"
     [(ngModel)]="model"
+    #inputField="ngModel"
 />
+
+<ng-container *ngIf="inputField.invalid && (inputField.dirty || inputField.touched)">
+    <p class="fw-bold text text-danger">{{label}} is required</p>
+</ng-container>

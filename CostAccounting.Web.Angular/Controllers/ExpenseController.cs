@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using CostAccounting.Core.Entities.Core;
 using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Core;
@@ -13,7 +15,7 @@ namespace CostAccounting.Web.Angular.Controllers
 {
     [Route("api/expenses")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;
@@ -22,7 +24,13 @@ namespace CostAccounting.Web.Angular.Controllers
 
         // TODO: GetExpensesRequestModel?
         [HttpGet("")]
-        public ActionResult<IEnumerable<ExpenseDto>> Get([FromQuery] ExpenseRequestModel request) => Ok(_expenseService.Get(request));
+        public ActionResult<IEnumerable<ExpenseDto>> Get([FromQuery] ExpenseRequestModel request)
+        {
+            var userId = Request.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            request.UserId = Guid.Parse(userId);
+
+            return Ok(_expenseService.Get(request));
+        }
 
         [HttpPost("")]
         public IActionResult Create([FromBody] Expense expense)

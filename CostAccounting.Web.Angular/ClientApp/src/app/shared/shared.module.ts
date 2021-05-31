@@ -1,6 +1,7 @@
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+import { RouterModule } from "@angular/router";
 
 import { CheckboxComponent } from "./components/checkbox/checkbox.component";
 import { InputComponent } from "./components/input/input.component";

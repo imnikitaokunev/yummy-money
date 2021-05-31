@@ -1,3 +1,4 @@
+import { SheetComponent } from './../sheet/sheet.component';
 import { TransactionModalComponent } from "./../transaction-modal/transaction-modal.component";
 import { ModalService } from "./../../../core/services/modal.service";
 import { IncomesService } from "./../../../core/services/incomes.service";
@@ -135,6 +136,6 @@ export class CalendarComponent implements OnInit {
     };
 
     public openModal(content: any) {
-        this.modalService.open(content);
+        this.modalService.open(content, { ariaLabelledBy: "modal-basic-title" }, new SheetComponent(this.modalService));
     }
 }

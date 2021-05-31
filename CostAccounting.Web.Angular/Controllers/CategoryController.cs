@@ -4,13 +4,15 @@ using CostAccounting.Core.Models.Core;
 using CostAccounting.Services.Core;
 using CostAccounting.Services.Models.Error;
 using Mapster;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CostAccounting.Web.Angular.Controllers
 {
     [Route("api/categories")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;

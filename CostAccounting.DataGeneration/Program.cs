@@ -22,7 +22,7 @@ namespace CostAccounting.DataGeneration
             const string connectionStringStaging =
                 "Server=tcp:yummymoney.database.windows.net,1433;Initial Catalog=yummymoneystaging;Persist Security Info=False;User ID=nikitosinos1;Password=13Nikitos;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             var options = new DbContextOptionsBuilder<CostAccountingContext>();
-            options.UseSqlServer(connectionStringTesting);
+            options.UseSqlServer(connectionString);
 
             var context = new CostAccountingContext(options.Options);
 
@@ -100,7 +100,7 @@ namespace CostAccounting.DataGeneration
                     .RuleFor(x => x.Category, x => categoryFaker)
                     .RuleFor(x => x.Amount, x => x.Finance.Amount(1, 2048))
                     .RuleFor(x => x.Date, x => x.Date.Between(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1)))
-                    .RuleFor(x => x.UserId, x => new Guid("2401D127-BB14-4E59-8FE8-34322355FA37"))
+                    .RuleFor(x => x.UserId, x => new Guid("d8d3b441-b5b8-eb11-8777-c83dd4f6a363"))
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription());
 
                 var expenses = expenseFaker.GenerateLazy(count);
@@ -137,7 +137,7 @@ namespace CostAccounting.DataGeneration
                     .RuleFor(x => x.Category, x => categoryFaker)
                     .RuleFor(x => x.Amount, x => x.Finance.Amount(1, 2048))
                     .RuleFor(x => x.Date, x => x.Date.Between(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1)))
-                    .RuleFor(x => x.UserId, x => new Guid("2401D127-BB14-4E59-8FE8-34322355FA37"))
+                    .RuleFor(x => x.UserId, x => new Guid("d8d3b441-b5b8-eb11-8777-c83dd4f6a363"))
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription());
 
                 var incomes = incomeFaker.GenerateLazy(count);

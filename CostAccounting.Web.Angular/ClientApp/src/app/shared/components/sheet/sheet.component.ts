@@ -9,7 +9,7 @@ import { Income } from "src/app/core/models/income";
     templateUrl: "sheet.component.html",
 })
 export class SheetComponent implements OnInit {
-    @Input() date: Date;
+    @Input() date: Date = new Date(Date.now());
     @Input() day: number;
     @Input() isToday: boolean;
     @Input() isCurrentMonth: boolean;
