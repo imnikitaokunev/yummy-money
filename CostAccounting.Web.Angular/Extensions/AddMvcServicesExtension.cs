@@ -6,7 +6,6 @@ using CostAccounting.Services.Membership;
 using CostAccounting.Services.Security;
 using CostAccounting.Services.Settings;
 using CostAccounting.Web.Angular.Filters;
-using CostAccounting.Web.Filters;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;

@@ -56,5 +56,28 @@ namespace CostAccounting.Shared
 
             throw new ArgumentException(violationMessage, argumentName);
         }
+
+        /// <summary>
+        ///     Throws <see cref="System.ArgumentException" /> if the given string is null or empty.
+        /// </summary>
+        /// <param name="value">String value to test.</param>
+        /// <param name="argumentName">Name of the argument being tested (optional).</param>
+        /// <exception cref="System.ArgumentException">
+        ///     <paramref name="value" /> is null or empty>.
+        /// </exception>
+        public static void NotNullOrEmpty(string value, string argumentName = "")
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(argumentName))
+            {
+                throw new ArgumentException();
+            }
+
+            throw new ArgumentException("Must be not null or empty", argumentName);
+        }
     }
 }

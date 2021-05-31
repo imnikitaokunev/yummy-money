@@ -1,15 +1,12 @@
-using System;
-using System.IO;
-using System.Reflection;
 using CostAccounting.Services;
 using CostAccounting.Web.Angular.Extensions;
 using CostAccounting.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace CostAccounting.Web.Angular
 {
@@ -36,8 +33,12 @@ namespace CostAccounting.Web.Angular
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger logger)
         {
+            logger.Information("Application started");
+            logger.Information($"Hosting environment - {env.EnvironmentName}");
+            logger.Information($"Logging level - {_configuration["Serilog:MinimumLevel:Default"]}");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

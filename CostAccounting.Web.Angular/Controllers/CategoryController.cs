@@ -12,7 +12,7 @@ namespace CostAccounting.Web.Angular.Controllers
 {
     [Route("api/categories")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;

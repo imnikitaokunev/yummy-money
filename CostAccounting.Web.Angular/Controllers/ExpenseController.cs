@@ -15,7 +15,7 @@ namespace CostAccounting.Web.Angular.Controllers
 {
     [Route("api/expenses")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "User")]
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;
