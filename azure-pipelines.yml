@@ -30,6 +30,14 @@ stages:
         inputs:
           command: build
           arguments: '--configuration $(buildConfiguration)'
+      
+      - task: DotNetCoreCLI@2
+        displayName: Test
+        inputs:
+          command: test
+          projects: '$(solution)'
+          arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true'
+          workingDirectory: $(Build.SourcesDirectory)
 
       - task: Npm@1
         displayName: 'npm install'
