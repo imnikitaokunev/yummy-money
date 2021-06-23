@@ -39,6 +39,11 @@ stages:
           publishTestResults: true
           arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
 
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish Code Coverage results'
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '**/*coverage.cobertura.xml'
 
 
       - task: Npm@1
