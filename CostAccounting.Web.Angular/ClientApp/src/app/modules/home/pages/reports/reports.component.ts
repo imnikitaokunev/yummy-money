@@ -1,3 +1,4 @@
+import { ReportService } from './../../../../core/services/report.service';
 import { Component, OnInit } from "@angular/core";
 import * as moment from "moment";
 import { Moment } from "moment";
@@ -8,6 +9,7 @@ import { ChartDataSets, ChartOptions, ChartType } from "chart.js";
 import * as pluginDataLabels from "chartjs-plugin-datalabels";
 import { Expense } from "src/app/core/models/expense";
 import { Income } from "src/app/core/models/income";
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: "app-home",
@@ -30,11 +32,14 @@ export class ReportsComponent implements OnInit {
   public isYearLoading: boolean;
   public isMonthsLoading: boolean;
 
+  public yearExpenses: Expense[] = [];
+
   public monthLabels: Label[] = [];
 
   constructor(
     private expensesService: ExpensesService,
-    private incomesService: IncomesService
+    private incomesService: IncomesService,
+    private reportService: ReportService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +66,7 @@ export class ReportsComponent implements OnInit {
         endDate: moment().year(year).endOf("year").toDate(),
       })
       .subscribe((data) => {
+        this.yearExpenses = data;
         this.yearExpensesSum = this.getArraySum(data);
         this.incomesService
           .getIncomes({
@@ -208,4 +214,20 @@ export class ReportsComponent implements OnInit {
 
     return months.reverse();
   }
+
+  public download(): void {
+    this.reportService.download(this.yearExpenses).subscribe((response) => {
+        console.log(response);
+        //this.downLoadFile(response, "application/pdf");
+    });
+  }
+
+  downLoadFile(data: any, type: string) {
+        let blob = new Blob([data], { type: type});
+        let url = window.URL.createObjectURL(blob);
+        let pwa = window.open(url);
+        if (!pwa || pwa.closed || typeof pwa.closed == 'undefined') {
+            alert( 'Please disable your Pop-up blocker and try again.');
+        }
+    }
 }
