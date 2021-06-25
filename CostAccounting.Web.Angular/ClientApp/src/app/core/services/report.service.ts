@@ -5,11 +5,12 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
     providedIn: "root",
 })
 export class ReportService {
-    private url = 'https://localhost:44354/api/reports';
+    private url = 'https://yummymoneyrtporting.azurewebsites.net/weatherforecast';
 
     constructor(private http: HttpClient) {}
 
     public download(data: any[]) {
-        return this.http.post(`${this.url}`, data, {responseType: 'blob'});
+        return this.http.get(`${this.url}`);
+        //return this.http.post(`${this.url}`, data, {responseType: 'blob'});
     }
 }
