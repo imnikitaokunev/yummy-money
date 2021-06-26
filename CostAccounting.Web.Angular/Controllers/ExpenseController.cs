@@ -41,7 +41,7 @@ namespace CostAccounting.Web.Angular.Controllers
 
             if (!result.Success)
             {
-                return BadRequest(result.Adapt<RepositoryFailedResponse>());
+                return BadRequest();
             }
 
             return CreatedAtAction("Create", result.Target);

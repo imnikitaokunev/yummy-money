@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.errors = Object.keys(error.error.errors).map(function (key) {
+        this.errors = Object.keys(error?.error?.errors).map(function (key) {
           var value = error.error.errors[key];
           return `${key}: ${value}`;
         });
