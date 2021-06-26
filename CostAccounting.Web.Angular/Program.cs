@@ -51,7 +51,7 @@ namespace CostAccounting.Web.Angular
                     configuration.Enrich.FromLogContext()
                         .Enrich.WithMachineName()
                         .WriteTo.Console()
-                        .WriteTo.AzureBlobStorage(blobStorageConnectionString,
+                        .WriteTo.AzureBlobStorage(blobStorageConnectionString, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss}|{Level} => UserId:{UserId} => RequestId:{RequestId} => RequestPath:{RequestPath} => {SourceContext}{NewLine}    {Message}{NewLine}{Exception}",
                             storageContainerName:
                             $"{applicationName}-{context.HostingEnvironment.EnvironmentName.ToLower().Replace('.', '-')}",
                             storageFileName:
