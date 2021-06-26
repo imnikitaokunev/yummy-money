@@ -106,7 +106,7 @@ stages:
 - stage: DeployToStaging
   displayName: 'Deploy to Staging'
   dependsOn: 'Build'
-  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.Reason'], 'Manual'))
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
   jobs:
     - deployment: DeployWebApp
       displayName: 'Deploy Web App'
