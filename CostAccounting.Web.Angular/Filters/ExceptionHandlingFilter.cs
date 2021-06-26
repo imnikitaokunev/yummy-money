@@ -1,6 +1,11 @@
-﻿using System.Net;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net;
+using System.Security.Claims;
+using CostAccounting.Core.Entities.Membership;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
+using Serilog.Context;
 
 namespace CostAccounting.Web.Angular.Filters
 {
@@ -18,7 +23,10 @@ namespace CostAccounting.Web.Angular.Filters
             var code = HttpStatusCode.InternalServerError; // 500 if unexpected
             var exception = context.Exception;
 
-            _logger.Error(exception, "An error occurred");
+            using (LogContext.PushProperty("UserId", context.HttpContext.User.Claims.FirstOrDefault(x => x.Type == "id")))
+            {
+                _logger.Error(exception, "An error occurred");
+            }
 
             context.ExceptionHandled = true;
 
