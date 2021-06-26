@@ -44,7 +44,11 @@ export class LoginComponent implements OnInit {
         }, 3000);
       },
       (error) => {
-        this.errors = error.error.errors;
+        let err = error?.error?.errors;
+        if(!err || !err.length){
+          err = ["Unknown error"];
+        }
+        this.errors = err;
         this.isLoading = false;
       }
     );
