@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { TransactionsComponent } from "./pages/transactions/transactions.component";
 import { HelpComponent } from "./pages/help/help.component";
@@ -12,7 +13,7 @@ import { RegisterComponent } from "./pages/register/register.component";
 import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, FormsModule, BrowserModule, ChartsModule],
+  imports: [CommonModule, SharedModule, FormsModule, BrowserModule, ChartsModule, RouterModule],
   declarations: [
     HomeComponent,
     TransactionsComponent,
