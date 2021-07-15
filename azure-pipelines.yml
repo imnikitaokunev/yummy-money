@@ -4,64 +4,128 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
+- develop
 - master
 
-pool:
-  vmImage: ubuntu-latest
+stages:
+- stage: Build
+  jobs:
+  - job: BuildAndPublish
+    displayName: 'Build and Publish'
+    pool:
+      vmImage: ubuntu-latest
+    variables:
+      buildConfiguration: 'Release'
+      solution: '**/*.sln'
+      solutionName: 'CostAccounting'
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Restore NuGet packages'
+        inputs:
+          command: restore
+          projects: '$(solution)'
 
-variables:
-  buildConfiguration: 'Release'
-  solution: '**/*.sln'
-  solutionName: 'CostAccounting'
+      - task: DotNetCoreCLI@2
+        displayName: 'Build Solution'
+        inputs:
+          command: build
+          arguments: '--configuration $(buildConfiguration)'
 
-steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Run Tests'
+        inputs:
+          command: test
+          projects: '$(solution)'
+          publishTestResults: true
+          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Restore NuGet packages'
-  inputs:
-    command: restore
-    projects: '$(solution)'
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish Code Coverage results'
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '**/*coverage.cobertura.xml'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build Solution'
-  inputs:
-    command: build
-    arguments: '--configuration $(buildConfiguration)'
 
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    workingDir: $(solutionName).Web.Angular/ClientApp
-    verbose: false
+      - task: Npm@1
+        displayName: 'npm install'
+        inputs:
+          workingDir: $(solutionName).Web.Angular/ClientApp
+          verbose: false
 
-- task: Npm@1
-  displayName: 'npm run build'
-  inputs:
-    command: custom
-    workingDir: $(solutionName).Web.Angular/ClientApp
-    verbose: false
-    customCommand: 'run build'
+      - task: Npm@1
+        displayName: 'npm run build'
+        inputs:
+          command: custom
+          workingDir: $(solutionName).Web.Angular/ClientApp
+          verbose: false
+          customCommand: 'run build'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish Solution'
-  inputs:
-    command: publish
-    publishWebProjects: false
-    projects: $(solution)
-    arguments: '-c $(BuildConfiguration) -o $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish Solution'
+        inputs:
+          command: publish
+          publishWebProjects: false
+          projects: $(solution)
+          arguments: '-c $(BuildConfiguration) -o $(Build.ArtifactStagingDirectory)'
+          zipAfterPublish: true
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
 
-- task: AzureRmWebAppDeployment@4
-  displayName: 'Azure App Service Deploy: yummymoneystaging'
-  inputs:
-    azureSubscription: 'Azure для учащихся(a2d3390a-65d3-4ab5-ae8f-bcde01e26873)'
-    appType: webAppLinux
-    WebAppName: yummymoneystaging
-    packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
-    StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+
+- stage: DeployToTesting
+  displayName: 'Deploy to Testing'
+  dependsOn: 'Build'
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
+  jobs:
+    - deployment: DeployWebApp
+      displayName: 'Deploy Web App'
+      environment: 'Testing'
+      pool:
+        vmImage: ubuntu-latest
+      strategy:
+       runOnce:
+        deploy:
+          steps:
+          - download: current
+            displayName: 'Download Artifact'
+            artifact: drop
+          - task: AzureRmWebAppDeployment@4
+            displayName: 'Azure App Service Deploy: yummymoneytesting'
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
+              appType: 'webAppLinux'
+              WebAppName: 'yummymoneytesting'
+              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
+              StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+
+
+- stage: DeployToStaging
+  displayName: 'Deploy to Staging'
+  dependsOn: 'Build'
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
+  jobs:
+    - deployment: DeployWebApp
+      displayName: 'Deploy Web App'
+      environment: 'Staging'
+      pool:
+        vmImage: ubuntu-latest
+      strategy:
+       runOnce:
+        deploy:
+          steps:
+          - download: current
+            displayName: 'Download Artifact'
+            artifact: drop
+          - task: AzureRmWebAppDeployment@4
+            displayName: 'Azure App Service Deploy: yummymoneytesting'
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
+              appType: 'webAppLinux'
+              WebAppName: 'yummymoneytesting'
+              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
+              StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
