@@ -85,7 +85,7 @@ stages:
 - stage: DeployToTesting
   displayName: 'Deploy to Testing'
   dependsOn: 'Build'
-  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
   jobs:
     - deployment: DeployWebApp
       displayName: 'Deploy Web App'
@@ -104,7 +104,7 @@ stages:
               azureSubscription: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
               scriptType: 'pscore'
               scriptLocation: 'inlineScript'
-              inlineScript: 'az storage blob upload-batch --account-name yummymoneywebapp -s dist -d "`$web"'
+              inlineScript: 'az storage blob upload-batch --account-name yummymoneywebapp -s . -d "`$web"'
 
 
 # - stage: DeployToStaging
