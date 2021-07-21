@@ -85,7 +85,7 @@ stages:
 - stage: DeployToTesting
   displayName: 'Deploy to Testing'
   dependsOn: 'Build'
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
+  condition: and(succeeded())
   jobs:
     - deployment: DeployWebApp
       displayName: 'Deploy Web App'
