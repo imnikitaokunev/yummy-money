@@ -99,13 +99,12 @@ stages:
           - download: current
             displayName: 'Download Artifact'
             artifact: dist
-          - task: AzureFileCopy@4
+          - task: AzureCLI@2
             inputs:
-              SourcePath: 'dist'
               azureSubscription: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
-              Destination: 'AzureBlob'
-              storage: 'yummymoneywebapp'
-              ContainerName: '$web'
+              scriptType: 'pscore'
+              scriptLocation: 'inlineScript'
+              inlineScript: 'az storage blob upload-batch -d "$web" --account-name "yummymoneywebapp" -s "dist"'
 
 
 # - stage: DeployToStaging
