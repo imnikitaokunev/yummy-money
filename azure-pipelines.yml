@@ -75,58 +75,58 @@ stages:
           ArtifactName: 'drop'
 
 
-- stage: DeployToTesting
-  displayName: 'Deploy to Testing'
-  dependsOn: 'Build'
-  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
-  jobs:
-    - deployment: DeployWebApp
-      displayName: 'Deploy Web App'
-      environment: 'Testing'
-      pool:
-        vmImage: ubuntu-latest
-      strategy:
-       runOnce:
-        deploy:
-          steps:
-          - download: current
-            displayName: 'Download Artifact'
-            artifact: drop
-          - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: yummymoneytesting'
-            inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
-              appType: 'webAppLinux'
-              WebAppName: 'yummymoneytesting'
-              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
-              StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+# - stage: DeployToTesting
+#   displayName: 'Deploy to Testing'
+#   dependsOn: 'Build'
+#   condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
+#   jobs:
+#     - deployment: DeployWebApp
+#       displayName: 'Deploy Web App'
+#       environment: 'Testing'
+#       pool:
+#         vmImage: ubuntu-latest
+#       strategy:
+#        runOnce:
+#         deploy:
+#           steps:
+#           - download: current
+#             displayName: 'Download Artifact'
+#             artifact: drop
+#           - task: AzureRmWebAppDeployment@4
+#             displayName: 'Azure App Service Deploy: yummymoneytesting'
+#             inputs:
+#               ConnectionType: 'AzureRM'
+#               azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
+#               appType: 'webAppLinux'
+#               WebAppName: 'yummymoneytesting'
+#               packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
+#               StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
 
 
-- stage: DeployToStaging
-  displayName: 'Deploy to Staging'
-  dependsOn: 'Build'
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
-  jobs:
-    - deployment: DeployWebApp
-      displayName: 'Deploy Web App'
-      environment: 'Staging'
-      pool:
-        vmImage: ubuntu-latest
-      strategy:
-       runOnce:
-        deploy:
-          steps:
-          - download: current
-            displayName: 'Download Artifact'
-            artifact: drop
-          - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: yummymoneytesting'
-            inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
-              appType: 'webAppLinux'
-              WebAppName: 'yummymoneytesting'
-              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
-              StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+# - stage: DeployToStaging
+#   displayName: 'Deploy to Staging'
+#   dependsOn: 'Build'
+#   condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
+#   jobs:
+#     - deployment: DeployWebApp
+#       displayName: 'Deploy Web App'
+#       environment: 'Staging'
+#       pool:
+#         vmImage: ubuntu-latest
+#       strategy:
+#        runOnce:
+#         deploy:
+#           steps:
+#           - download: current
+#             displayName: 'Download Artifact'
+#             artifact: drop
+#           - task: AzureRmWebAppDeployment@4
+#             displayName: 'Azure App Service Deploy: yummymoneytesting'
+#             inputs:
+#               ConnectionType: 'AzureRM'
+#               azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
+#               appType: 'webAppLinux'
+#               WebAppName: 'yummymoneytesting'
+#               packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
+#               StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
 
