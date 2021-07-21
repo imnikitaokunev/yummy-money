@@ -82,29 +82,29 @@ stages:
           ArtifactName: 'drop'
 
 
-- stage: DeployToTesting
-  displayName: 'Deploy to Testing'
-  dependsOn: 'Build'
-  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
-  jobs:
-    - deployment: DeployWebApp
-      displayName: 'Deploy Web App'
-      environment: 'Testing'
-      pool:
-        vmImage: ubuntu-latest
-      strategy:
-       runOnce:
-        deploy:
-          steps:
-          - download: current
-            displayName: 'Download Artifact'
-            artifact: dist
-          - task: AzureCLI@2
-            inputs:
-              azureSubscription: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
-              scriptType: 'pscore'
-              scriptLocation: 'inlineScript'
-              inlineScript: 'az storage blob upload-batch --account-name yummymoneywebapp -d "`$web"'
+# - stage: DeployToTesting
+#   displayName: 'Deploy to Testing'
+#   dependsOn: 'Build'
+#   condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
+#   jobs:
+#     - deployment: DeployWebApp
+#       displayName: 'Deploy Web App'
+#       environment: 'Testing'
+#       pool:
+#         vmImage: ubuntu-latest
+#       strategy:
+#        runOnce:
+#         deploy:
+#           steps:
+#           - download: current
+#             displayName: 'Download Artifact'
+#             artifact: dist
+#           - task: AzureCLI@2
+#             inputs:
+#               azureSubscription: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
+#               scriptType: 'pscore'
+#               scriptLocation: 'inlineScript'
+#               inlineScript: 'az storage blob upload-batch --account-name yummymoneywebapp -d "`$web"'
 
 
 # - stage: DeployToStaging
