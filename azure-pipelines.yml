@@ -102,7 +102,7 @@ stages:
           - task: AzureCLI@2
             inputs:
               azureSubscription: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
-              scriptType: 'pscore'
+              scriptType: 'ps'
               scriptLocation: 'inlineScript'
               inlineScript: 'az storage blob upload-batch -d "$web" --account-name "yummymoneywebapp" -s "dist"'
 
