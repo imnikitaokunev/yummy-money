@@ -82,33 +82,30 @@ stages:
           ArtifactName: 'drop'
 
 
-# - stage: DeployToTesting
-#   displayName: 'Deploy to Testing'
-#   dependsOn: 'Build'
-#   condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
-#   jobs:
-#     - deployment: DeployWebApp
-#       displayName: 'Deploy Web App'
-#       environment: 'Testing'
-#       pool:
-#         vmImage: ubuntu-latest
-#       strategy:
-#        runOnce:
-#         deploy:
-#           steps:
-#           - download: current
-#             displayName: 'Download Artifact'
-#             artifact: dist
-#           - task: AzureRmWebAppDeployment@4
-#             displayName: 'Azure App Service Deploy: yummymoneytesting'
-#             inputs:
-#               ConnectionType: 'AzureRM'
-#               azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
-#               appType: 'webAppLinux'
-#               WebAppName: 'yummymoneytesting'
-#               packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
-#               StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
-#           - task: 
+- stage: DeployToTesting
+  displayName: 'Deploy to Testing'
+  dependsOn: 'Build'
+  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
+  jobs:
+    - deployment: DeployWebApp
+      displayName: 'Deploy Web App'
+      environment: 'Testing'
+      pool:
+        vmImage: ubuntu-latest
+      strategy:
+       runOnce:
+        deploy:
+          steps:
+          - download: current
+            displayName: 'Download Artifact'
+            artifact: dist
+          - task: AzureFileCopy@4
+            inputs:
+              SourcePath: 'dist'
+              azureSubscription: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
+              Destination: 'AzureBlob'
+              storage: 'yummymoneywebapp'
+              ContainerName: '$web'
 
 
 # - stage: DeployToStaging
