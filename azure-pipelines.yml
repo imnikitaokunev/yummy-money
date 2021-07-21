@@ -60,6 +60,13 @@ stages:
           verbose: false
           customCommand: 'run build'
 
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish dist'
+        inputs:
+          PathtoPublish: '$(solutionName).Web.Angular/ClientApp/dist'
+          ArtifactName: 'dist'
+          publishLocation: 'Container'
+
       - task: DotNetCoreCLI@2
         displayName: 'Publish Solution'
         inputs:
@@ -91,7 +98,7 @@ stages:
 #           steps:
 #           - download: current
 #             displayName: 'Download Artifact'
-#             artifact: drop
+#             artifact: dist
 #           - task: AzureRmWebAppDeployment@4
 #             displayName: 'Azure App Service Deploy: yummymoneytesting'
 #             inputs:
@@ -101,6 +108,7 @@ stages:
 #               WebAppName: 'yummymoneytesting'
 #               packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
 #               StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+#           - task: 
 
 
 # - stage: DeployToStaging
