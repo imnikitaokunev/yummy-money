@@ -104,7 +104,7 @@ stages:
               azureSubscription: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
               scriptType: 'ps'
               scriptLocation: 'inlineScript'
-              inlineScript: 'az storage blob upload-batch -d "$web" --account-name "yummymoneywebapp" -s "dist"'
+              inlineScript: 'az storage blob upload-batch --account-name yummymoneywebapp -s dist -d $web'
 
 
 # - stage: DeployToStaging
