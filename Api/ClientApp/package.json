@@ -6,7 +6,7 @@
     "start": "ng serve",
     "start development": "ng serve -c dev",
     "build": "ng build",
-    "build-production": "ng build --prod",
+    "build-prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
