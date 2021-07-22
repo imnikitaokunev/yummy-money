@@ -20,10 +20,6 @@ variables:
     value: 'yummymoneyastesting'
   - name: blobStorageName
     value: 'yummymoneywebapp'
-  - name: angularEnvironment
-    value:
-      ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}: 'testing'
-      ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}: 'staging'
 
 trigger:
 - develop
@@ -76,7 +72,7 @@ stages:
           command: custom
           workingDir: $(webProjectName)/ClientApp
           verbose: false
-          customCommand: 'run build-${angularEnvironment}'
+          customCommand: 'run build-production'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish dist'
@@ -102,6 +98,8 @@ stages:
 
 
 - stage: DeployToTesting
+  variables: 
+    - group: 'webAppTesting'
   displayName: 'Deploy to Testing'
   dependsOn: 'Build'
   condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
@@ -130,6 +128,18 @@ stages:
           - download: current
             displayName: 'Download Web App Artifact'
             artifact: dist
+          - task: replacetokens@3
+            inputs:
+              targetFiles: '$(Pipeline.Workspace)/dist/**/main*.js'
+              encoding: 'auto'
+              writeBOM: true
+              verbosity: 'detailed'
+              actionOnMissing: 'warn'
+              keepToken: false
+              tokenPrefix: '#{'
+              tokenSuffix: '}#'
+              useLegacyPattern: false
+              enableTelemetry: true
           - task: AzureCLI@2
             displayName: 'Publish Web App'
             inputs:
