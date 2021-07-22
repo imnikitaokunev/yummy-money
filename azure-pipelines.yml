@@ -13,7 +13,7 @@ variables:
   - name: solutionName
     value: 'CostAccounting'
   - name: webProjectName
-    value: CostAccounting.Web.Angular
+    value: Api
   - name: azureSubscription
     value: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
   - name: apiWebAppName
