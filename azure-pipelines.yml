@@ -32,10 +32,6 @@ stages:
     displayName: 'Build and Publish'
     pool:
       vmImage: $(vmImage)
-    variables:
-      buildConfiguration: $(buildConfiguration)
-      solution: $(solution)
-      solutionName: $(solutionName)
     steps:
       - task: DotNetCoreCLI@2
         displayName: 'Restore NuGet packages'
