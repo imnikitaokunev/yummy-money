@@ -43,7 +43,7 @@
                 }
               ]
             },
-            "prod": {
+            "production": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -81,8 +81,8 @@
             "dev": {
               "browserTarget": "yummymoney:build:dev"
             },
-            "prod": {
-              "browserTarget": "yummymoney:build:prod"
+            "production": {
+              "browserTarget": "yummymoney:build:production"
             }
           }
         },
