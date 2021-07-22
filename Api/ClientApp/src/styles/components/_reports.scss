@@ -1,0 +1,22 @@
+@import "../abstracts/variables";
+@import "../base/typography";
+
+.reports {
+  &-title {
+    font-family: "Nimbus Sans D";
+    font-size: 1rem;
+  }
+
+  &-subtitle {
+    font-family: "Nimbus Sans D";
+    font-size: 1.125rem;
+  }
+
+  &-amount {
+    font-family: "Nimbus Sans D";
+  }
+
+  &-year {
+    height: 68px;
+  }
+}

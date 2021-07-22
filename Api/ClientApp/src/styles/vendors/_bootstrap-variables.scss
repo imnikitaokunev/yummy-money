@@ -1,0 +1,97 @@
+@import "../abstracts/variables";
+
+$large: 992px;
+
+// $navbar-padding-y: 0;
+
+// $nav-link-padding-y: 0.5rem;
+// $nav-link-padding-x: 0;
+
+// $navbar-nav-link-padding-x: 0;
+
+// $link-color: $primary-grey;
+// $link-hover-color: $primary-blue;
+
+// $navbar-light-color: $primary-color;
+// $navbar-light-hover-color: $primary-blue;
+// $navbar-light-active-color: $primary-blue;
+// $navbar-light-disabled-color: $secondary-grey;
+
+$danger: $primary-red;
+$success: $primary-green;
+$badge-font-size: 0.8125rem;
+$badge-padding-y: 0;
+$badge-padding-x: 0.125rem;
+
+$modal-header-padding: 0.75rem 1rem;
+
+// $input-border-width: 0.125rem;
+$input-border-width: 0.0625rem;
+$input-border-color: $borders-color;
+// $input-border-radius: 0.1875rem;
+$input-border-radius: 0;
+
+$input-border-radius-sm: 0;
+// $input-border-radius-sm: 0.1875rem;
+
+$input-focus-box-shadow: none;
+$input-focus-border-color: $primary-blue;
+
+$form-select-border-color: $borders-color;
+// $form-select-border-radius: 0.1875rem;
+$form-select-border-radius: 0;
+$form-select-focus-box-shadow: none;
+$form-select-focus-border-color: $primary-blue;
+$form-select-bg-position: right 0.5rem center;
+
+$modal-transition: transform 0.2s ease-in;
+
+// buttons
+
+$btn-padding-y: 0.3rem;
+
+
+// form-check
+
+$form-check-padding-start: 0;
+$form-check-margin-bottom: 0;
+$form-check-input-width: 1.25em;
+$form-check-input-border: 2px solid $borders-color;
+$form-check-input-border-radius: 4px;
+$form-check-input-checked-bg-color: $primary-blue;
+$form-check-input-focus-box-shadow: 0 0 0 0.125rem $blue-color2;
+
+
+
+
+
+
+// Header
+
+$navbar-light-brand-color: $primary-black;
+$navbar-light-brand-hover-color: $primary-black;
+$navbar-light-color: $primary-black;
+$navbar-light-hover-color: $primary;
+$navbar-light-active-color: $primary;
+
+$navbar-nav-link-padding-x: 0.5rem;
+
+$nav-link-font-weight: bold;
+$nav-link-hover-color: $primary;
+$nav-link-font-size: 0.875rem;
+
+$nav-link-after-height: 0.125rem;
+$nav-link-after-width: 1.5rem;
+$nav-link-after-top: 1.7rem;
+$nav-link-after-left: 50%;
+
+
+
+
+
+
+// Dropdown
+
+$dropdown-border-radius: 0;
+// $dropdown-divider-margin-y: 0.25rem;
+// $dropdown-padding-y: 0.25rem;
