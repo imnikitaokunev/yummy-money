@@ -91,6 +91,7 @@ stages:
           zipAfterPublish: true
 
       - task: PublishBuildArtifacts@1
+        displayName: 'Publish build artifacts'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
