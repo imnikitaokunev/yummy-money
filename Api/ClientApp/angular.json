@@ -43,22 +43,6 @@
                 }
               ]
             },
-            "testing": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.testing.ts"
-                }
-              ]
-            },
-            "staging": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.staging.ts"
-                }
-              ]
-            },
             "production": {
               "fileReplacements": [
                 {
@@ -96,12 +80,6 @@
           "configurations": {
             "development": {
               "browserTarget": "yummymoney:build:development"
-            },
-            "testing": {
-              "browserTarget": "yummymoney:build:testing"
-            },
-            "staging": {
-              "browserTarget": "yummymoney:build:staging"
             },
             "production": {
               "browserTarget": "yummymoney:build:production"
