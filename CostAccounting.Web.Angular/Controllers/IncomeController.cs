@@ -26,7 +26,7 @@ namespace CostAccounting.Web.Angular.Controllers
         public ActionResult<IEnumerable<IncomeDto>> Get([FromQuery] IncomeRequestModel request)
         {
             var userId = Request.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            request.UserId = Guid.Parse(userId);
+            //request.UserId = Guid.Parse(userId);
 
             return Ok(_incomeService.Get(request));
         }

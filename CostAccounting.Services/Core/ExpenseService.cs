@@ -23,21 +23,21 @@ namespace CostAccounting.Services.Core
         {
             var result = new RepositoryResult<Expense>();
 
-            try
-            {
+            //try
+            //{
                 _repository.Create(expense);
                 _repository.Save();
-            }
-            catch (RepositoryException ex)
-            {
-                result.Errors = ex.Errors;
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result.Errors = new List<string> {ex.GetBaseException().Message};
-                return result;
-            }
+            //}
+            //catch (RepositoryException ex)
+            //{
+            //    result.Errors = ex.Errors;
+            //    return result;
+            //}
+            //catch (Exception ex)
+            //{
+            //    result.Errors = new List<string> {ex.GetBaseException().Message};
+            //    return result;
+            //}
 
             result.Success = true;
             result.Target = expense;

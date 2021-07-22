@@ -1,8 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Security.Claims;
-using CostAccounting.Core.Entities.Membership;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 using Serilog.Context;
@@ -15,7 +12,7 @@ namespace CostAccounting.Web.Angular.Filters
 
         public ExceptionHandlingFilter(ILogger logger)
         {
-            _logger = logger;
+            _logger = logger.ForContext<ExceptionHandlingFilter>();
         }
 
         public void OnException(ExceptionContext context)

@@ -128,15 +128,22 @@ namespace CostAccounting.Data.EntityFramework.Repositories
         private IQueryable<TEntity> ApplyFilter(RequestModel request)
         {
             var query = DbSet.AsQueryable();
-
-            if (request?.Includes?.Count > 0)
-            {
-                query = request.Includes.Aggregate(query, (current, include) => current.Include(include));
-            }
-
+            
+            IncludeInternal(query, request);
+            
             return ApplyFilterInternal(query, request);
         }
 
         protected abstract IQueryable<TEntity> ApplyFilterInternal(IQueryable<TEntity> query, RequestModel requestModel);
+
+        protected virtual IQueryable<TEntity> IncludeInternal(IQueryable<TEntity> query, RequestModel request)
+        {
+            if (request?.Includes?.Count == 0)
+            {
+                return query;
+            }
+
+            return request.Includes.Aggregate(query, (current, include) => current.Include(include));
+        }
     }
 }

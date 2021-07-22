@@ -16,8 +16,8 @@ namespace CostAccounting.Data.EntityFramework.Configurations.Core
             builder.Property(x => x.Date).IsRequired().HasColumnType("datetime2");
             builder.Property(x => x.Description).HasMaxLength(Expense.DescriptionLength);
 
-            builder.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);
-            builder.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId);
+            builder.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(x => x.User).WithMany().HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

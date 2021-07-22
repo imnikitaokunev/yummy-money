@@ -10,7 +10,7 @@ import { ReportsComponent } from './modules/home/pages/reports/reports.component
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-  { path: "transactions", component: TransactionsComponent, canActivate: [AuthGuard] },
+  { path: "transactions", component: TransactionsComponent},
   { path: "reports", component: ReportsComponent, canActivate: [AuthGuard] },
   { path: "help", component: HelpComponent, canActivate: [AuthGuard] },
   { path: "login", component: LoginComponent },

@@ -113,6 +113,7 @@ app-sheet {
         }
 
         .navigation-statistics {
+            font-family: "Nimbus Sans D";
             width: $navigation-statistics-width;
             justify-content: flex-end;
 
@@ -120,6 +121,7 @@ app-sheet {
                 &-item {
                     margin: 0.125rem 0;
                     font-size: 0.8125rem;
+                    line-height: 1rem;
                     border-bottom: 0.0625rem solid $light;
                 }
             }

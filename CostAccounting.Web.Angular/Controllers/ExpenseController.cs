@@ -27,7 +27,7 @@ namespace CostAccounting.Web.Angular.Controllers
         public ActionResult<IEnumerable<ExpenseDto>> Get([FromQuery] ExpenseRequestModel request)
         {
             var userId = Request.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            request.UserId = Guid.Parse(userId);
+            //request.UserId = Guid.Parse(userId);
 
             return Ok(_expenseService.Get(request));
         }
