@@ -42,7 +42,7 @@ namespace Api
                         configuration.Enrich.FromLogContext()
                             .Enrich.WithMachineName()
                             .WriteTo.Console()
-                            .WriteTo.File("log.text");
+                            .WriteTo.File("log.txt");
                         return;
                     }
 
