@@ -20,6 +20,10 @@ variables:
     value: 'yummymoneyastesting'
   - name: blobStorageName
     value: 'yummymoneywebapp'
+  - name: angularEnvironment
+    value:
+      ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/develop') }}: 'testing'
+      ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/master') }}: 'staging'
 
 trigger:
 - develop
@@ -72,7 +76,7 @@ stages:
           command: custom
           workingDir: $(webProjectName)/ClientApp
           verbose: false
-          customCommand: 'run build'
+          customCommand: 'run build-${angularEnvironment}'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish dist'
