@@ -97,14 +97,28 @@ stages:
         deploy:
           steps:
           - download: current
-            displayName: 'Download Artifact'
+            displayName: 'Download Api Artifact'
+            artifact: drop
+          - task: AzureRmWebAppDeployment@4
+            displayName: 'Publish Api'
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
+              appType: 'webAppLinux'
+              WebAppName: 'yummymoneyastesting'
+              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
+              StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+          - download: current
+            displayName: 'Download Web App Artifact'
             artifact: dist
           - task: AzureCLI@2
+            displayName: 'Publish Web App'
             inputs:
               azureSubscription: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
               scriptType: 'pscore'
               scriptLocation: 'inlineScript'
               inlineScript: 'az storage blob upload-batch --account-name yummymoneywebapp -s "$(Pipeline.Workspace)/dist/" -d "`$web"'
+          
 
 
 # - stage: DeployToStaging
