@@ -129,6 +129,7 @@ stages:
             displayName: 'Download Web App Artifact'
             artifact: dist
           - task: replacetokens@3
+            displayName: 'Replace environment variables'
             inputs:
               targetFiles: '$(Pipeline.Workspace)/dist/**/main*.js'
               encoding: 'auto'
