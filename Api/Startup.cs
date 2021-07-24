@@ -13,12 +13,9 @@ namespace Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -26,10 +23,8 @@ namespace Api
             services.AddCors();
             services.AddInfrastructure(Configuration);
             services.AddApplication();
-            services.AddControllers(options =>
-            {
-                options.Filters.Add<ApiExceptionFilterAttribute>();
-            }).AddFluentValidation();
+            services.AddControllers(options => { options.Filters.Add<ApiExceptionFilterAttribute>(); })
+                .AddFluentValidation();
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Api", Version = "v1"}); });
         }
@@ -47,7 +42,7 @@ namespace Api
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthentication();
             app.UseAuthorization();
