@@ -1,4 +1,3 @@
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeModule } from './modules/home/home.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,7 +15,6 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
         HomeModule,
         CoreModule,
         TransactionsModule,
-        NgbModule
     ],
     providers: [],
     bootstrap: [AppComponent],
