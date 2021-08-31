@@ -61,3 +61,4 @@ Thumbs.db
 /БЭМ.txt
 *.css
 *.map
+/src/Api/log.txt

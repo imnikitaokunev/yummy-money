@@ -1,0 +1,21 @@
+<div [ngClass]="{ 'sheet-secondary': !isCurrentMonth, 'sheet-today': isToday }" class="sheet w-100 d-flex">
+    <div [ngClass]="{ 'sheet-secondary-title': !isCurrentMonth }" class="sheet-title">
+        {{ day }}
+    </div>
+
+    <ng-container *ngIf="transactions && transactions.length">
+        <div class="notes">
+            <ng-container *ngFor="let transaction of transactions | slice: 0:5">
+                <div class="note">
+                    <div class="cost" [ngClass]="isExpense(transaction) ? 'text-danger' : 'text-success'">
+                        {{isExpense(transaction) ? '-' : '+'}}{{ transaction.amount }}</div>
+                    <div class="category text-truncate">{{ transaction?.category?.name }}</div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="transactions && transactions.length > 5">
+                <button class="break">&middot;&middot;&middot;</button>
+            </ng-container>
+        </div>
+    </ng-container>
+</div>
