@@ -19,7 +19,8 @@
             </button>
         </div>
 
-        <app-calendar-summary [isLoading]="isLoading" [transactions]="transactions"></app-calendar-summary>
+        <app-calendar-summary [isLoading]="isLoading" [isError]="isError" (refreshed)="refresh()"
+            [transactions]="transactions"></app-calendar-summary>
     </div>
 
     <div class="calendar">
@@ -29,24 +30,32 @@
             </div>
         </div>
 
-        <ng-template [ngIf]="!isLoading" [ngIfElse]="loading">
+        <ng-container *ngIf="!isLoading && !isError">
             <div class="calendar-content">
                 <ng-container *ngFor="let week of weeks">
                     <div class="d-flex justify-content-between">
                         <ng-container *ngFor="let day of week">
                             <app-sheet class="min-w-0 w-100" [transactions]="getFromDay(transactions, day.date)"
-                                [day]="day.day" [date]="day.date"
-                                [isCurrentMonth]="day.isCurrentMonth" [isToday]="day.isToday"></app-sheet>
+                                [day]="day.day" [date]="day.date" [isCurrentMonth]="day.isCurrentMonth"
+                                [isToday]="day.isToday"></app-sheet>
                         </ng-container>
                     </div>
                 </ng-container>
             </div>
-        </ng-template>
+        </ng-container>
 
-        <ng-template #loading>
+        <ng-container *ngIf="isLoading && !isError">
             <div class="d-flex justify-content-center calendar-content align-items-center h-100 bg-grey">
                 <app-loading-indicator [isLoading]="isLoading"></app-loading-indicator>
             </div>
-        </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="isError">
+            <div class="d-flex justify-content-center calendar-content align-items-center h-100 bg-grey">
+                <button class="not-btn" (click)="refresh()">
+                    <i hover-class="fa-sync-alt" class="fas fa-2x fa-exclamation-circle"></i>
+                </button>
+            </div>
+        </ng-container>
     </div>
 </div>

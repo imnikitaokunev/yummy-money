@@ -15,8 +15,11 @@
 @import "layout/header";
 
 @import "base/reset";
+@import "base/typography";
+@import "../../node_modules/captain-icons/dist/captain-icons.css";
 
 @import "vendors/bootstrap";
+@import "vendors/font-awesome";
 
 @import "font-awesome/fontawesome.scss";
 @import "font-awesome/solid.scss";
@@ -24,3 +27,6 @@
 
 /* Importing Bootstrap SCSS file. */
 // @import "~bootstrap/scss/bootstrap";
+
+/* Importing Bootstrap SCSS file. */
+// @import '~bootstrap/scss/bootstrap';

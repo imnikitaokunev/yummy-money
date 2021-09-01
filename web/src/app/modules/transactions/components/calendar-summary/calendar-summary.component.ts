@@ -1,9 +1,11 @@
 import { Transaction } from './../../../../core/models/transaction';
 import {
     Component,
+    EventEmitter,
     Input,
     OnChanges,
     OnInit,
+    Output,
     SimpleChanges,
 } from '@angular/core';
 import { Expense } from 'src/app/core/models/expense';
@@ -16,6 +18,9 @@ import { Income } from 'src/app/core/models/income';
 export class CalendarSummaryComponent implements OnInit, OnChanges {
     @Input() transactions: Transaction[] = [];
     @Input() isLoading: boolean;
+    @Input() isError: boolean;
+
+    @Output() refreshed = new EventEmitter<boolean>();
 
     public incomesSum: number;
     public expensesSum: number;
@@ -32,9 +37,17 @@ export class CalendarSummaryComponent implements OnInit, OnChanges {
         }
     }
 
+    public refresh(): void {
+        this.refreshed.emit();
+    }
+
     private calculate(): void {
-        this.expensesSum = this.getArraySum(this.transactions.filter(x => x instanceof Expense));
-        this.incomesSum = this.getArraySum(this.transactions.filter(x => x instanceof Income));
+        this.expensesSum = this.getArraySum(
+            this.transactions.filter((x) => x instanceof Expense)
+        );
+        this.incomesSum = this.getArraySum(
+            this.transactions.filter((x) => x instanceof Income)
+        );
         this.net = this.incomesSum - this.expensesSum;
         this.netPercent = this.incomesSum
             ? this.net / this.incomesSum

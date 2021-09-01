@@ -25,6 +25,7 @@ export class CalendarComponent implements OnInit {
     public lastDayOfGrid: Moment;
     public currentDate: Moment;
     public isLoading: boolean;
+    public isError: boolean;
 
     constructor(
         private apiEndpointsService: ApiEndpointsService,
@@ -75,6 +76,7 @@ export class CalendarComponent implements OnInit {
     }
 
     private loadData(): void {
+        this.isError = false;
         this.isLoading = true;
 
         let request = {
@@ -95,7 +97,15 @@ export class CalendarComponent implements OnInit {
                         this.transactions = expenses.concat(incomes);
                         this.isLoading = false;
                         console.log(this.transactions);
+                    },
+                    (error) => {
+                        this.isLoading = false;
+                        this.isError = true;
                     });
+            },
+            (error) => {
+                this.isLoading = false;
+                this.isError = true;
             });
     }
 

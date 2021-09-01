@@ -1,3 +1,4 @@
+import { ToastService } from './../services/toast.service';
 import {
     HttpErrorResponse,
     HttpEvent,
@@ -11,7 +12,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-    constructor() {}
+    constructor(private toastService: ToastService) {}
 
     intercept(
         request: HttpRequest<any>,
@@ -28,6 +29,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                     errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
                 }
                 console.log(errorMsg);
+
+                this.toastService.show(errorMsg, { classname: 'fw-bold bg-invalid'});
                 return throwError(errorMsg);
             })
         );

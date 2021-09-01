@@ -1,4 +1,4 @@
-<ng-template [ngIf]="!isLoading" [ngIfElse]="loading">
+<ng-container *ngIf="!isLoading && !isError">
     <div class="navigation-statistics d-flex">
         <div class="navigation-statistics-details">
             <div class="navigation-statistics-details-item d-flex justify-content-between">
@@ -26,13 +26,21 @@
         <ng-container [ngTemplateOutlet]="summaryPercent" [ngTemplateOutletContext]="{ Percent: netPercent }">
         </ng-container>
     </div>
-</ng-template>
+</ng-container>
 
-<ng-template #loading>
+<ng-container *ngIf="isLoading && !isError">
     <div class="d-flex navigation-statistics justify-content-end align-items-center">
         <app-loading-indicator-small [isLoading]="isLoading"></app-loading-indicator-small>
     </div>
-</ng-template>
+</ng-container>
+
+<ng-container *ngIf="isError">
+    <div class="d-flex navigation-statistics justify-content-end align-items-center">
+        <button class="not-btn" (click)="refresh()">
+            <i hover-class="fa-sync-alt" class="fas fa-2x fa-exclamation-circle"></i>
+        </button>
+    </div>
+</ng-container>
 
 <ng-template #summaryRow let-text="Text" let-amount="Amount" let-class="Class" let-sign="Sign">
     <div>{{ text }}</div>
