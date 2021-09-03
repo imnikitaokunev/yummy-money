@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'app-loading-indicator-small',
@@ -6,8 +6,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class LoadingIndicatorSmallComponent implements OnInit {
     @Input() isLoading: boolean;
+    @Input() isError: boolean;
+
+    @Output() reloaded = new EventEmitter<void>();
 
     constructor() {}
-    
+
     ngOnInit(): void {}
+
+    public reload(): void {
+        this.reloaded.emit();
+    }
 }

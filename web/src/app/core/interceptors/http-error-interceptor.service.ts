@@ -30,7 +30,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 }
                 console.log(errorMsg);
 
-                this.toastService.show(errorMsg, { classname: 'fw-bold bg-invalid'});
+                this.toastService.show(errorMsg, { classname: 'fw-bold bg-invalid user-select-none'});
                 return throwError(errorMsg);
             })
         );

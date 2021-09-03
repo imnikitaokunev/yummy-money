@@ -73,4 +73,8 @@ export class ApiEndpointsService {
             }
         });
     }
+
+    public getCategoriesEndpoint(): string {
+        return this.createUrl("categories");
+    }
 }

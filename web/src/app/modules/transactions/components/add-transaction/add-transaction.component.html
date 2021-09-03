@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <div class="modal-title">Expense</div>
+    <button type="button" class="not-btn close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+    <div class="modal-body">
+
+        <ng-container *ngIf="isLoading">
+            <div class="d-flex justify-content-center my-3">
+                <app-loading-indicator-small [isLoading]="isLoading"></app-loading-indicator-small>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="!isLoading">
+            <div class="d-flex mb-2">
+                <div class="w-50">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" placeholder="Amount" class="form-control form-control-sm" min="0"
+                        formControlName="amount">
+                    <div *ngIf="formGroup.controls['amount'].touched && formGroup.controls['amount'].invalid"
+                        class="invalid-feedback fw-bold d-block">
+                        Amount is required and must be greater than zero
+                    </div>
+                </div>
+                <div class="w-50">
+                    <label for="category">Category:</label>
+                    <select id="category" placeholder="Category" class="form-select form-select-sm"
+                        formControlName="category">
+                        <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
+                    </select>
+                    <div *ngIf="formGroup.controls['category'].touched && formGroup.controls['category'].invalid"
+                        class="invalid-feedback fw-bold d-block">
+                        Category is required
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <label for="date">Date:</label>
+                <input type="date" id="date" placeholder="Date" class="form-control form-control-sm"
+                    formControlName="date">
+                <div *ngIf="formGroup.controls['date'].touched && formGroup.controls['date'].invalid"
+                    class="invalid-feedback fw-bold d-block">
+                    Date is required
+                </div>
+            </div>
+
+            <div>
+                <label for="description">Description:</label>
+                <textarea class="form-control form-control-sm" name="description" id="description" cols="30" rows="2"
+                    formControlName="description" placeholder="Description"></textarea>
+            </div>
+        </ng-container>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success text-light fw-bold" [disabled]="isLoading">Add expense</button>
+    </div>
+</form>

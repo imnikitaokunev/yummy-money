@@ -1,3 +1,4 @@
+import { AddTransactionComponent } from './../add-transaction/add-transaction.component';
 import { Transaction } from './../../../../core/models/transaction';
 import { ApiHttpService } from './../../../../core/services/api-http.service';
 import { ApiEndpointsService } from './../../../../core/services/api-endpoints.service';
@@ -11,6 +12,7 @@ import { Income } from 'src/app/core/models/income';
 import { DayOfWeek } from '../../models/day-of-week';
 import { Sheet } from '../../models/sheet';
 import { KeyValue } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-calendar',
@@ -29,7 +31,8 @@ export class CalendarComponent implements OnInit {
 
     constructor(
         private apiEndpointsService: ApiEndpointsService,
-        private apiHttpService: ApiHttpService
+        private apiHttpService: ApiHttpService,
+        private modalService: NgbModal
     ) {}
 
     ngOnInit(): void {
@@ -80,37 +83,49 @@ export class CalendarComponent implements OnInit {
         this.isLoading = true;
 
         let request = {
-            startDate: this.firstDayOfGrid.toJSON(),
-            endDate: moment(this.lastDayOfGrid).subtract(1, 'days').toJSON()
+            startDate: this.firstDayOfGrid.add(1, 'days').toISOString().slice(0,10),
+            endDate: this.lastDayOfGrid.toISOString().slice(0,10),
         };
 
         this.apiHttpService
             .get(this.apiEndpointsService.getExpensesEndpoint(request))
             .pipe(map((data: any) => data.map((x: any) => new Expense(x))))
-            .subscribe((expenses) => {
-                this.apiHttpService
-                    .get(this.apiEndpointsService.getIncomesEndpoint(request))
-                    .pipe(
-                        map((data: any) => data.map((x: any) => new Income(x)))
-                    )
-                    .subscribe((incomes) => {
-                        this.transactions = expenses.concat(incomes);
-                        this.isLoading = false;
-                        console.log(this.transactions);
-                    },
-                    (error) => {
-                        this.isLoading = false;
-                        this.isError = true;
-                    });
-            },
-            (error) => {
-                this.isLoading = false;
-                this.isError = true;
-            });
+            .subscribe(
+                (expenses) => {
+                    this.apiHttpService
+                        .get(
+                            this.apiEndpointsService.getIncomesEndpoint(request)
+                        )
+                        .pipe(
+                            map((data: any) =>
+                                data.map((x: any) => new Income(x))
+                            )
+                        )
+                        .subscribe(
+                            (incomes) => {
+                                this.transactions = expenses.concat(incomes);
+                                this.isLoading = false;
+                                console.log(this.transactions);
+                            },
+                            (error) => {
+                                this.isLoading = false;
+                                this.isError = true;
+                            }
+                        );
+                },
+                (error) => {
+                    this.isLoading = false;
+                    this.isError = true;
+                }
+            );
     }
 
     public refresh(): void {
         this.loadData();
+    }
+
+    public addTransaction(): void {
+        this.modalService.open(AddTransactionComponent);
     }
 
     public isCurrentMonth(currentDate): boolean {

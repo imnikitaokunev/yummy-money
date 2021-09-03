@@ -1,3 +1,12 @@
-<div class="ball-clip-rotate-small">
-    <div></div>
-</div>
+<ng-container *ngIf="isLoading">
+    <div class="ball-clip-rotate-small">
+        <div></div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="isError">
+    <button class="not-btn" (click)="reload()">
+        <i hover-class="fa-sync-alt" class="fas fa-2x fa-exclamation-circle"></i>
+    </button>
+</ng-container>
+

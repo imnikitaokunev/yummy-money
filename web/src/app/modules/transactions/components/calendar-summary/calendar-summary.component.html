@@ -28,19 +28,19 @@
     </div>
 </ng-container>
 
-<ng-container *ngIf="isLoading && !isError">
+<ng-container *ngIf="isLoading || isError">
     <div class="d-flex navigation-statistics justify-content-end align-items-center">
-        <app-loading-indicator-small [isLoading]="isLoading"></app-loading-indicator-small>
+        <app-loading-indicator-small [isLoading]="isLoading" [isError]="isError" (reloaded)="reload()"></app-loading-indicator-small>
     </div>
 </ng-container>
 
-<ng-container *ngIf="isError">
+<!-- <ng-container *ngIf="isError">
     <div class="d-flex navigation-statistics justify-content-end align-items-center">
         <button class="not-btn" (click)="refresh()">
             <i hover-class="fa-sync-alt" class="fas fa-2x fa-exclamation-circle"></i>
         </button>
     </div>
-</ng-container>
+</ng-container> -->
 
 <ng-template #summaryRow let-text="Text" let-amount="Amount" let-class="Class" let-sign="Sign">
     <div>{{ text }}</div>

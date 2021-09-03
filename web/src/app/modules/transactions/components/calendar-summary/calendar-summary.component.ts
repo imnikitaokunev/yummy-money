@@ -20,7 +20,7 @@ export class CalendarSummaryComponent implements OnInit, OnChanges {
     @Input() isLoading: boolean;
     @Input() isError: boolean;
 
-    @Output() refreshed = new EventEmitter<boolean>();
+    @Output() reloaded = new EventEmitter<void>();
 
     public incomesSum: number;
     public expensesSum: number;
@@ -37,8 +37,8 @@ export class CalendarSummaryComponent implements OnInit, OnChanges {
         }
     }
 
-    public refresh(): void {
-        this.refreshed.emit();
+    public reload(): void {
+        this.reloaded.emit();
     }
 
     private calculate(): void {

@@ -14,7 +14,7 @@ import { TransactionsModule } from './modules/transactions/transactions.module';
         AppRoutingModule,
         HomeModule,
         CoreModule,
-        TransactionsModule,
+        TransactionsModule
     ],
     providers: [],
     bootstrap: [AppComponent],
