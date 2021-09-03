@@ -20,6 +20,8 @@ variables:
     value: 'yummymoneyastesting'
   - name: blobStorageName
     value: 'yummymoneywebapp'
+  - name: angularFolder
+    value: web
 
 trigger:
 - develop
@@ -63,21 +65,21 @@ stages:
       - task: Npm@1
         displayName: 'npm install'
         inputs:
-          workingDir: $(webProjectName)/ClientApp
+          workingDir: $(angularFolder)
           verbose: false
 
       - task: Npm@1
         displayName: 'npm run build'
         inputs:
           command: custom
-          workingDir: $(webProjectName)/ClientApp
+          workingDir: $(angularFolder)
           verbose: false
           customCommand: 'run build-prod'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish dist'
         inputs:
-          PathtoPublish: '$(webProjectName)/ClientApp/dist'
+          PathtoPublish: '$(angularFolder)/dist'
           ArtifactName: 'dist'
           publishLocation: 'Container'
 
