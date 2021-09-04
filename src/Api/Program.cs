@@ -1,12 +1,10 @@
 using System;
-using Api.Filters;
 using Application.Common.Helpers;
 using Application.Common.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using Serilog.Filters;
 
 namespace Api
 {
@@ -55,19 +53,13 @@ namespace Api
                     configuration.Enrich.FromLogContext()
                         .Enrich.WithMachineName()
                         .WriteTo.Console()
-                        .WriteTo.Logger(l => l
-                            .WriteTo.AzureBlobStorage(blobStorageConnectionString, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss}|{Level} => UserId:{UserId} => RequestId:{RequestId} => RequestPath:{RequestPath} => {SourceContext}{NewLine}    {Message}{NewLine}{Exception}",
-                                storageContainerName:
-                                $"{applicationName}-{context.HostingEnvironment.EnvironmentName.ToLower().Replace('.', '-')}",
-                                storageFileName:
-                                $"{applicationName}-logs-{context.HostingEnvironment.EnvironmentName.ToLower().Replace('.', '-')}-{DateTime.UtcNow:yyyy-MM}.log"))
-                        .WriteTo.Logger(l => l
-                            .Filter.ByIncludingOnly(Matching.FromSource<ApiExceptionFilterAttribute>())
-                            .WriteTo.AzureBlobStorage(blobStorageConnectionString, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss}|{Level} => UserId:{UserId} => RequestId:{RequestId} => RequestPath:{RequestPath} => {SourceContext}{NewLine}    {Message}{NewLine}{Exception}",
-                                storageContainerName:
-                                $"{applicationName}-{context.HostingEnvironment.EnvironmentName.ToLower().Replace('.', '-')}-exceptions",
-                                storageFileName:
-                                $"{applicationName}-logs-{context.HostingEnvironment.EnvironmentName.ToLower().Replace('.', '-')}-{DateTime.UtcNow:yyyy-MM}-exceptions.log"))
+                        .WriteTo.AzureBlobStorage(blobStorageConnectionString,
+                            outputTemplate:
+                            "{Timestamp:yyyy-MM-dd HH:mm:ss}|{Level} => UserId:{UserId} => RequestId:{RequestId} => RequestPath:{RequestPath} => {SourceContext}{NewLine}    {Message}{NewLine}{Exception}",
+                            storageContainerName:
+                            $"{applicationName}-{context.HostingEnvironment.EnvironmentName.ToLower().Replace('.', '-')}",
+                            storageFileName:
+                            $"{applicationName}-logs-{context.HostingEnvironment.EnvironmentName.ToLower().Replace('.', '-')}-{DateTime.UtcNow:yyyy-MM}.log")
                         .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
                         .ReadFrom.Configuration(context.Configuration);
                 })

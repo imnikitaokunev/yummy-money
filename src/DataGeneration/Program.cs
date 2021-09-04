@@ -16,7 +16,7 @@ namespace DataGeneration
             // TODO: Use unit of work pattern;
 
             const string connectionString =
-                "data source=(local);Initial Catalog=CostAccounting;Integrated Security=True;";
+                "Server=tcp:yummymoney-db.database.windows.net,1433;Initial Catalog=yummymoneytesting;Persist Security Info=False;User ID=nikitosinos1;Password=13Nikitosinos;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             //const string connectionString =
             //    "Server=tcp:yummymoney.database.windows.net,1433;Initial Catalog=yummymoneytesting;Persist Security Info=False;User ID=nikitosinos1;Password=13Nikitos;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             //const string connectionString =
@@ -71,7 +71,7 @@ namespace DataGeneration
                 var categoryFaker = new Faker<Category>()
                     .RuleFor(x => x.Name, x => x.Commerce.ProductName())
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription())
-                    .RuleFor(x => x.UserId, new Guid("f2dce61f-828b-4310-0fd0-08d949626d84"));
+                    .RuleFor(x => x.UserId, new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"));
 
                 var categories = categoryFaker.GenerateLazy(count);
 
@@ -94,13 +94,13 @@ namespace DataGeneration
                 var categoryFaker = new Faker<Category>()
                     .RuleFor(x => x.Name, x => x.Commerce.ProductName())
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription())
-                    .RuleFor(x => x.UserId, new Guid("f2dce61f-828b-4310-0fd0-08d949626d84"));
+                    .RuleFor(x => x.UserId, new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"));
 
                 var expenseFaker = new Faker<Expense>()
                     .RuleFor(x => x.Category, x => categoryFaker)
                     .RuleFor(x => x.Amount, x => x.Finance.Amount(1, 2048))
                     .RuleFor(x => x.Date, x => x.Date.Between(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1)))
-                    .RuleFor(x => x.UserId, x => new Guid("f2dce61f-828b-4310-0fd0-08d949626d84"))
+                    .RuleFor(x => x.UserId, x => new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"))
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription());
 
                 var expenses = expenseFaker.GenerateLazy(count);
@@ -129,13 +129,13 @@ namespace DataGeneration
                 var categoryFaker = new Faker<Category>()
                     .RuleFor(x => x.Name, x => x.Commerce.ProductName())
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription())
-                    .RuleFor(x => x.UserId, new Guid("f2dce61f-828b-4310-0fd0-08d949626d84"));
+                    .RuleFor(x => x.UserId, new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"));
 
                 var incomeFaker = new Faker<Income>()
                     .RuleFor(x => x.Category, x => categoryFaker)
                     .RuleFor(x => x.Amount, x => x.Finance.Amount(1, 2048))
                     .RuleFor(x => x.Date, x => x.Date.Between(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1)))
-                    .RuleFor(x => x.UserId, x => new Guid("f2dce61f-828b-4310-0fd0-08d949626d84"))
+                    .RuleFor(x => x.UserId, x => new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"))
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription());
 
                 var incomes = incomeFaker.GenerateLazy(count);
