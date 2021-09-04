@@ -1,5 +1,11 @@
 <div class="modal-header">
-    <div class="modal-title">Expense</div>
+    <div class="modal-title">
+        <span>{{ isExpense ? 'Expense' : 'Income'}}</span>
+        <button class="not-btn fw-bold ms-1" (click)="changeType()">
+            <small class="" [ngClass]="isExpense ? 'text-success' : 'text-danger'">{{ isExpense ? 'Income' :
+                'Expense'}}</small>
+        </button>
+    </div>
     <button type="button" class="not-btn close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <i class="fas fa-times"></i>
     </button>
@@ -14,24 +20,34 @@
             </div>
         </ng-container>
 
+        <ng-container *ngIf="errors?.length">
+            <div class="alert alert-invalid fw-bold text-secondary alert-dismissible">
+                <div *ngFor="let error of errors">{{ error }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </ng-container>
+
         <ng-container *ngIf="!isLoading">
             <div class="d-flex mb-2">
                 <div class="w-50">
                     <label for="amount">Amount:</label>
                     <input type="number" id="amount" placeholder="Amount" class="form-control form-control-sm" min="0"
                         formControlName="amount">
-                    <div *ngIf="formGroup.controls['amount'].touched && formGroup.controls['amount'].invalid"
-                        class="invalid-feedback fw-bold d-block">
-                        Amount is required and must be greater than zero
+                    <div *ngIf="controls.amount.touched && controls.amount.invalid">
+                        <div *ngIf="controls.amount.errors?.required || controls.amount.errors?.min || controls.amount.errors?.max"
+                            class="invalid-feedback fw-bold d-block">
+                            Amount is required and must be greater than zero
+                        </div>
                     </div>
+
                 </div>
                 <div class="w-50">
-                    <label for="category">Category:</label>
-                    <select id="category" placeholder="Category" class="form-select form-select-sm"
-                        formControlName="category">
+                    <label for="categoryId">Category:</label>
+                    <select id="categoryId" placeholder="Category" class="form-select form-select-sm"
+                        formControlName="categoryId">
                         <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
                     </select>
-                    <div *ngIf="formGroup.controls['category'].touched && formGroup.controls['category'].invalid"
+                    <div *ngIf="controls.categoryId.touched && controls.categoryId.invalid"
                         class="invalid-feedback fw-bold d-block">
                         Category is required
                     </div>
@@ -42,8 +58,7 @@
                 <label for="date">Date:</label>
                 <input type="date" id="date" placeholder="Date" class="form-control form-control-sm"
                     formControlName="date">
-                <div *ngIf="formGroup.controls['date'].touched && formGroup.controls['date'].invalid"
-                    class="invalid-feedback fw-bold d-block">
+                <div *ngIf="controls.date.touched && controls.date.invalid" class="invalid-feedback fw-bold d-block">
                     Date is required
                 </div>
             </div>
@@ -52,11 +67,16 @@
                 <label for="description">Description:</label>
                 <textarea class="form-control form-control-sm" name="description" id="description" cols="30" rows="2"
                     formControlName="description" placeholder="Description"></textarea>
+                <div *ngIf="controls.description.touched && controls.description.invalid"
+                    class="invalid-feedback fw-bold d-block">
+                    Description length must be less or equal to 128
+                </div>
             </div>
         </ng-container>
 
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-success text-light fw-bold" [disabled]="isLoading">Add expense</button>
+        <button type="submit" [ngClass]="isExpense ? 'btn-danger' : 'btn-success'" class="btn text-light fw-bold"
+            [disabled]="isLoading">Add {{ isExpense ? 'expense' : 'income'}}</button>
     </div>
 </form>

@@ -83,8 +83,8 @@ export class CalendarComponent implements OnInit {
         this.isLoading = true;
 
         let request = {
-            startDate: this.firstDayOfGrid.add(1, 'days').toISOString().slice(0,10),
-            endDate: this.lastDayOfGrid.toISOString().slice(0,10),
+            startDate: moment(this.firstDayOfGrid).add(1, 'days').toISOString().slice(0,10),
+            endDate: moment(this.lastDayOfGrid).toISOString().slice(0,10),
         };
 
         this.apiHttpService

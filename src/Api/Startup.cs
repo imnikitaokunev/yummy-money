@@ -1,5 +1,6 @@
 using Api.Filters;
 using Application;
+using Application.Common.Helpers;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -23,9 +24,13 @@ namespace Api
             services.AddInfrastructure(Configuration);
             services.AddApplication();
             services.AddControllers(options => { options.Filters.Add<ApiExceptionFilterAttribute>(); })
-                .AddFluentValidation();
+                .AddFluentValidation(x =>
+                {
+                    x.ValidatorOptions.DisplayNameResolver = PropertyNameResolver.DefaultPropertyNameResolver;
+                    x.ValidatorOptions.PropertyNameResolver = PropertyNameResolver.CamelCasePropertyNameResolver;
+                });
 
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Api", Version = "v1"}); });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" }); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

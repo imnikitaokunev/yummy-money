@@ -53,6 +53,11 @@ $form-select-font-family: 'Inter';
 // buttons
 
 $btn-padding-y: 0.3rem;
+$btn-close-width: 0.625rem;
+$btn-close-height: 0.625rem;
+$btn-close-padding-y: 0.75rem;
+$btn-close-padding-x: 0.75rem;
+$btn-close-focus-shadow: none;
 
 
 // form-check
@@ -73,6 +78,12 @@ $modal-transition: transform 0.2s ease-in;
 
 
 
+
+// Alert
+$alert-bg-scale: 0%;
+$alert-color-scale: 0%;
+$alert-padding-y: 0.75rem;
+$alert-padding-x: 0.75rem;
 
 
 

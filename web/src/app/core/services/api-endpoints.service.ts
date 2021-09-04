@@ -1,4 +1,5 @@
-import { environment } from './../../../environments/environment';
+import { Expense } from 'src/app/core/models/expense';
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { QueryStringParameters } from 'src/app/shared/classes/query-string-parameters';
 import { UrlBuilder } from 'src/app/shared/classes/url-builder';
@@ -58,23 +59,36 @@ export class ApiEndpointsService {
     /* #endregion */
 
     public getExpensesEndpoint(request: Object): string {
-        return this.createUrlWithQueryParameters('expenses', (qs: QueryStringParameters) => {
-            for(var property of Object.keys(request)){
-                qs.push(property, request[property]);
+        return this.createUrlWithQueryParameters(
+            'expenses',
+            (qs: QueryStringParameters) => {
+                for (var property of Object.keys(request)) {
+                    qs.push(property, request[property]);
+                }
             }
-        });
+        );
     }
 
+    public postExpenseEndpoint(): string {
+        return this.createUrl('expenses');
+    }
 
     public getIncomesEndpoint(request: Object): string {
-        return this.createUrlWithQueryParameters('incomes', (qs: QueryStringParameters) => {
-            for(var property of Object.keys(request)){
-                qs.push(property, request[property]);
+        return this.createUrlWithQueryParameters(
+            'incomes',
+            (qs: QueryStringParameters) => {
+                for (var property of Object.keys(request)) {
+                    qs.push(property, request[property]);
+                }
             }
-        });
+        );
+    }
+
+    public postIncomeEndpoint(): string {
+        return this.createUrl('incomess');
     }
 
     public getCategoriesEndpoint(): string {
-        return this.createUrl("categories");
+        return this.createUrl('categories');
     }
 }
