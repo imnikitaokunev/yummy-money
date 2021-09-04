@@ -1,10 +1,12 @@
 <div class="w-100 justify-content-center">
     <div class="calendar-navigation d-flex justify-content-between">
         <div class="navigation-controls">
-            <button class="navigation-controls-item btn btn-light" [disabled]="isLoading" (click)="addTransaction()" title="New Transaction">
+            <button class="navigation-controls-item btn btn-light" [disabled]="isLoading" (click)="addTransaction()"
+                title="New Transaction">
                 <i class="fas fa-plus"></i>
             </button>
-            <button class="navigation-controls-item btn btn-light" [disabled]="isLoading" (click)="refresh()" title="Refresh">
+            <button class="navigation-controls-item btn btn-light" [disabled]="isLoading" (click)="refresh()"
+                title="Refresh">
                 <i class="fas fa-sync-alt"></i>
             </button>
         </div>
@@ -35,9 +37,10 @@
                 <ng-container *ngFor="let week of weeks">
                     <div class="d-flex justify-content-between">
                         <ng-container *ngFor="let day of week">
-                            <app-sheet class="min-w-0 w-100" [transactions]="getFromDay(transactions, day.date)"
-                                [day]="day.day" [date]="day.date" [isCurrentMonth]="day.isCurrentMonth"
-                                [isToday]="day.isToday"></app-sheet>
+                            <app-sheet class="min-w-0 w-100" (click)="viewTransactions(day.date)"
+                                [transactions]="getFromDay(transactions, day.date)" [day]="day.day" [date]="day.date"
+                                [isCurrentMonth]="day.isCurrentMonth" [isToday]="day.isToday">
+                            </app-sheet>
                         </ng-container>
                     </div>
                 </ng-container>

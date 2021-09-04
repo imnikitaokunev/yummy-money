@@ -24,7 +24,7 @@ $secondary-grey: #b2bec3;
 
 $primary-color: #2d3436;
 $danger-color: #ff4949;
-$success-color: #19cc95;
+$success-color: #57bc3c;
 $secondary-color: #b2bec3;
 $purple-color: #8572a5;
 $dark-purple-color: #494452;
@@ -64,5 +64,13 @@ $label-color: $grey-color-3;
 
 
 
-
-
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "invalid":    $invalid,
+  "highlight":  lighten($light, 3%)
+) !default;

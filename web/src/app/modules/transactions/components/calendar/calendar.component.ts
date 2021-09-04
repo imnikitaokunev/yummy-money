@@ -1,3 +1,4 @@
+import { ViewTransactiosComponent } from './../view-transactios/view-transactios.component';
 import { AddTransactionComponent } from './../add-transaction/add-transaction.component';
 import { Transaction } from './../../../../core/models/transaction';
 import { ApiHttpService } from './../../../../core/services/api-http.service';
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import * as range from 'lodash.range';
-import { map } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { Expense } from 'src/app/core/models/expense';
 import { Income } from 'src/app/core/models/income';
 import { DayOfWeek } from '../../models/day-of-week';
@@ -99,22 +100,19 @@ export class CalendarComponent implements OnInit {
                         .pipe(
                             map((data: any) =>
                                 data.map((x: any) => new Income(x))
-                            )
+                            ), finalize(() => this.isLoading = false)
                         )
                         .subscribe(
                             (incomes) => {
                                 this.transactions = expenses.concat(incomes);
-                                this.isLoading = false;
                                 console.log(this.transactions);
                             },
                             (error) => {
-                                this.isLoading = false;
                                 this.isError = true;
                             }
                         );
                 },
                 (error) => {
-                    this.isLoading = false;
                     this.isError = true;
                 }
             );
@@ -126,6 +124,11 @@ export class CalendarComponent implements OnInit {
 
     public addTransaction(): void {
         this.modalService.open(AddTransactionComponent);
+    }
+
+    public viewTransactions(date: Date): void {
+        let modal = this.modalService.open(ViewTransactiosComponent);
+        modal.componentInstance.date = date;
     }
 
     public isCurrentMonth(currentDate): boolean {
