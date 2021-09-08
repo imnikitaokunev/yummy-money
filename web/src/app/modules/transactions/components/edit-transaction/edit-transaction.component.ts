@@ -1,25 +1,27 @@
-import { PostTransaction } from 'src/app/core/models/post-transaction';
-import { ApiHttpService } from 'src/app/core/services/api-http.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Input, OnInit } from '@angular/core';
-import { ApiEndpointsService } from 'src/app/core/services/api-endpoints.service';
-import { Category } from 'src/app/core/models/category';
-import { finalize, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
+import { finalize, map } from 'rxjs/operators';
+import { Category } from 'src/app/core/models/category';
+import { Expense } from 'src/app/core/models/expense';
+import { PostTransaction } from 'src/app/core/models/post-transaction';
+import { Transaction } from 'src/app/core/models/transaction';
+import { ApiEndpointsService } from 'src/app/core/services/api-endpoints.service';
+import { ApiHttpService } from 'src/app/core/services/api-http.service';
 
 @Component({
-    selector: 'app-add-transaction',
-    templateUrl: './add-transaction.component.html',
+    selector: 'app-edit-transaction',
+    templateUrl: './edit-transaction.component.html',
+    styleUrls: ['./edit-transaction.component.scss'],
 })
-export class AddTransactionComponent implements OnInit {
+export class EditTransactionComponent implements OnInit {
     public formGroup: FormGroup;
     public categories: Category[] = [];
     public isLoading: boolean;
-    public isExpense: boolean = true;
     public errors: string[];
 
-    @Input() date: Date = new Date(Date.now());
+    @Input() transaction: Transaction;
 
     constructor(
         private apiEndpointsService: ApiEndpointsService,
@@ -32,31 +34,16 @@ export class AddTransactionComponent implements OnInit {
 
     ngOnInit(): void {
         this.load();
-        this.formGroup
-            .get('date')
-            .setValue(moment(this.date).format('YYYY-MM-DD'));
+        this.initForm();
+        this.applyData();
     }
 
     public get controls() {
         return this.formGroup.controls;
     }
 
-    public load() {
-        this.isLoading = true;
-        this.apiHttpService
-            .get(this.apiEndpointsService.getCategoriesEndpoint())
-            .pipe(
-                map((data: any) => data.map((x: any) => new Category(x))),
-                finalize(() => (this.isLoading = false))
-            )
-            .subscribe((response) => {
-                this.categories = response;
-                this.formGroup
-                    .get('categoryId')
-                    .setValue(
-                        this.categories.length ? this.categories[0].id : null
-                    );
-            });
+    public get isExpense() {
+        return this.transaction instanceof Expense;
     }
 
     public onSubmit() {
@@ -68,12 +55,13 @@ export class AddTransactionComponent implements OnInit {
 
         this.errors = [];
         this.isLoading = true;
+        let request = this.formGroup.value as PostTransaction;
         let endpoint = this.isExpense
-            ? this.apiEndpointsService.postExpenseEndpoint()
-            : this.apiEndpointsService.postIncomeEndpoint();
+            ? this.apiEndpointsService.putExpenseEndpoint(request.id)
+            : this.apiEndpointsService.putIncomeEndpoint(request.id);
 
         this.apiHttpService
-            .post(endpoint, this.formGroup.value as PostTransaction)
+            .put(endpoint, request)
             .pipe(finalize(() => (this.isLoading = false)))
             .subscribe(
                 (response) => {
@@ -98,12 +86,28 @@ export class AddTransactionComponent implements OnInit {
             );
     }
 
-    public changeType(): void {
-        this.isExpense = !this.isExpense;
+    public load() {
+        this.isLoading = true;
+        this.apiHttpService
+            .get(this.apiEndpointsService.getCategoriesEndpoint())
+            .pipe(
+                map((data: any) => data.map((x: any) => new Category(x))),
+                finalize(() => (this.isLoading = false))
+            )
+            .subscribe((response) => (this.categories = response));
+    }
+
+    private applyData(): void {
+        this.formGroup.get('id').setValue(this.transaction.id);
+        this.formGroup.get('amount').setValue(this.transaction.amount);
+        this.formGroup.get('categoryId').setValue(this.transaction.category.id);
+        this.formGroup.get('date').setValue(moment(this.transaction.date).format('YYYY-MM-DD'));
+        this.formGroup.get('description').setValue(this.transaction.description);
     }
 
     private initForm(): void {
         this.formGroup = this.formBuilder.group({
+            id: [0],
             amount: [
                 0,
                 [
