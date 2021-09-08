@@ -10,9 +10,25 @@ import { CalendarSummaryComponent } from './components/calendar-summary/calendar
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AddTransactionComponent } from './components/add-transaction/add-transaction.component';
 import { ViewTransactiosComponent } from './components/view-transactios/view-transactios.component';
+import { EditTransactionComponent } from './components/edit-transaction/edit-transaction.component';
 
 @NgModule({
-    imports: [FormsModule, CommonModule, CoreModule, TransactionsRoutingModule, SharedModule, ReactiveFormsModule],
-    declarations: [TransactionsComponent, SheetComponent, CalendarSummaryComponent, CalendarComponent, AddTransactionComponent, ViewTransactiosComponent],
+    imports: [
+        FormsModule,
+        CommonModule,
+        CoreModule,
+        TransactionsRoutingModule,
+        SharedModule,
+        ReactiveFormsModule,
+    ],
+    declarations: [
+        TransactionsComponent,
+        SheetComponent,
+        CalendarSummaryComponent,
+        CalendarComponent,
+        AddTransactionComponent,
+        ViewTransactiosComponent,
+        EditTransactionComponent,
+    ],
 })
 export class TransactionsModule {}

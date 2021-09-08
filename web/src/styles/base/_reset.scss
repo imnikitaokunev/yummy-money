@@ -86,3 +86,18 @@ h6 {
         background: $value!important;
     }
 }
+
+$utilities: (
+  "opacity": (
+    property: opacity,
+    class: opacity,
+    state: hover,
+    values: (
+      0: 0,
+      25: .25,
+      50: .5,
+      75: .75,
+      100: 1,
+    )
+  )
+);

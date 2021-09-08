@@ -1,19 +1,20 @@
 import { ViewTransactiosComponent } from './../view-transactios/view-transactios.component';
 import { AddTransactionComponent } from './../add-transaction/add-transaction.component';
-import { Transaction } from './../../../../core/models/transaction';
-import { ApiHttpService } from './../../../../core/services/api-http.service';
-import { ApiEndpointsService } from './../../../../core/services/api-endpoints.service';
+import { Transaction } from 'src/app/core/models/transaction';
+import { ApiHttpService } from 'src/app/core/services/api-http.service';
+import { ApiEndpointsService } from 'src/app/core/services/api-endpoints.service';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import * as range from 'lodash.range';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, catchError } from 'rxjs/operators';
 import { Expense } from 'src/app/core/models/expense';
 import { Income } from 'src/app/core/models/income';
 import { DayOfWeek } from '../../models/day-of-week';
 import { Sheet } from '../../models/sheet';
 import { KeyValue } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, of } from 'rxjs';
 
 @Component({
     selector: 'app-calendar',
@@ -84,38 +85,36 @@ export class CalendarComponent implements OnInit {
         this.isLoading = true;
 
         let request = {
-            startDate: moment(this.firstDayOfGrid).add(1, 'days').toISOString().slice(0,10),
-            endDate: moment(this.lastDayOfGrid).toISOString().slice(0,10),
+            startDate: moment(this.firstDayOfGrid)
+                .add(1, 'days')
+                .toISOString()
+                .slice(0, 10),
+            endDate: moment(this.lastDayOfGrid).toISOString().slice(0, 10),
         };
 
-        this.apiHttpService
+        let getExpenses = this.apiHttpService
             .get(this.apiEndpointsService.getExpensesEndpoint(request))
-            .pipe(map((data: any) => data.map((x: any) => new Expense(x))))
-            .subscribe(
-                (expenses) => {
-                    this.apiHttpService
-                        .get(
-                            this.apiEndpointsService.getIncomesEndpoint(request)
-                        )
-                        .pipe(
-                            map((data: any) =>
-                                data.map((x: any) => new Income(x))
-                            ), finalize(() => this.isLoading = false)
-                        )
-                        .subscribe(
-                            (incomes) => {
-                                this.transactions = expenses.concat(incomes);
-                                console.log(this.transactions);
-                            },
-                            (error) => {
-                                this.isError = true;
-                            }
-                        );
-                },
-                (error) => {
-                    this.isError = true;
-                }
+            .pipe<Transaction[]>(
+                map((data: any) => data.map((x: any) => new Expense(x)))
             );
+
+        let getIncomes = this.apiHttpService
+            .get(this.apiEndpointsService.getIncomesEndpoint(request))
+            .pipe<Transaction[]>(
+                map((data: any) => data.map((x: any) => new Income(x)))
+            );
+
+        forkJoin([getExpenses, getIncomes])
+            .pipe(
+                finalize(() => (this.isLoading = false)),
+                catchError(() => {
+                    this.isError = true;
+                    return of([]);
+                })
+            )
+            .subscribe((result) => {
+                this.transactions = [].concat.apply([], result);
+            });
     }
 
     public refresh(): void {

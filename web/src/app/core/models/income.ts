@@ -6,6 +6,7 @@ export class Income implements Transaction {
     amount: number;
     category: Category;
     date: Date;
+    description: string;
 
     constructor(data: any) {
         Object.assign(this, data);

@@ -52,7 +52,7 @@ namespace Infrastructure.Persistence.Repositories
 
             if (getIncomesRequest.EndDate.HasValue)
             {
-                query = query.Where(x => x.Date <= getIncomesRequest.EndDate);
+                query = query.Where(x => x.Date < getIncomesRequest.EndDate);
             }
 
             if (!string.IsNullOrEmpty(getIncomesRequest.Description))

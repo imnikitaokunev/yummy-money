@@ -73,6 +73,14 @@ export class ApiEndpointsService {
         return this.createUrl('expenses');
     }
 
+    public putExpenseEndpoint(id: number): string {
+        return this.createUrlWithPathVariables('expenses', [id]);
+    }
+
+    public deleteExpenseEndpoint(id: number): string {
+        return this.createUrlWithPathVariables('expenses', [id]);
+    }
+
     public getIncomesEndpoint(request: Object): string {
         return this.createUrlWithQueryParameters(
             'incomes',
@@ -85,7 +93,15 @@ export class ApiEndpointsService {
     }
 
     public postIncomeEndpoint(): string {
-        return this.createUrl('incomess');
+        return this.createUrl('incomes');
+    }
+
+    public putIncomeEndpoint(id: number): string {
+        return this.createUrlWithPathVariables('incomes', [id]);
+    }
+
+    public deleteIncomeEndpoint(id: number): string {
+        return this.createUrlWithPathVariables('incomes', [id]);
     }
 
     public getCategoriesEndpoint(): string {
