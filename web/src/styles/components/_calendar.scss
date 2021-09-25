@@ -80,12 +80,6 @@ app-sheet {
         align-items: center;
         margin: 0.5rem 0;
 
-        .navigation-controls {
-            &-item {
-                margin-right: 0.25rem;
-            }
-        }
-
         .navigation-date {
             &-year {
                 color: $primary-black;

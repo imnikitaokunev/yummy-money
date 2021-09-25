@@ -1,4 +1,3 @@
-import { Expense } from 'src/app/core/models/expense';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { QueryStringParameters } from 'src/app/shared/classes/query-string-parameters';
@@ -61,11 +60,7 @@ export class ApiEndpointsService {
     public getExpensesEndpoint(request: Object): string {
         return this.createUrlWithQueryParameters(
             'expenses',
-            (qs: QueryStringParameters) => {
-                for (var property of Object.keys(request)) {
-                    qs.push(property, request[property]);
-                }
-            }
+            (qs: QueryStringParameters) => this.populateParameters(qs, request)
         );
     }
 
@@ -84,11 +79,7 @@ export class ApiEndpointsService {
     public getIncomesEndpoint(request: Object): string {
         return this.createUrlWithQueryParameters(
             'incomes',
-            (qs: QueryStringParameters) => {
-                for (var property of Object.keys(request)) {
-                    qs.push(property, request[property]);
-                }
-            }
+            (qs: QueryStringParameters) => this.populateParameters(qs, request)
         );
     }
 
@@ -106,5 +97,16 @@ export class ApiEndpointsService {
 
     public getCategoriesEndpoint(): string {
         return this.createUrl('categories');
+    }
+
+    private populateParameters(
+        qs: QueryStringParameters,
+        request: Object
+    ): void {
+        for (var property of Object.keys(request)) {
+            if (request[property]) {
+                qs.push(property, request[property]);
+            }
+        }
     }
 }

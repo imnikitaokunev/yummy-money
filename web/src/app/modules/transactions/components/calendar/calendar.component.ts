@@ -3,7 +3,7 @@ import { AddTransactionComponent } from './../add-transaction/add-transaction.co
 import { Transaction } from 'src/app/core/models/transaction';
 import { ApiHttpService } from 'src/app/core/services/api-http.service';
 import { ApiEndpointsService } from 'src/app/core/services/api-endpoints.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import * as range from 'lodash.range';
@@ -20,16 +20,24 @@ import { forkJoin, of } from 'rxjs';
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnChanges {
     public weeks: Array<Sheet[]> = [];
     public daysOfWeek = DayOfWeek;
     public transactions: Transaction[] = [];
+    public data: Transaction[] = [];
 
     public firstDayOfGrid: Moment;
     public lastDayOfGrid: Moment;
     public currentDate: Moment;
     public isLoading: boolean;
     public isError: boolean;
+
+    // Filtering
+    public showFilter: boolean;
+    public minAmount: number;
+    public maxAmount: number;
+    public showExpenses: boolean = true;
+    public showIncomes: boolean = true;
 
     constructor(
         private apiEndpointsService: ApiEndpointsService,
@@ -41,6 +49,12 @@ export class CalendarComponent implements OnInit {
         this.currentDate = moment();
         this.generateCalendar();
         this.loadData();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.data) {
+            this.filterTransactions();
+        }
     }
 
     private generateCalendar(): void {
@@ -80,7 +94,7 @@ export class CalendarComponent implements OnInit {
         });
     }
 
-    private loadData(): void {
+    public loadData(): void {
         this.isError = false;
         this.isLoading = true;
 
@@ -90,6 +104,8 @@ export class CalendarComponent implements OnInit {
                 .toISOString()
                 .slice(0, 10),
             endDate: moment(this.lastDayOfGrid).toISOString().slice(0, 10),
+            minAmount: this.minAmount,
+            maxAmount: this.maxAmount
         };
 
         let getExpenses = this.apiHttpService
@@ -113,8 +129,23 @@ export class CalendarComponent implements OnInit {
                 })
             )
             .subscribe((result) => {
-                this.transactions = [].concat.apply([], result);
+                this.data = [].concat.apply([], result);
+                this.filterTransactions();
             });
+    }
+
+    public filterTransactions(event?: any): void {
+        this.transactions = [];
+        if (this.showExpenses) {
+            this.transactions = this.transactions.concat(
+                this.data.filter((x) => x instanceof Expense)
+            );
+        }
+        if (this.showIncomes) {
+            this.transactions = this.transactions.concat(
+                this.data.filter((x) => x instanceof Income)
+            );
+        }
     }
 
     public refresh(): void {

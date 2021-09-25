@@ -1,12 +1,64 @@
+<div [ngClass]="{'d-none': !showFilter }" class="d-flex shadow-lg flex-column position-absolute top-0 start-0 bg-white h-100" style="width: 256px;">
+
+    <div class="p-3">
+   
+        <div class="d-flex justify-content-between">
+            <div class="h4 fw-bold m-0">Filter</div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-close p-1" (click)="showFilter = false"></button>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="d-flex form-check form-switch">
+            <label class="form-check-label" for="showExpenses">Expenses</label>
+            <input [(ngModel)]="showExpenses" (ngModelChange)="filterTransactions()"
+                class="form-check-input ms-auto" type="checkbox" id="showExpenses">
+        </div>
+
+        <div class="d-flex form-check form-switch mb-3">
+            <label class="form-check-label" for="showIncomes">Incomes</label>
+            <input [(ngModel)]="showIncomes" (ngModelChange)="filterTransactions()"
+                class="form-check-input ms-auto" type="checkbox" id="showIncomes">
+        </div>
+
+        <div class="mb-3">
+            <label>Amount:</label>
+            <div class="d-flex">
+                <div>
+                    <input [(ngModel)]="minAmount" type="number" id="minAmount" placeholder="Min" class="form-control form-control-sm" min="0" (ngModelChange)="loadData()" [ngModelOptions]="{ updateOn: 'blur'}">
+                </div>
+                <div>
+                    <input [(ngModel)]="maxAmount" type="number" id="maxAmount" placeholder="Max" class="form-control form-control-sm" min="0" (ngModelChange)="loadData()" [ngModelOptions]="{ updateOn: 'blur'}">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-floating mb-3">
+            <select class="form-select form-select-sm" id="filterCategory">
+                <option value="">All</option>
+                <option value="">Food</option>
+            </select>
+            <label for="filterCategory">Category</label>
+        </div>
+
+    </div>
+</div>
+
 <div class="w-100 justify-content-center">
     <div class="calendar-navigation d-flex justify-content-between">
-        <div class="navigation-controls">
-            <button class="navigation-controls-item btn btn-light" [disabled]="isLoading" (click)="addTransaction()"
-                title="New Transaction">
+
+        <div class="d-flex">
+            <button class="btn btn-light" [disabled]="isLoading" (click)="addTransaction()" title="New transaction">
                 <i class="fas fa-plus"></i>
             </button>
-            <button class="navigation-controls-item btn btn-light" [disabled]="isLoading" (click)="refresh()"
-                title="Refresh">
+
+            <button class="ms-1 btn btn-light" id="filter" (click)="showFilter = !showFilter" [disabled]="isLoading" title="Filter">
+                <i class="fas fa-filter"></i>
+            </button>
+
+            <button class="ms-1 btn btn-light" [disabled]="isLoading" (click)="refresh()" title="Refresh">
                 <i class="fas fa-sync-alt"></i>
             </button>
         </div>
