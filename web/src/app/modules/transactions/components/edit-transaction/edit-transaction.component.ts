@@ -4,7 +4,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { finalize, map } from 'rxjs/operators';
 import { Category } from 'src/app/core/models/category';
-import { Expense } from 'src/app/core/models/expense';
 import { PostTransaction } from 'src/app/core/models/post-transaction';
 import { Transaction } from 'src/app/core/models/transaction';
 import { ApiEndpointsService } from 'src/app/core/services/api-endpoints.service';
@@ -41,10 +40,6 @@ export class EditTransactionComponent implements OnInit {
         return this.formGroup.controls;
     }
 
-    public get isExpense() {
-        return this.transaction instanceof Expense;
-    }
-
     public onSubmit() {
         this.formGroup.markAllAsTouched();
 
@@ -55,12 +50,12 @@ export class EditTransactionComponent implements OnInit {
         this.errors = [];
         this.isLoading = true;
         let request = this.formGroup.value as PostTransaction;
-        let endpoint = this.isExpense
-            ? this.apiEndpointsService.putExpenseEndpoint(request.id)
-            : this.apiEndpointsService.putIncomeEndpoint(request.id);
 
         this.apiHttpService
-            .put(endpoint, request)
+            .put(
+                this.apiEndpointsService.putTransactionEndpoint(request.id),
+                request
+            )
             .pipe(finalize(() => (this.isLoading = false)))
             .subscribe(
                 (response) => {
@@ -100,8 +95,12 @@ export class EditTransactionComponent implements OnInit {
         this.formGroup.get('id').setValue(this.transaction.id);
         this.formGroup.get('amount').setValue(this.transaction.amount);
         this.formGroup.get('categoryId').setValue(this.transaction.category.id);
-        this.formGroup.get('date').setValue(moment(this.transaction.date).format('YYYY-MM-DD'));
-        this.formGroup.get('description').setValue(this.transaction.description);
+        this.formGroup
+            .get('date')
+            .setValue(moment(this.transaction.date).format('YYYY-MM-DD'));
+        this.formGroup
+            .get('description')
+            .setValue(this.transaction.description);
     }
 
     private initForm(): void {

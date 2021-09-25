@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Application.Common.Models;
 using Application.Models.Category;
-using Application.Models.Expense;
 using Application.Models.Role;
+using Application.Models.Transaction;
 using Application.Models.User;
 using Domain.Entities;
 using Mapster;
@@ -28,7 +28,7 @@ namespace Application.Common.Mappings
                 .NewConfig();
 
             var categoryCtor = typeof(PaginatedList<CategoryDto>).GetConstructor(new[]
-                {typeof(List<CategoryDto>), typeof(int), typeof(int), typeof(int)});
+                { typeof(List<CategoryDto>), typeof(int), typeof(int), typeof(int) });
             TypeAdapterConfig<PaginatedList<Category>, PaginatedList<CategoryDto>>
                 .NewConfig()
                 .MapToConstructor(categoryCtor);
@@ -49,10 +49,11 @@ namespace Application.Common.Mappings
                 .NewConfig();
 
             var roleCtor = typeof(PaginatedList<RoleDto>).GetConstructor(new[]
-                {typeof(List<RoleDto>), typeof(int), typeof(int), typeof(int)});
+                { typeof(List<RoleDto>), typeof(int), typeof(int), typeof(int) });
             TypeAdapterConfig<PaginatedList<Role>, PaginatedList<RoleDto>>
                 .NewConfig()
                 .MapToConstructor(roleCtor);
+
 
             // User
 
@@ -69,36 +70,31 @@ namespace Application.Common.Mappings
                 .NewConfig();
 
             var userCtor = typeof(PaginatedList<UserDto>).GetConstructor(new[]
-                {typeof(List<UserDto>), typeof(int), typeof(int), typeof(int)});
+                { typeof(List<UserDto>), typeof(int), typeof(int), typeof(int) });
             TypeAdapterConfig<PaginatedList<User>, PaginatedList<UserDto>>
                 .NewConfig()
                 .MapToConstructor(userCtor);
 
-            // Expense
 
-            TypeAdapterConfig<Expense, ExpenseDto>
+            // Transaction
+
+            TypeAdapterConfig<Transaction, TransactionDto>
                 .NewConfig();
 
-            TypeAdapterConfig<Expense, ExpenseWithCategoryDto>
+            TypeAdapterConfig<TransactionDto, Transaction>
                 .NewConfig();
 
-            TypeAdapterConfig<ExpenseDto, Expense>
+            TypeAdapterConfig<CreateTransactionRequest, Transaction>
                 .NewConfig();
 
-            TypeAdapterConfig<CreateExpenseRequest, Expense>
+            TypeAdapterConfig<List<Transaction>, List<TransactionDto>>
                 .NewConfig();
 
-            TypeAdapterConfig<List<Expense>, List<ExpenseDto>>
-                .NewConfig();
-
-            TypeAdapterConfig<List<Expense>, List<ExpenseWithCategoryDto>>
-                .NewConfig();
-
-            var expenseCtor = typeof(PaginatedList<ExpenseDto>).GetConstructor(new[]
-                {typeof(List<ExpenseDto>), typeof(int), typeof(int), typeof(int)});
-            TypeAdapterConfig<PaginatedList<Expense>, PaginatedList<ExpenseDto>>
+            var transactionCtor = typeof(PaginatedList<TransactionDto>).GetConstructor(new[]
+                { typeof(List<TransactionDto>), typeof(int), typeof(int), typeof(int) });
+            TypeAdapterConfig<PaginatedList<Transaction>, PaginatedList<TransactionDto>>
                 .NewConfig()
-                .MapToConstructor(expenseCtor);
+                .MapToConstructor(transactionCtor);
         }
     }
 }

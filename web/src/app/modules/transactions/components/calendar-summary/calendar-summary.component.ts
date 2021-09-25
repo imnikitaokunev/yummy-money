@@ -1,4 +1,4 @@
-import { Transaction } from './../../../../core/models/transaction';
+import { Transaction } from 'src/app/core/models/transaction';
 import {
     Component,
     EventEmitter,
@@ -8,8 +8,6 @@ import {
     Output,
     SimpleChanges,
 } from '@angular/core';
-import { Expense } from 'src/app/core/models/expense';
-import { Income } from 'src/app/core/models/income';
 
 @Component({
     selector: 'app-calendar-summary',
@@ -43,10 +41,10 @@ export class CalendarSummaryComponent implements OnInit, OnChanges {
 
     private calculate(): void {
         this.expensesSum = this.getArraySum(
-            this.transactions.filter((x) => x instanceof Expense)
+            this.transactions.filter((x) => !x.isIncome)
         );
         this.incomesSum = this.getArraySum(
-            this.transactions.filter((x) => x instanceof Income)
+            this.transactions.filter((x) => x.isIncome)
         );
         this.net = this.incomesSum - this.expensesSum;
         this.netPercent = this.incomesSum

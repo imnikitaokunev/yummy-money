@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Expense } from 'src/app/core/models/expense';
 import { Transaction } from 'src/app/core/models/transaction';
 
 @Component({
@@ -16,8 +15,4 @@ export class SheetComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {}
-
-    public isExpense(transaction: Transaction): boolean{
-        return transaction instanceof Expense;
-    }
 }

@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Application.Models.Expense
+namespace Application.Models.Transaction
 {
-    public class CreateExpenseRequestValidator : AbstractValidator<CreateExpenseRequest>
+    public class CreateTransactionRequestValidator : AbstractValidator<CreateTransactionRequest>
     {
-        public CreateExpenseRequestValidator()
+        public CreateTransactionRequestValidator()
         {
             RuleFor(x => x.Amount).GreaterThan(0).LessThan(decimal.MaxValue);
             RuleFor(x => x.Date).NotEmpty();

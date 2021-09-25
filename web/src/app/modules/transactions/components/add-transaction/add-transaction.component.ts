@@ -68,12 +68,12 @@ export class AddTransactionComponent implements OnInit {
 
         this.errors = [];
         this.isLoading = true;
-        let endpoint = this.isExpense
-            ? this.apiEndpointsService.postExpenseEndpoint()
-            : this.apiEndpointsService.postIncomeEndpoint();
 
         this.apiHttpService
-            .post(endpoint, this.formGroup.value as PostTransaction)
+            .post(
+                this.apiEndpointsService.postTransactionEndpoint(),
+                this.formGroup.value as PostTransaction
+            )
             .pipe(finalize(() => (this.isLoading = false)))
             .subscribe(
                 (response) => {

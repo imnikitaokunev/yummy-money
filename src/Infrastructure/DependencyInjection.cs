@@ -24,14 +24,12 @@ namespace Infrastructure
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IExpenseRepository, ExpenseRepository>();
-            services.AddScoped<IIncomeRepository, IncomeRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
 
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IExpenseService, ExpenseService>();
-            services.AddScoped<IIncomeService, IncomeService>();
+            services.AddScoped<ITransactionService, TransactionService>();
 
             return services;
         }

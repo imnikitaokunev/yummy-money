@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <div class="modal-title"><span>{{ isExpense ? 'Expense' : 'Income'}}</span></div>
+    <div class="modal-title"><span>{{ transaction.isIncome ? 'Income' : 'Expense'}}</span></div>
     <button type="button" class="not-btn close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <i class="fas fa-times"></i>
     </button>
@@ -70,7 +70,8 @@
 
     </div>
     <div class="modal-footer">
-        <button type="submit" [ngClass]="isExpense ? 'btn-danger' : 'btn-success'" class="btn text-light fw-bold"
-            [disabled]="isLoading">Save {{ isExpense ? 'expense' : 'income'}}</button>
-    </div>
+        <button type="submit" [ngClass]="transaction.isIncome ? 'btn-success' : 'btn-danger'"
+            class="btn text-light fw-bold" [disabled]="isLoading">Save {{ transaction.isIncome ? 'income' :
+            'expense'}}</button>
+    </div>  
 </form>

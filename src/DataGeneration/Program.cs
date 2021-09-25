@@ -15,26 +15,20 @@ namespace DataGeneration
 
             // TODO: Use unit of work pattern;
 
-            const string connectionString =
-                "Server=tcp:yummymoney-db.database.windows.net,1433;Initial Catalog=yummymoneytesting;Persist Security Info=False;User ID=nikitosinos1;Password=13Nikitosinos;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            //const string connectionString =
-            //    "Server=tcp:yummymoney.database.windows.net,1433;Initial Catalog=yummymoneytesting;Persist Security Info=False;User ID=nikitosinos1;Password=13Nikitos;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            //const string connectionString =
-            //    "Server=tcp:yummymoney.database.windows.net,1433;Initial Catalog=yummymoneystaging;Persist Security Info=False;User ID=nikitosinos1;Password=13Nikitos;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            const string connectionString = "data source=(local);Initial Catalog=CostAccounting;Integrated Security=True;";
+
             var options = new DbContextOptionsBuilder<ApplicationDbContext>();
             options.UseSqlServer(connectionString);
 
             var context = new ApplicationDbContext(options.Options);
 
             var categoryRepository = new CategoryRepository(context);
-            var expenseRepository = new ExpenseRepository(context);
-            var incomeRepository = new IncomeRepository(context);
+            var transactionRepository = new TransactionRepository(context);
 
             #endregion
 
             Console.WriteLine("[0] Categories");
-            Console.WriteLine("[1] Expenses");
-            Console.WriteLine("[2] Incomes");
+            Console.WriteLine("[1] Transactions");
 
             var parsedCode = int.TryParse(Console.ReadLine(), out var code);
 
@@ -54,10 +48,7 @@ namespace DataGeneration
                     CreateCategories();
                     break;
                 case 1:
-                    CreateExpenses();
-                    break;
-                case 2:
-                    CreateIncomes();
+                    CreateTransactions();
                     break;
             }
 
@@ -71,7 +62,7 @@ namespace DataGeneration
                 var categoryFaker = new Faker<Category>()
                     .RuleFor(x => x.Name, x => x.Commerce.ProductName())
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription())
-                    .RuleFor(x => x.UserId, new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"));
+                    .RuleFor(x => x.UserId, new Guid("F2DCE61F-828B-4310-0FD0-08D949626D84"));
 
                 var categories = categoryFaker.GenerateLazy(count);
 
@@ -89,21 +80,22 @@ namespace DataGeneration
 
             #region Expenses
 
-            async void CreateExpenses()
+            async void CreateTransactions()
             {
                 var categoryFaker = new Faker<Category>()
                     .RuleFor(x => x.Name, x => x.Commerce.ProductName())
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription())
-                    .RuleFor(x => x.UserId, new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"));
+                    .RuleFor(x => x.UserId, new Guid("F2DCE61F-828B-4310-0FD0-08D949626D84"));
 
-                var expenseFaker = new Faker<Expense>()
+                var transactionFaker = new Faker<Transaction>()
                     .RuleFor(x => x.Category, x => categoryFaker)
+                    .RuleFor(x => x.IsIncome, x => x.Random.Bool())
                     .RuleFor(x => x.Amount, x => x.Finance.Amount(1, 2048))
                     .RuleFor(x => x.Date, x => x.Date.Between(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1)))
-                    .RuleFor(x => x.UserId, x => new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"))
+                    .RuleFor(x => x.UserId, x => new Guid("F2DCE61F-828B-4310-0FD0-08D949626D84"))
                     .RuleFor(x => x.Description, x => x.Commerce.ProductDescription());
 
-                var expenses = expenseFaker.GenerateLazy(count);
+                var expenses = transactionFaker.GenerateLazy(count);
 
                 foreach (var expense in expenses)
                 {
@@ -116,42 +108,7 @@ namespace DataGeneration
                         : expense.Description;
 
                     await categoryRepository.AddAsync(expense.Category);
-                    await expenseRepository.AddAsync(expense);
-                }
-            }
-
-            #endregion
-
-            #region Incomes
-
-            async void CreateIncomes()
-            {
-                var categoryFaker = new Faker<Category>()
-                    .RuleFor(x => x.Name, x => x.Commerce.ProductName())
-                    .RuleFor(x => x.Description, x => x.Commerce.ProductDescription())
-                    .RuleFor(x => x.UserId, new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"));
-
-                var incomeFaker = new Faker<Income>()
-                    .RuleFor(x => x.Category, x => categoryFaker)
-                    .RuleFor(x => x.Amount, x => x.Finance.Amount(1, 2048))
-                    .RuleFor(x => x.Date, x => x.Date.Between(DateTime.Now.AddMonths(-1), DateTime.Now.AddMonths(1)))
-                    .RuleFor(x => x.UserId, x => new Guid("2401d127-bb14-4e59-8fe8-34322355fa37"))
-                    .RuleFor(x => x.Description, x => x.Commerce.ProductDescription());
-
-                var incomes = incomeFaker.GenerateLazy(count);
-
-                foreach (var income in incomes)
-                {
-                    income.Category.Description = income.Category.Description.Length > 128
-                        ? income.Category.Description.Substring(0, 128)
-                        : income.Category.Description;
-
-                    income.Description = income.Description.Length > 128
-                        ? income.Description.Substring(0, 128)
-                        : income.Description;
-
-                    await categoryRepository.AddAsync(income.Category);
-                    await incomeRepository.AddAsync(income);
+                    await transactionRepository.AddAsync(expense);
                 }
             }
 

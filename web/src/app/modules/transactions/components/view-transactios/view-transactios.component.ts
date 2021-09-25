@@ -7,9 +7,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Transaction } from 'src/app/core/models/transaction';
-import { Expense } from 'src/app/core/models/expense';
-import { Income } from 'src/app/core/models/income';
-import { forkJoin, of } from 'rxjs';
+import { of } from 'rxjs';
 
 @Component({
     selector: 'app-view-transactios',
@@ -39,11 +37,11 @@ export class ViewTransactiosComponent implements OnInit {
     }
 
     public get expensesSum(): number {
-        return this.sum(this.transactions.filter((x) => x instanceof Expense));
+        return this.sum(this.transactions.filter((x) => !x.isIncome));
     }
 
     public get incomesSum(): number {
-        return this.sum(this.transactions.filter((x) => x instanceof Income));
+        return this.sum(this.transactions.filter((x) => x.isIncome));
     }
 
     public get net(): number {
@@ -54,10 +52,6 @@ export class ViewTransactiosComponent implements OnInit {
         return this.incomesSum ? this.net / this.incomesSum : this.net ? -1 : 0;
     }
 
-    public isExpense(transaction: Transaction): boolean {
-        return transaction instanceof Expense;
-    }
-
     public editTransaction(transaction: Transaction): void {
         let modal = this.modalService.open(EditTransactionComponent);
         modal.componentInstance.transaction = transaction;
@@ -66,12 +60,9 @@ export class ViewTransactiosComponent implements OnInit {
 
     public deleteTransaction(transacation: Transaction): void {
         this.isDeleting = true;
-        let url = this.isExpense(transacation)
-            ? this.apiEndpointsService.deleteExpenseEndpoint(transacation.id)
-            : this.apiEndpointsService.deleteIncomeEndpoint(transacation.id);
-
+      
         this.apiHttpService
-            .delete(url)
+            .delete(this.apiEndpointsService.deleteTransactionEndpoint(transacation.id))
             .pipe(finalize(() => (this.isDeleting = false)))
             .subscribe((response) => {
                 this.transactions = this.transactions.filter(
@@ -93,19 +84,11 @@ export class ViewTransactiosComponent implements OnInit {
             endDate: moment(this.date).add(1, 'days').format('MM-DD-yyyy'),
         };
 
-        let getExpenses = this.apiHttpService
-            .get(this.apiEndpointsService.getExpensesEndpoint(request))
+        this.apiHttpService
+            .get(this.apiEndpointsService.getTransactionsEndpoint(request))
             .pipe<Transaction[]>(
-                map((data: any) => data.map((x: any) => new Expense(x)))
-            );
-
-        let getIncomes = this.apiHttpService
-            .get(this.apiEndpointsService.getIncomesEndpoint(request))
-            .pipe<Transaction[]>(
-                map((data: any) => data.map((x: any) => new Income(x)))
-            );
-
-        forkJoin([getExpenses, getIncomes])
+                map((data: any) => data.map((x: any) => new Transaction(x)))
+            )
             .pipe(
                 finalize(() => (this.isLoading = false)),
                 catchError(() => {

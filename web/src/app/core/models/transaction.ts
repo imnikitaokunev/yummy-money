@@ -1,9 +1,15 @@
-import { Category } from "./category";
+import { Category } from './category';
 
-export interface Transaction {
+export class Transaction {
     id: number;
     amount: number;
     category: Category;
     date: Date;
     description: string;
+    isIncome: boolean;
+
+    constructor(data: any) {
+        Object.assign(this, data);
+        this.date = new Date(data.date);
+    }
 }

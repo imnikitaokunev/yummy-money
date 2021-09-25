@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Application.Models.Income
+namespace Application.Models.Transaction
 {
-    public class CreateIncomeRequest
+    public class CreateTransactionRequest
     {
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }

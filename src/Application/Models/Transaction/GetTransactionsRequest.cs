@@ -1,9 +1,9 @@
 ﻿using System;
 using Application.Common.Models;
 
-namespace Application.Models.Income
+namespace Application.Models.Transaction
 {
-    public class GetIncomesWithPaginationRequest : PaginationRequest
+    public class GetTransactionsRequest : Request
     {
         public Guid? CategoryId { get; set; }
         public Guid? UserId { get; set; }

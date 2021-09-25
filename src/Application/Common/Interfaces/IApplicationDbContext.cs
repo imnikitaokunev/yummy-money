@@ -10,8 +10,7 @@ namespace Application.Common.Interfaces
         DbSet<Category> Categories { get; }
         DbSet<Role> Roles { get; }
         DbSet<User> Users { get; }
-        DbSet<Expense> Expenses { get; }
-        DbSet<Income> Incomes { get; }
+        DbSet<Transaction> Transactions { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

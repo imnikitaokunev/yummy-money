@@ -8,8 +8,6 @@ import * as moment from 'moment';
 import { Moment } from 'moment';
 import * as range from 'lodash.range';
 import { finalize, map, catchError } from 'rxjs/operators';
-import { Expense } from 'src/app/core/models/expense';
-import { Income } from 'src/app/core/models/income';
 import { DayOfWeek } from '../../models/day-of-week';
 import { Sheet } from '../../models/sheet';
 import { KeyValue } from '@angular/common';
@@ -105,28 +103,20 @@ export class CalendarComponent implements OnInit, OnChanges {
                 .slice(0, 10),
             endDate: moment(this.lastDayOfGrid).toISOString().slice(0, 10),
             minAmount: this.minAmount,
-            maxAmount: this.maxAmount
+            maxAmount: this.maxAmount,
         };
 
-        let getExpenses = this.apiHttpService
-            .get(this.apiEndpointsService.getExpensesEndpoint(request))
-            .pipe<Transaction[]>(
-                map((data: any) => data.map((x: any) => new Expense(x)))
-            );
-
-        let getIncomes = this.apiHttpService
-            .get(this.apiEndpointsService.getIncomesEndpoint(request))
-            .pipe<Transaction[]>(
-                map((data: any) => data.map((x: any) => new Income(x)))
-            );
-
-        forkJoin([getExpenses, getIncomes])
+        this.apiHttpService
+            .get(this.apiEndpointsService.getTransactionsEndpoint(request))
             .pipe(
                 finalize(() => (this.isLoading = false)),
                 catchError(() => {
                     this.isError = true;
                     return of([]);
                 })
+            )
+            .pipe<Transaction[]>(
+                map((data: any) => data.map((x: any) => new Transaction(x)))
             )
             .subscribe((result) => {
                 this.data = [].concat.apply([], result);
@@ -138,12 +128,12 @@ export class CalendarComponent implements OnInit, OnChanges {
         this.transactions = [];
         if (this.showExpenses) {
             this.transactions = this.transactions.concat(
-                this.data.filter((x) => x instanceof Expense)
+                this.data.filter((x) => !x.isIncome)
             );
         }
         if (this.showIncomes) {
             this.transactions = this.transactions.concat(
-                this.data.filter((x) => x instanceof Income)
+                this.data.filter((x) => x.isIncome)
             );
         }
     }

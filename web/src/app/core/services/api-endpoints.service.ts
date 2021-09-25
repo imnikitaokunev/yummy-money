@@ -57,42 +57,23 @@ export class ApiEndpointsService {
     }
     /* #endregion */
 
-    public getExpensesEndpoint(request: Object): string {
+    public getTransactionsEndpoint(request: Object): string {
         return this.createUrlWithQueryParameters(
-            'expenses',
+            'transactions',
             (qs: QueryStringParameters) => this.populateParameters(qs, request)
         );
     }
 
-    public postExpenseEndpoint(): string {
-        return this.createUrl('expenses');
+    public postTransactionEndpoint(): string {
+        return this.createUrl('transactions');
     }
 
-    public putExpenseEndpoint(id: number): string {
-        return this.createUrlWithPathVariables('expenses', [id]);
+    public putTransactionEndpoint(id: number): string {
+        return this.createUrlWithPathVariables('transactions', [id]);
     }
 
-    public deleteExpenseEndpoint(id: number): string {
-        return this.createUrlWithPathVariables('expenses', [id]);
-    }
-
-    public getIncomesEndpoint(request: Object): string {
-        return this.createUrlWithQueryParameters(
-            'incomes',
-            (qs: QueryStringParameters) => this.populateParameters(qs, request)
-        );
-    }
-
-    public postIncomeEndpoint(): string {
-        return this.createUrl('incomes');
-    }
-
-    public putIncomeEndpoint(id: number): string {
-        return this.createUrlWithPathVariables('incomes', [id]);
-    }
-
-    public deleteIncomeEndpoint(id: number): string {
-        return this.createUrlWithPathVariables('incomes', [id]);
+    public deleteTransactionEndpoint(id: number): string {
+        return this.createUrlWithPathVariables('transactions', [id]);
     }
 
     public getCategoriesEndpoint(): string {

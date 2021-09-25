@@ -20,20 +20,23 @@ namespace Infrastructure.Persistence.Repositories
 
         protected Repository(IApplicationDbContext context) => Context = context;
 
-        public virtual async Task<TEntity> GetByIdAsync(TKey id) => await DbSet.FindAsync(id);
+        public virtual async Task<TEntity> GetByIdAsync(TKey id)
+        {
+            return await DbSet.FindAsync(id);
+        }
 
         public async Task<List<TEntity>> GetAsync(Request request)
         {
             var filteredQuery = ApplyFilter(DbSet, request);
             var sortedAndFilteredQuery = ApplySort(filteredQuery, request.SortBy, request.SortType);
-            return await sortedAndFilteredQuery.AsNoTracking().ToListAsync();
+            return await Include(sortedAndFilteredQuery).AsNoTracking().ToListAsync();
         }
 
         public async Task<PaginatedList<TEntity>> GetPagedResponseAsync(PaginationRequest request)
         {
             var filteredQuery = ApplyFilter(DbSet, request);
             var sortedAndFilteredQuery = ApplySort(filteredQuery, request.SortBy, request.SortType);
-            return await sortedAndFilteredQuery.AsNoTracking().PaginatedListAsync(request.PageNumber, request.PageSize);
+            return await Include(sortedAndFilteredQuery).AsNoTracking().PaginatedListAsync(request.PageNumber, request.PageSize);
         }
 
         public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = new())
@@ -69,8 +72,15 @@ namespace Infrastructure.Persistence.Repositories
 
         protected abstract IQueryable<TEntity> ApplyFilterInternal(IQueryable<TEntity> query, Request request);
 
-        protected IQueryable<TEntity> ApplyFilter(IQueryable<TEntity> query, Request request) =>
-            ApplyFilterInternal(query, request);
+        protected virtual IQueryable<TEntity> Include(IQueryable<TEntity> query)
+        {
+            return query;
+        }
+
+        protected IQueryable<TEntity> ApplyFilter(IQueryable<TEntity> query, Request request)
+        {
+            return ApplyFilterInternal(query, request);
+        }
 
         protected static IQueryable<TEntity> ApplySort(IQueryable<TEntity> query, string sortBy, SortType sortType)
         {
