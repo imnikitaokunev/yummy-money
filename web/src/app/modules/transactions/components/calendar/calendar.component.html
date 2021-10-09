@@ -1,113 +1,36 @@
-<div class="w-100 justify-content-center">
-    <div class="calendar-navigation d-flex justify-content-between">
-
-        <div class="d-flex">
-            <button class="btn btn-light" [disabled]="isLoading" (click)="addTransaction()" title="New transaction">
-                <i class="fas fa-plus"></i>
-            </button>
-
-            <button class="ms-1 btn btn-light" id="filter" (click)="showFilter = !showFilter" [disabled]="isLoading"
-                title="Filter">
-                <i class="fas fa-filter"></i>
-            </button>
-
-            <button class="ms-1 btn btn-light" [disabled]="isLoading" (click)="refresh()" title="Refresh">
-                <i class="fas fa-sync-alt"></i>
-            </button>
+<div class="calendar">
+    <div class="calendar-header d-flex justify-content-between text-center">
+        <div class="sheet-header w-100" *ngFor="let dayOfWeek of daysOfWeek | keyvalue: originalOrder">
+            {{ dayOfWeek.value }}
         </div>
-
-        <div class="navigation-date d-flex justify-content-center">
-            <button [disabled]="isLoading" class="navigation-date-month" (click)="prevMonth()" title="Previous Month">
-                &laquo; {{ getMonthName(-1) | slice: 0:3 }}
-            </button>
-            <div class="navigation-date-year">{{ getMonthName(0) | slice: 0:3 }} {{ currentDate.year() }}</div>
-            <button [disabled]="isLoading" class="navigation-date-month" (click)="nextMonth()" title="Next Month">
-                {{ getMonthName(1) | slice: 0:3 }} &raquo;
-            </button>
-        </div>
-
-        <app-calendar-summary [isLoading]="isLoading" [isError]="isError" (reloaded)="refresh()"
-            [transactions]="transactions"></app-calendar-summary>
     </div>
 
-    <ng-container *ngIf="showFilter">
-
-        <div class="d-flex justify-content-between my-1 align-items-center">
-            <div class="d-flex">
-
-                <div class="d-flex form-check form-switch">
-                    <label class="form-check-label" for="showExpenses">Expenses</label>
-                    <input [(ngModel)]="showExpenses" (ngModelChange)="filterTransactions()"
-                        class="form-check-input ms-1" type="checkbox" id="showExpenses">
+    <ng-container *ngIf="!isLoading && !isError">
+        <div class="calendar-content">
+            <ng-container *ngFor="let week of weeks">
+                <div class="d-flex justify-content-between">
+                    <ng-container *ngFor="let day of week">
+                        <app-sheet class="min-w-0 w-100" (click)="viewTransactions(day.date)"
+                            [transactions]="getFromDay(transactions, day.date)" [day]="day.day" [date]="day.date"
+                            [isCurrentMonth]="day.isCurrentMonth" [isToday]="day.isToday">
+                        </app-sheet>
+                    </ng-container>
                 </div>
-
-                <div class="d-flex form-check form-switch ms-2">
-                    <label class="form-check-label" for="showIncomes">Incomes</label>
-                    <input [(ngModel)]="showIncomes" (ngModelChange)="filterTransactions()"
-                        class="form-check-input ms-2" type="checkbox" id="showIncomes">
-                </div>
-            </div>
-
-            <div>
-                <div class="d-flex">
-                    <div>
-                        <input [(ngModel)]="minAmount" type="number" id="minAmount" placeholder="Min amount"
-                            class="form-control form-control-sm" min="0" (ngModelChange)="loadData()"
-                            [ngModelOptions]="{ updateOn: 'blur'}">
-                    </div>
-                    <div>
-                        <input [(ngModel)]="maxAmount" type="number" id="maxAmount" placeholder="Max amount"
-                            class="form-control form-control-sm" min="0" (ngModelChange)="loadData()"
-                            [ngModelOptions]="{ updateOn: 'blur'}">
-                    </div>
-                </div>
-            </div>
-
-            <!-- <div class="form-floating">
-        <select class="form-select form-select-sm" id="filterCategory">
-            <option value="">All</option>
-            <option value="">Food</option>
-        </select>
-        <label for="filterCategory">Category</label>
-    </div> -->
+            </ng-container>
         </div>
-
     </ng-container>
 
-    <div class="calendar">
-        <div class="calendar-header d-flex justify-content-between text-center">
-            <div class="sheet-header w-100" *ngFor="let dayOfWeek of daysOfWeek | keyvalue: originalOrder">
-                {{ dayOfWeek.value }}
-            </div>
+    <ng-container *ngIf="isLoading && !isError">
+        <div class="d-flex justify-content-center calendar-content align-items-center h-100 bg-grey">
+            <app-loading-indicator [isLoading]="isLoading"></app-loading-indicator>
         </div>
+    </ng-container>
 
-        <ng-container *ngIf="!isLoading && !isError">
-            <div class="calendar-content">
-                <ng-container *ngFor="let week of weeks">
-                    <div class="d-flex justify-content-between">
-                        <ng-container *ngFor="let day of week">
-                            <app-sheet class="min-w-0 w-100" (click)="viewTransactions(day.date)"
-                                [transactions]="getFromDay(transactions, day.date)" [day]="day.day" [date]="day.date"
-                                [isCurrentMonth]="day.isCurrentMonth" [isToday]="day.isToday">
-                            </app-sheet>
-                        </ng-container>
-                    </div>
-                </ng-container>
-            </div>
-        </ng-container>
-
-        <ng-container *ngIf="isLoading && !isError">
-            <div class="d-flex justify-content-center calendar-content align-items-center h-100 bg-grey">
-                <app-loading-indicator [isLoading]="isLoading"></app-loading-indicator>
-            </div>
-        </ng-container>
-
-        <ng-container *ngIf="isError">
-            <div class="d-flex justify-content-center calendar-content align-items-center h-100 bg-grey">
-                <button class="not-btn" (click)="refresh()">
-                    <i hover-class="fa-sync-alt" class="fas fa-2x fa-exclamation-circle"></i>
-                </button>
-            </div>
-        </ng-container>
-    </div>
+    <ng-container *ngIf="isError">
+        <div class="d-flex justify-content-center calendar-content align-items-center h-100 bg-grey">
+            <button class="not-btn" (click)="reload()">
+                <i hover-class="fa-sync-alt" class="fas fa-2x fa-exclamation-circle"></i>
+            </button>
+        </div>
+    </ng-container>
 </div>

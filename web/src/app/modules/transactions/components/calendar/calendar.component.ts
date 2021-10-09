@@ -1,18 +1,21 @@
-import { ViewTransactiosComponent } from './../view-transactios/view-transactios.component';
-import { AddTransactionComponent } from './../add-transaction/add-transaction.component';
+import { ViewTransactiosComponent } from 'src/app/modules/transactions/components/view-transactios/view-transactios.component';
 import { Transaction } from 'src/app/core/models/transaction';
-import { ApiHttpService } from 'src/app/core/services/api-http.service';
-import { ApiEndpointsService } from 'src/app/core/services/api-endpoints.service';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    OnChanges,
+    SimpleChanges,
+    EventEmitter,
+    Output,
+} from '@angular/core';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import * as range from 'lodash.range';
-import { finalize, map, catchError } from 'rxjs/operators';
 import { DayOfWeek } from '../../models/day-of-week';
 import { Sheet } from '../../models/sheet';
 import { KeyValue } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, of } from 'rxjs';
 
 @Component({
     selector: 'app-calendar',
@@ -21,42 +24,40 @@ import { forkJoin, of } from 'rxjs';
 export class CalendarComponent implements OnInit, OnChanges {
     public weeks: Array<Sheet[]> = [];
     public daysOfWeek = DayOfWeek;
-    public transactions: Transaction[] = [];
-    public data: Transaction[] = [];
 
-    public firstDayOfGrid: Moment;
-    public lastDayOfGrid: Moment;
-    public currentDate: Moment;
+    @Input()
     public isLoading: boolean;
+    @Input()
     public isError: boolean;
+    @Input()
+    public currentDate: Moment;
+    @Input()
+    public firstDay: Moment;
+    @Input()
+    public lastDay: Moment;
+    @Input()
+    public transactions: Transaction[] = [];
 
-    // Filtering
-    public showFilter: boolean;
-    public minAmount: number;
-    public maxAmount: number;
-    public showExpenses: boolean = true;
-    public showIncomes: boolean = true;
+    @Output() reloaded = new EventEmitter<void>();
 
-    constructor(
-        private apiEndpointsService: ApiEndpointsService,
-        private apiHttpService: ApiHttpService,
-        private modalService: NgbModal
-    ) {}
+    constructor(private modalService: NgbModal) {}
 
     ngOnInit(): void {
-        this.currentDate = moment();
         this.generateCalendar();
-        this.loadData();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.data) {
-            this.filterTransactions();
+        if (changes.currentDate) {
+            this.generateCalendar();
         }
     }
 
+    public reload(): void {
+        this.reloaded.emit();
+    }
+
     private generateCalendar(): void {
-        const dates = this.fillDates(this.currentDate);
+        const dates = this.fillDates();
         const weeks: Array<Sheet[]> = [];
         while (dates.length > 0) {
             weeks.push(dates.splice(0, 7));
@@ -64,25 +65,14 @@ export class CalendarComponent implements OnInit, OnChanges {
         this.weeks = weeks;
     }
 
-    private fillDates(currentMoment: moment.Moment): Array<Sheet> {
-        const firstOfMonth = moment(currentMoment).startOf('month').day();
-        const lastOfMonth = moment(currentMoment).endOf('month').day();
-
-        this.firstDayOfGrid = moment(currentMoment)
-            .startOf('month')
-            .subtract(firstOfMonth, 'days');
-        this.lastDayOfGrid = moment(currentMoment)
-            .endOf('month')
-            .subtract(lastOfMonth, 'days')
-            .add(7, 'days');
-
-        const startCalendar = this.firstDayOfGrid.date();
+    private fillDates(): Array<Sheet> {
+        const startCalendar = this.firstDay.date();
 
         return range(
             startCalendar,
-            startCalendar + this.lastDayOfGrid.diff(this.firstDayOfGrid, 'days')
+            startCalendar + this.lastDay.diff(this.firstDay, 'days')
         ).map((date) => {
-            const newDate = moment(this.firstDayOfGrid).date(date);
+            const newDate = moment(this.firstDay).date(date);
             return {
                 isToday: this.isToday(newDate),
                 isCurrentMonth: this.isCurrentMonth(newDate),
@@ -90,60 +80,6 @@ export class CalendarComponent implements OnInit, OnChanges {
                 day: newDate.date(),
             };
         });
-    }
-
-    public loadData(): void {
-        this.isError = false;
-        this.isLoading = true;
-
-        let request = {
-            startDate: moment(this.firstDayOfGrid)
-                .add(1, 'days')
-                .toISOString()
-                .slice(0, 10),
-            endDate: moment(this.lastDayOfGrid).toISOString().slice(0, 10),
-            minAmount: this.minAmount,
-            maxAmount: this.maxAmount,
-        };
-
-        this.apiHttpService
-            .get(this.apiEndpointsService.getTransactionsEndpoint(request))
-            .pipe(
-                finalize(() => (this.isLoading = false)),
-                catchError(() => {
-                    this.isError = true;
-                    return of([]);
-                })
-            )
-            .pipe<Transaction[]>(
-                map((data: any) => data.map((x: any) => new Transaction(x)))
-            )
-            .subscribe((result) => {
-                this.data = [].concat.apply([], result);
-                this.filterTransactions();
-            });
-    }
-
-    public filterTransactions(event?: any): void {
-        this.transactions = [];
-        if (this.showExpenses) {
-            this.transactions = this.transactions.concat(
-                this.data.filter((x) => !x.isIncome)
-            );
-        }
-        if (this.showIncomes) {
-            this.transactions = this.transactions.concat(
-                this.data.filter((x) => x.isIncome)
-            );
-        }
-    }
-
-    public refresh(): void {
-        this.loadData();
-    }
-
-    public addTransaction(): void {
-        this.modalService.open(AddTransactionComponent);
     }
 
     public viewTransactions(date: Date): void {
@@ -160,28 +96,8 @@ export class CalendarComponent implements OnInit, OnChanges {
         return moment().isSame(moment(date), 'day');
     }
 
-    public prevMonth(): void {
-        this.currentDate = moment(this.currentDate).subtract(1, 'months');
-        this.generateCalendar();
-        this.refresh();
-    }
-
-    public nextMonth(): void {
-        this.currentDate = moment(this.currentDate).add(1, 'months');
-        this.generateCalendar();
-        this.refresh();
-    }
-
-    public getMonthName(offset: number): string {
-        return this.currentDate.clone().add(offset, 'months').format('MMMM');
-    }
-
     public getFromDay(array: { date: Date }[], date: Date): any[] {
-        if (!array) {
-            return [];
-        }
-
-        return array.filter((x) => moment(x.date).isSame(date, 'day'));
+        return array ? array.filter((x) => moment(x.date).isSame(date, 'day')) : [];
     }
 
     public originalOrder = (

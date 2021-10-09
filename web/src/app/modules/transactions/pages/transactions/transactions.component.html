@@ -1,5 +1,85 @@
-<div class="content">
-    <div class="d-flex">
-        <app-calendar class="container"></app-calendar>
+<div class="container pb-5">
+
+    <div class="w-100 justify-content-center">
+        <div class="calendar-navigation d-flex justify-content-between">
+
+            <div class="d-flex">
+                <button class="btn btn-light" [disabled]="isLoading" (click)="addTransaction()" title="New transaction">
+                    <i class="fas fa-plus"></i>
+                </button>
+
+                <button class="ms-1 btn btn-light" id="filter" (click)="showFilter = !showFilter" [disabled]="isLoading"
+                    title="Filter">
+                    <i class="fas fa-filter"></i>
+                </button>
+
+                <button class="ms-1 btn btn-light" [disabled]="isLoading" (click)="loadData()" title="Refresh">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+
+            <div class="navigation-date d-flex justify-content-center">
+                <button [disabled]="isLoading" class="navigation-date-month" (click)="prevMonth()"
+                    title="Previous Month">
+                    &laquo; {{ getMonthName(-1) | slice: 0:3 }}
+                </button>
+                <div class="navigation-date-year">{{ getMonthName(0) | slice: 0:3 }} {{ currentDate.year() }}</div>
+                <button [disabled]="isLoading" class="navigation-date-month" (click)="nextMonth()" title="Next Month">
+                    {{ getMonthName(1) | slice: 0:3 }} &raquo;
+                </button>
+            </div>
+
+            <app-calendar-summary [isLoading]="isLoading" [isError]="isError" (reloaded)="loadData()"
+                [transactions]="transactions"></app-calendar-summary>
+        </div>
     </div>
+
+    <ng-container *ngIf="showFilter">
+
+        <div class="d-flex justify-content-between mb-1 align-items-center">
+            <div class="d-flex">
+
+                <div class="d-flex form-check form-switch">
+                    <label class="form-check-label" for="showExpenses">Expenses</label>
+                    <input [(ngModel)]="showExpenses" (ngModelChange)="filterTransactions()"
+                        class="form-check-input ms-1" type="checkbox" id="showExpenses">
+                </div>
+
+                <div class="d-flex form-check form-switch ms-2">
+                    <label class="form-check-label" for="showIncomes">Incomes</label>
+                    <input [(ngModel)]="showIncomes" (ngModelChange)="filterTransactions()"
+                        class="form-check-input ms-2" type="checkbox" id="showIncomes">
+                </div>
+            </div>
+
+            <div>
+                <div class="d-flex">
+                    <div>
+                        <input [(ngModel)]="minAmount" type="number" id="minAmount" placeholder="Min amount"
+                            class="form-control form-control-sm" (ngModelChange)="loadData()"
+                            [ngModelOptions]="{ updateOn: 'blur'}" novalidate>
+                    </div>
+                    <div>
+                        <input [(ngModel)]="maxAmount" type="number" id="maxAmount" placeholder="Max amount"
+                            class="form-control form-control-sm" (ngModelChange)="loadData()"
+                            [ngModelOptions]="{ updateOn: 'blur'}" novalidate>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="form-floating">
+            <select class="form-select form-select-sm" id="filterCategory">
+                <option value="">All</option>
+                <option value="">Food</option>
+            </select>
+            <label for="filterCategory">Category</label>
+        </div> -->
+        </div>
+
+    </ng-container>
+
+    <app-calendar [firstDay]="firstDay" [lastDay]="lastDay" [isLoading]="isLoading" [isError]="isError" [transactions]="transactions"
+        [currentDate]="currentDate" (reloaded)="loadData()">
+    </app-calendar>
+
 </div>
