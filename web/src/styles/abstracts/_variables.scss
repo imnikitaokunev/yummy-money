@@ -72,5 +72,8 @@ $theme-colors: (
   "danger":     $danger,
   "light":      $light,
   "invalid":    $invalid,
+  "light-grey": $background-gray-color,
   "highlight":  lighten($light, 3%)
 ) !default;
+
+$header-height: 3.5rem;

@@ -1,7 +1,11 @@
-.login-form {
-    height: calc(100vh - 72px);
+@import "../abstracts/variables";
+
+$login-max-width: 32rem;
+
+.h-fill {
+    height: calc(100vh - #{$header-height}*2);
 }
 
-.secondary-link {
-    font-size: 0.875rem;
+.login {
+    max-width: $login-max-width;
 }
