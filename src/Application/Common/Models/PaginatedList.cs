@@ -22,7 +22,7 @@ namespace Application.Common.Models
         {
             Items = items;
             PageIndex = pageIndex;
-            PageSize = pageSize;
+            PageSize = pageSize < totalCount ? pageSize : totalCount;
             TotalPages = (int) Math.Ceiling(totalCount / (double) pageSize);
             TotalCount = totalCount;
         }

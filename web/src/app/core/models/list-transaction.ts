@@ -1,6 +1,6 @@
 import { Category } from './category';
 
-export class Transaction {
+export class ListTransaction {
     id: number;
     amount: number;
     category: Category;
@@ -8,6 +8,7 @@ export class Transaction {
     description: string;
     isIncome: boolean;
     userId: string;
+    isSelected: boolean;
 
     constructor(data: any) {
         Object.assign(this, data);

@@ -64,6 +64,13 @@ export class ApiEndpointsService {
         );
     }
 
+    public getTransactionsPagedEndpoint(request: Object): string {
+        return this.createUrlWithQueryParameters(
+            'transactions/paged',
+            (qs: QueryStringParameters) => this.populateParameters(qs, request)
+        );
+    }
+
     public postTransactionEndpoint(): string {
         return this.createUrl('transactions');
     }

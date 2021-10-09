@@ -4,10 +4,11 @@ import { LoadingIndicatorSmallComponent } from './components/loading-indicator-s
 import { LoadingIndicatorComponent } from './components/loading-indicator/loading-indicator.component';
 import { HoverClassDirective } from './directives/hover-class.directive';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { IndeterminateDirective } from './directives/indeterminate.directive';
 
 @NgModule({
     imports: [CommonModule],
-    declarations: [LoadingIndicatorSmallComponent, LoadingIndicatorComponent, HoverClassDirective, SidebarComponent],
-    exports: [LoadingIndicatorSmallComponent, LoadingIndicatorComponent, HoverClassDirective, SidebarComponent],
+    declarations: [LoadingIndicatorSmallComponent, LoadingIndicatorComponent, HoverClassDirective, SidebarComponent, IndeterminateDirective],
+    exports: [LoadingIndicatorSmallComponent, LoadingIndicatorComponent, HoverClassDirective, SidebarComponent, ],
 })
 export class SharedModule {}

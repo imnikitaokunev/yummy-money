@@ -4,8 +4,9 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
     selector: '[hover-class]',
 })
 export class HoverClassDirective {
-    constructor(public elementRef: ElementRef) {}
     @Input('hover-class') hoverClass: any;
+
+    constructor(public elementRef: ElementRef) {}
 
     @HostListener('mouseenter') onMouseEnter() {
         this.elementRef.nativeElement.classList.add(this.hoverClass);
