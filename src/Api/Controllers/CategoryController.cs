@@ -2,11 +2,14 @@
 using System.Threading.Tasks;
 using Application.Common.Interfaces.Services;
 using Application.Models.Category;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/categories")]
     public class CategoryController : ControllerBase
     {
@@ -44,7 +47,7 @@ namespace Api.Controllers
         public async Task<IActionResult> AddAsync([FromBody] CreateCategoryRequest category)
         {
             var created = await _categoryService.AddAsync(category);
-            return CreatedAtAction("GetById", new {id = created.Id}, created);
+            return CreatedAtAction("GetById", new { id = created.Id }, created);
         }
 
         [HttpPut("{id:guid}")]

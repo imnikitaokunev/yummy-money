@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Application.Models.Role;
+using Microsoft.AspNetCore.Identity;
 
 namespace Application.Models.User
 {
@@ -9,10 +9,6 @@ namespace Application.Models.User
         public Guid Id { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime RegisteredAt { get; set; }
-        public byte[] Photo { get; set; }
-        public List<RoleDto> Roles { get; set; }
+        public List<IdentityRole> Roles { get; set; }
     }
 }

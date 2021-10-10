@@ -20,7 +20,7 @@ namespace DataGeneration
             var options = new DbContextOptionsBuilder<ApplicationDbContext>();
             options.UseSqlServer(connectionString);
 
-            var context = new ApplicationDbContext(options.Options);
+            var context = new ApplicationDbContext(options.Options, null);
 
             var categoryRepository = new CategoryRepository(context);
             var transactionRepository = new TransactionRepository(context);

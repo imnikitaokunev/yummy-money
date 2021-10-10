@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using Application.Common.Models;
 using Application.Models.Category;
-using Application.Models.Role;
 using Application.Models.Transaction;
-using Application.Models.User;
 using Domain.Entities;
 using Mapster;
 
@@ -34,46 +32,25 @@ namespace Application.Common.Mappings
                 .MapToConstructor(categoryCtor);
 
 
-            // Role
+            //// User
 
-            TypeAdapterConfig<Role, RoleDto>
-                .NewConfig();
+            //TypeAdapterConfig<User, UserDto>
+            //    .NewConfig();
 
-            TypeAdapterConfig<RoleDto, Role>
-                .NewConfig();
+            //TypeAdapterConfig<UserDto, User>
+            //    .NewConfig();
 
-            TypeAdapterConfig<CreateRoleRequest, Role>
-                .NewConfig();
+            //TypeAdapterConfig<CreateUserRequest, User>
+            //    .NewConfig();
 
-            TypeAdapterConfig<List<Role>, List<RoleDto>>
-                .NewConfig();
+            //TypeAdapterConfig<List<User>, List<UserDto>>
+            //    .NewConfig();
 
-            var roleCtor = typeof(PaginatedList<RoleDto>).GetConstructor(new[]
-                { typeof(List<RoleDto>), typeof(int), typeof(int), typeof(int) });
-            TypeAdapterConfig<PaginatedList<Role>, PaginatedList<RoleDto>>
-                .NewConfig()
-                .MapToConstructor(roleCtor);
-
-
-            // User
-
-            TypeAdapterConfig<User, UserDto>
-                .NewConfig();
-
-            TypeAdapterConfig<UserDto, User>
-                .NewConfig();
-
-            TypeAdapterConfig<CreateUserRequest, User>
-                .NewConfig();
-
-            TypeAdapterConfig<List<User>, List<UserDto>>
-                .NewConfig();
-
-            var userCtor = typeof(PaginatedList<UserDto>).GetConstructor(new[]
-                { typeof(List<UserDto>), typeof(int), typeof(int), typeof(int) });
-            TypeAdapterConfig<PaginatedList<User>, PaginatedList<UserDto>>
-                .NewConfig()
-                .MapToConstructor(userCtor);
+            //var userCtor = typeof(PaginatedList<UserDto>).GetConstructor(new[]
+            //    { typeof(List<UserDto>), typeof(int), typeof(int), typeof(int) });
+            //TypeAdapterConfig<PaginatedList<User>, PaginatedList<UserDto>>
+            //    .NewConfig()
+            //    .MapToConstructor(userCtor);
 
 
             // Transaction
