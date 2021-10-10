@@ -48,7 +48,7 @@ $invalid-input-1: #f9dbd2;
 $invalid-input-2: #ee3e54;
 $scarlet: #f9dbd2;
 
-$valid-input-1: #e6edb7;
+$light-green: #e6edb7;
 $valid-input-2: #93bc39;
 
 $danger: $primary-red;
@@ -73,6 +73,7 @@ $theme-colors: (
   "light":      $light,
   "invalid":    $invalid,
   "light-grey": $background-gray-color,
+  "light-green": $light-green,
   "highlight":  lighten($light, 3%)
 ) !default;
 

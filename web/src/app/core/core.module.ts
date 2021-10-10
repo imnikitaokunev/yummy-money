@@ -10,12 +10,7 @@ import { ToastsComponent } from './components/toasts/toasts.component';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        NgbToastModule,
-        HttpClientModule,
-        RouterModule,
-    ],
+    imports: [CommonModule, NgbToastModule, HttpClientModule, RouterModule],
     declarations: [HeaderComponent, ToastsComponent],
     providers: [
         ApiHttpService,

@@ -87,6 +87,10 @@ export class ApiEndpointsService {
         return this.createUrl('categories');
     }
 
+    public signInEndpoint(): string {
+        return this.createUrl('identity/signin');
+    }
+
     private populateParameters(
         qs: QueryStringParameters,
         request: Object

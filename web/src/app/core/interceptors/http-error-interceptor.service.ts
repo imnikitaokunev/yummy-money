@@ -36,6 +36,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                 if (error.error?.title?.includes('validation')) {
                     return throwError(error);
                 }
+                
+                if (error.status === 401) {
+                    return throwError(error);
+                }
 
                 this.toastService.show(errorMsg, {
                     classname: 'fw-bold bg-invalid user-select-none',

@@ -1,3 +1,4 @@
+import { AuthGuard } from './core/guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -18,16 +19,20 @@ const routes: Routes = [
             import('./modules/transactions/transactions.module').then(
                 (m) => m.TransactionsModule
             ),
+        canActivate: [AuthGuard],
     },
     {
         path: 'list',
         loadChildren: () =>
             import('./modules/list/list.module').then((m) => m.ListModule),
+        canActivate: [AuthGuard],
     },
     {
-        path: 'login',
+        path: 'signin',
         loadChildren: () =>
-            import('./modules/login/login.module').then((m) => m.LoginModule),
+            import('./modules/sign-in/sign-in.module').then(
+                (m) => m.SignInModule
+            ),
     },
 ];
 

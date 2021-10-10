@@ -12,46 +12,55 @@
                         <li class="nav-item">
                             <a class="nav-link position-relative" routerLink="home" routerLinkActive="active">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link position-relative" routerLink="transactions"
-                                routerLinkActive="active">Calendar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link position-relative" routerLink="list"
-                                routerLinkActive="active">List</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link position-relative" routerLink="reports"
-                                routerLinkActive="active">Reports</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link position-relative" routerLink="help" routerLinkActive="active">Help</a>
-                        </li>
+
+                        <ng-container *ngIf="isLoggedIn">
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" routerLink="transactions"
+                                    routerLinkActive="active">Calendar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" routerLink="list"
+                                    routerLinkActive="active">List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" routerLink="reports"
+                                    routerLinkActive="active">Reports</a>
+                            </li>
+                        </ng-container>
+
                     </ul>
                     <ul class="navbar-nav mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link position-relative" routerLink="login" routerLinkActive="active">Log In</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" routerLink="register" routerLinkActive="active">Sign Up</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Profile
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <h6 class="dropdown-header">You logged as Nikita</h6>
-                                </li>
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="text-danger dropdown-item" href="#">Logout</a></li>
-                            </ul>
-                        </li>
+
+                        <ng-container *ngIf="!isLoggedIn">
+                            <li class="nav-item">
+                                <a class="nav-link position-relative" routerLink="signin" routerLinkActive="active">Sign
+                                    In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="register" routerLinkActive="active">Sign Up</a>
+                            </li>
+                        </ng-container>
+
+                        <ng-container *ngIf="isLoggedIn">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Profile
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <h6 class="dropdown-header">You logged as <b>{{currentUser.unique_name}}</b></h6>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><button class="text-danger dropdown-item not-btn" (click)="signOut()">Sign Out</button></li>
+                                </ul>
+                            </li>
+                        </ng-container>
+
                     </ul>
                 </div>
             </div>

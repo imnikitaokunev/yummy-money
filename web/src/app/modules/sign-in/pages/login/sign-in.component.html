@@ -1,0 +1,77 @@
+<div class="d-flex h-fill justify-content-center">
+    <div class="my-sm-auto login w-100 p-5 bg-grey">
+
+        <h3 class="mb-3 fw-bold text-decoration-underline">Sign In</h3>
+
+        <ng-container *ngIf="errors?.length">
+            <div class="alert alert-invalid fw-bold alert-dismissible">
+                <div *ngFor="let error of errors">{{ error }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="success">
+            <div class="alert alert-light-green fw-bold">
+                <div class="text-secondary">You have been successfully logged in as
+                    {{authService.currentUser.unique_name}}! Redirecting...</div>
+            </div>
+        </ng-container>
+
+        <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+
+            <div class="mb-3">
+                <label>Login</label>
+                <input tabindex="1" class="form-control" type="text" placeholder="Login" formControlName="login">
+                <div *ngIf="controls.login.touched && controls.login.invalid" class="invalid-feedback fw-bold d-block">
+                    Login is required
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Password</label>
+                <div class="input-group">
+                    <input tabindex="2" class="form-control" [type]="showPassword ? 'text' : 'password'"
+                        placeholder="Password" formControlName="password">
+                    <div class="input-group-text">
+                        <div class="d-flex justify-content-center form-check">
+                            <input class="form-check-input" [(ngModel)]="showPassword" type="checkbox"
+                                formControlName="showPassword" novalidate id="showPassword">
+                            <label class="form-check-label ms-1" for="showPassword">Show</label>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="controls.password.touched && controls.password.invalid"
+                    class="invalid-feedback fw-bold d-block">
+                    Password is required
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div class="w-50">
+                    <button tabindex="3" type="submit" class="w-100 btn btn-primary fw-bold"
+                        [disabled]="formGroup.disabled">
+                        <div class="text-white" *ngIf="!isLoading">Log In</div>
+                        <div *ngIf="isLoading" class="d-flex justify-content-center">
+                            <app-loading-indicator-small [isLoading]="isLoading"></app-loading-indicator-small>
+                        </div>
+                    </button>
+                </div>
+                <div class="w-50 p-1 bg-light-grey">
+                    <div class="d-flex justify-content-center form-check">
+                        <input class="form-check-input" type="checkbox" id="stayLogged" formControlName="stayLogged"
+                            novalidate>
+                        <label class="form-check-label ms-1" for="stayLogged">Stay logged in</label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="d-flex justify-content-center fw-bold mt-4">
+            <a class="link-primary fs-small align-self-center" routerLink="/signup">Create an account</a>
+            <div class="px-1 mb-1">&middot;</div>
+            <a class="link-primary fs-small align-self-center" href="#">Trouble logging in?</a>
+        </div>
+
+    </div>
+</div>

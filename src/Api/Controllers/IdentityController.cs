@@ -21,10 +21,15 @@ namespace Api.Controllers
         }
 
         [HttpPost("signin")]
-        public async Task<AuthenticateResponse> SignInAsync([FromBody] SignInRequest request)
+        public async Task<IActionResult> SignInAsync([FromBody] SignInRequest request)
         {
             var result = await _identityService.SignInAsync(request);
-            return result;
+            if (!result.Succeeded)
+            {
+                return Unauthorized(result);
+            }
+
+            return Ok(result);
         }
 
         [HttpPost("signup")]
