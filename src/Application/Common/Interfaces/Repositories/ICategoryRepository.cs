@@ -1,5 +1,5 @@
-﻿using System;
-using Domain.Entities;
+﻿using Domain.Entities;
+using System;
 
 namespace Application.Common.Interfaces.Repositories
 {

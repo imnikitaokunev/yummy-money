@@ -1,5 +1,5 @@
-﻿using System;
-using Application.Common.Models;
+﻿using Application.Models.Common;
+using System;
 
 namespace Application.Models.Transaction
 {

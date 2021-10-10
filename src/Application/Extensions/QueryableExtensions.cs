@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Application.Models.Common;
+using System.Linq;
 using System.Threading.Tasks;
-using Application.Common.Models;
 
 namespace Application.Extensions
 {

@@ -1,4 +1,4 @@
-﻿using Application.Common.Models;
+﻿using Application.Models.Common;
 
 namespace Application.Models.Transaction
 {

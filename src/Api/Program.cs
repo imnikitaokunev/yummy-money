@@ -1,10 +1,10 @@
-using System;
 using Application.Common.Helpers;
 using Application.Common.Security;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System;
 
 namespace Api
 {

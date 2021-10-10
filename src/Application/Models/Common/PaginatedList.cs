@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
-namespace Application.Common.Models
+namespace Application.Models.Common
 {
     public class PaginatedList<T>
     {
@@ -23,7 +23,7 @@ namespace Application.Common.Models
             Items = items;
             PageIndex = pageIndex;
             PageSize = pageSize < totalCount ? pageSize : totalCount;
-            TotalPages = (int) Math.Ceiling(totalCount / (double) pageSize);
+            TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
             TotalCount = totalCount;
         }
 

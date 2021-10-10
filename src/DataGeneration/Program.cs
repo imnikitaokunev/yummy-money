@@ -1,9 +1,9 @@
-﻿using System;
-using Bogus;
+﻿using Bogus;
 using Domain.Entities;
 using Infrastructure.Persistence.Contexts;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace DataGeneration
 {

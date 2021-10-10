@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Application.Common.Exceptions;
+﻿using Application.Common.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
+using System;
+using System.Collections.Generic;
 
 namespace Api.Filters
 {

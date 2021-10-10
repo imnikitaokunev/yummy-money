@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
-using Application.Common.Models;
 using Application.Models.Category;
+using Application.Models.Common;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace Infrastructure.Persistence.Repositories
 {

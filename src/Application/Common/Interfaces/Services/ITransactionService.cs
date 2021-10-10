@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Application.Common.Models;
+﻿using Application.Models.Common;
 using Application.Models.Transaction;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Application.Common.Interfaces.Services
 {

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Application.Common.Exceptions;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
-using Application.Common.Exceptions;
 
 namespace Application.Extensions
 {
@@ -61,8 +61,8 @@ namespace Application.Extensions
                               && method.GetGenericArguments().Length == 2
                               && method.GetParameters().Length == 2)
                 .MakeGenericMethod(typeof(T), type)
-                .Invoke(null, new object[] {source, lambda});
-            return (IOrderedQueryable<T>) result;
+                .Invoke(null, new object[] { source, lambda });
+            return (IOrderedQueryable<T>)result;
         }
     }
 }

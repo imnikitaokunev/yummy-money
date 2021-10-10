@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Application.Models.Common;
+using Domain.Common;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Models;
-using Domain.Common;
 
 namespace Application.Common.Interfaces
 {

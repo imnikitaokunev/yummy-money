@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-using Application.Common.Interfaces.Services;
+﻿using Application.Common.Interfaces.Services;
 using Application.Models.Transaction;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Api.Controllers
 {

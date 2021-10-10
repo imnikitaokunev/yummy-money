@@ -1,5 +1,5 @@
-﻿using System;
-using Application.Models.Category;
+﻿using Application.Models.Category;
+using System;
 
 namespace Application.Models.Transaction
 {
@@ -10,7 +10,7 @@ namespace Application.Models.Transaction
         public bool IsIncome { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
-        public CategoryDto Category {  get; set; }
+        public CategoryDto Category { get; set; }
         public Guid UserId { get; set; }
     }
 }

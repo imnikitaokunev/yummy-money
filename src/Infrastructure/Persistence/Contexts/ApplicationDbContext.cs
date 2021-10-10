@@ -1,13 +1,13 @@
-﻿using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Domain.Entities;
 using IdentityServer4.EntityFramework.Options;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Contexts
 {

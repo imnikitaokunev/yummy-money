@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Application.Common.Exceptions;
+using Application.Common.Interfaces;
+using Application.Enums;
+using Application.Extensions;
+using Application.Models.Common;
+using Domain.Common;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Exceptions;
-using Application.Common.Interfaces;
-using Application.Common.Models;
-using Application.Enums;
-using Application.Extensions;
-using Domain.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories
 {
@@ -28,8 +28,7 @@ namespace Infrastructure.Persistence.Repositories
         public async Task<List<TEntity>> GetAsync(Request request)
         {
             var filteredQuery = ApplyFilter(DbSet, request);
-            var sortedAndFilteredQuery = ApplySort(filteredQuery, request.SortBy, request.SortType);
-            return await Include(sortedAndFilteredQuery).AsNoTracking().ToListAsync();
+            return await Include(filteredQuery).AsNoTracking().ToListAsync();
         }
 
         public async Task<PaginatedList<TEntity>> GetPagedResponseAsync(PaginationRequest request)
