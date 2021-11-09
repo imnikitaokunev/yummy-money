@@ -3,7 +3,7 @@ import { SignInRoutingModule } from './sign-in-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { SignInComponent } from './pages/login/sign-in.component';
+import { SignInComponent } from './pages/sign-in/sign-in.component';
 
 @NgModule({
     declarations: [SignInComponent],

@@ -91,6 +91,10 @@ export class ApiEndpointsService {
         return this.createUrl('identity/signin');
     }
 
+    public signUpEndpoint(): string {
+        return this.createUrl('identity/signup');
+    }
+
     private populateParameters(
         qs: QueryStringParameters,
         request: Object

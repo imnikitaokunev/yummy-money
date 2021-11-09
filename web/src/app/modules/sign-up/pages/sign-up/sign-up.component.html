@@ -1,0 +1,93 @@
+<div class="d-flex h-fill justify-content-center">
+    <div class="my-sm-auto login w-100 p-5 bg-grey">
+
+        <h3 class="mb-3 fw-bold text-decoration-underline">Sign Up</h3>
+
+        <ng-container *ngIf="errors?.length">
+            <div class="alert alert-invalid fw-bold alert-dismissible">
+                <div *ngFor="let error of errors">{{ error }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="success">
+            <div class="alert alert-light-green fw-bold">
+                <div class="text-secondary">You have been successfully signed up as
+                    {{authService.currentUser.unique_name}}! Redirecting...</div>
+            </div>
+        </ng-container>
+
+        <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+
+            <div class="mb-3">
+                <label for="username">Username</label>
+                <input tabindex="1" class="form-control" type="text" id="username" placeholder="Username" formControlName="username">
+                <div *ngIf="controls.username.touched && controls.username.invalid" class="invalid-feedback fw-bold d-block">
+                    Username is required
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input tabindex="1" class="form-control" type="text" id="email" placeholder="email" formControlName="email">
+                <div *ngIf="controls.email.touched && controls.email.invalid" class="invalid-feedback fw-bold d-block">
+                    Email is required
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password">Password</label>
+                <div class="input-group">
+                    <input tabindex="2" class="form-control" [type]="showPassword ? 'text' : 'password'" id="password"
+                        placeholder="Password" formControlName="password">
+                    <div class="input-group-text">
+                        <div class="d-flex justify-content-center form-check">
+                            <input class="form-check-input" [(ngModel)]="showPassword" type="checkbox" formControlName="showPassword" novalidate id="showPassword">
+                            <label class="form-check-label ms-1" for="showPassword">Show</label>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="controls.password.touched && controls.password.invalid"
+                    class="invalid-feedback fw-bold d-block">
+                    Password is required
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="confirmPassword">Confirm password</label>
+                <div class="input-group">
+                    <input tabindex="2" class="form-control" [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword"
+                        placeholder="Password" formControlName="confirmPassword">
+                    <div class="input-group-text">
+                        <div class="d-flex justify-content-center form-check">
+                            <input class="form-check-input" [(ngModel)]="showConfirmPassword" type="checkbox" formControlName="showConfirmPassword" novalidate id="showConfirmPassword">
+                            <label class="form-check-label ms-1" for="showConfirmPassword">Show</label>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="controls.confirmPassword.touched && controls.confirmPassword.invalid" class="invalid-feedback fw-bold d-block">
+                    Password is required
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div class="w-100">
+                    <button tabindex="3" type="submit" class="w-100 btn btn-primary fw-bold" [disabled]="formGroup.disabled">
+                        <div class="text-white" *ngIf="!isLoading">Sign Up</div>
+                        <div *ngIf="isLoading" class="d-flex justify-content-center">
+                            <app-loading-indicator-small [isLoading]="isLoading"></app-loading-indicator-small>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="d-flex justify-content-center fw-bold mt-4">
+            <a class="link-primary fs-small align-self-center" routerLink="/signin">Already have an account?</a>
+            <div class="px-1 mb-1">&middot;</div>
+            <a class="link-primary fs-small align-self-center" href="#">Trouble logging in?</a>
+        </div>
+
+    </div>
+</div>

@@ -1,3 +1,4 @@
+import { AuthInterceptor } from './interceptors/auth-interceptor.service';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { ApiEndpointsService } from './services/api-endpoints.service';
@@ -15,6 +16,11 @@ import { CommonModule } from '@angular/common';
     providers: [
         ApiHttpService,
         ApiEndpointsService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+        },
         {
             provide: HTTP_INTERCEPTORS,
             useClass: HttpErrorInterceptor,

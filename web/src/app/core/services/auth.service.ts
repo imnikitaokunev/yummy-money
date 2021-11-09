@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../models/user';
+import { SignUpRequest } from '../models/sign-up-request';
 
 export const ACCESS_TOKEN_KEY = 'access_token';
 
@@ -32,6 +33,19 @@ export class AuthService {
         return authToken !== null ? true : false;
     }
 
+    public get currentToken(): string {
+        if (!this.isLoggedIn) {
+            return null;
+        }
+
+        var token = this.storage.getItem(ACCESS_TOKEN_KEY);
+        if (token == null) {
+            return null;
+        }
+
+        return token;
+    }
+
     public get currentUser(): User {
         if (!this.isLoggedIn) {
             return null;
@@ -46,7 +60,7 @@ export class AuthService {
     }
 
     private get storage(): Storage {
-        if(sessionStorage.getItem(ACCESS_TOKEN_KEY)){
+        if (sessionStorage.getItem(ACCESS_TOKEN_KEY)) {
             this.useSessionStorage = true;
         }
         return this.useSessionStorage ? sessionStorage : localStorage;
@@ -64,6 +78,16 @@ export class AuthService {
                         sessionStorage.setItem(ACCESS_TOKEN_KEY, result.token);
                     }
                     console.log(this.currentUser);
+                })
+            );
+    }
+
+    public signUp(request: SignUpRequest): Observable<any> {
+        return this.apiHttpService
+            .post(this.apiEndpointsService.signUpEndpoint(), request)
+            .pipe(
+                tap((result) => {
+                    this.storage.setItem(ACCESS_TOKEN_KEY, result.token);
                 })
             );
     }

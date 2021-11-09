@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/core/services/auth.service';
 import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
@@ -33,6 +34,7 @@ export class TransactionsComponent implements OnInit, OnChanges {
     constructor(
         private apiEndpointsService: ApiEndpointsService,
         private apiHttpService: ApiHttpService,
+        private authService: AuthService,
         private modalService: NgbModal
     ) {}
 
@@ -86,7 +88,9 @@ export class TransactionsComponent implements OnInit, OnChanges {
         this.isError = false;
         this.isLoading = true;
 
+        let userId = this.authService.currentUser.id;
         let request = {
+            userId: userId,
             startDate: moment(this.firstDay)
                 .add(1, 'days')
                 .toISOString()
