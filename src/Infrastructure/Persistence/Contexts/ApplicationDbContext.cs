@@ -1,6 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities;
-using IdentityServer4.EntityFramework.Options;
+using Duende.IdentityServer.EntityFramework.Options;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
@@ -32,11 +32,5 @@ namespace Infrastructure.Persistence.Contexts
 
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    base.OnConfiguring(optionsBuilder);
-        //    optionsBuilder.UseSqlServer("data source=(local);Initial Catalog=CostAccounting;Integrated Security=True;");
-        //}
     }
 }

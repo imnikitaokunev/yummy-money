@@ -1,11 +1,14 @@
-﻿using Application.Common.Interfaces.Services;
+﻿using System.Threading.Tasks;
+using Application.Common.Interfaces.Services;
 using Application.Models.Transaction;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/transactions")]
     public class TransactionController : ControllerBase
     {
