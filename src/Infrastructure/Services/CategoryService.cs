@@ -1,12 +1,12 @@
-﻿using Application.Common.Interfaces.Repositories;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Application.Common.Interfaces.Repositories;
 using Application.Common.Interfaces.Services;
 using Application.Models.Category;
 using Application.Models.Common;
 using Domain.Entities;
 using MapsterMapper;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {

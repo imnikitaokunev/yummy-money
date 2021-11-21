@@ -1,5 +1,5 @@
-﻿using Application.Models.Category;
-using System;
+﻿using System;
+using Application.Models.Category;
 
 namespace Application.Models.Transaction
 {

@@ -1,8 +1,8 @@
-﻿using Application.Extensions;
-using FluentValidation.Internal;
-using System;
+﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using Application.Extensions;
+using FluentValidation.Internal;
 
 namespace Application.Common.Helpers
 {

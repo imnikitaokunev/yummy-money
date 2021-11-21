@@ -46,7 +46,7 @@ namespace Application.Common.Helpers
 
             if (string.IsNullOrEmpty(violationMessage))
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Must satisfy the condition");
             }
 
             if (string.IsNullOrEmpty(argumentName))
@@ -74,7 +74,7 @@ namespace Application.Common.Helpers
 
             if (string.IsNullOrEmpty(argumentName))
             {
-                throw new ArgumentException();
+                throw new ArgumentException("Must be not null or empty");
             }
 
             throw new ArgumentException("Must be not null or empty", argumentName);

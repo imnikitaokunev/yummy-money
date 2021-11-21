@@ -1,14 +1,14 @@
-﻿using Application.Common.Exceptions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Enums;
 using Application.Extensions;
 using Application.Models.Common;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repositories
 {

@@ -1,7 +1,7 @@
-﻿using Application.Models.Identity;
-using Application.Models.User;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Models.Identity;
+using Application.Models.User;
 
 namespace Application.Common.Interfaces.Services
 {

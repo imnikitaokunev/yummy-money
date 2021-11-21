@@ -1,9 +1,9 @@
-﻿using Bogus;
+﻿using System;
+using Bogus;
 using Domain.Entities;
 using Infrastructure.Persistence.Contexts;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace DataGeneration
 {
@@ -69,7 +69,7 @@ namespace DataGeneration
                 foreach (var category in categories)
                 {
                     category.Description = category.Description.Length > 128
-                        ? category.Description.Substring(0, 128)
+                        ? category.Description[..128]
                         : category.Description;
 
                     await categoryRepository.AddAsync(category);
@@ -100,11 +100,11 @@ namespace DataGeneration
                 foreach (var expense in expenses)
                 {
                     expense.Category.Description = expense.Category.Description.Length > 128
-                        ? expense.Category.Description.Substring(0, 128)
+                        ? expense.Category.Description[..128]
                         : expense.Category.Description;
 
                     expense.Description = expense.Description.Length > 128
-                        ? expense.Description.Substring(0, 128)
+                        ? expense.Description[..128]
                         : expense.Description;
 
                     await categoryRepository.AddAsync(expense.Category);

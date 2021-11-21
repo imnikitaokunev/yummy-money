@@ -1,7 +1,7 @@
-﻿using Application.Common.Exceptions;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using Application.Common.Exceptions;
 
 namespace Application.Extensions
 {

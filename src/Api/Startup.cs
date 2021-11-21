@@ -1,3 +1,4 @@
+using System.Text;
 using Api.Filters;
 using Application;
 using Application.Common.Helpers;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 
 namespace Api
 {

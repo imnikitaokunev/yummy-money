@@ -1,8 +1,8 @@
-﻿using Application.Models.Category;
-using Application.Models.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Models.Category;
+using Application.Models.Common;
 
 namespace Application.Common.Interfaces.Services
 {

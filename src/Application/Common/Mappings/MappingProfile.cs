@@ -1,9 +1,9 @@
-﻿using Application.Models.Category;
+﻿using System.Collections.Generic;
+using Application.Models.Category;
 using Application.Models.Common;
 using Application.Models.Transaction;
 using Domain.Entities;
 using Mapster;
-using System.Collections.Generic;
 
 namespace Application.Common.Mappings
 {

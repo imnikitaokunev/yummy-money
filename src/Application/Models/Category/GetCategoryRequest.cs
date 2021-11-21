@@ -1,5 +1,5 @@
-﻿using Application.Models.Common;
-using System;
+﻿using System;
+using Application.Models.Common;
 
 namespace Application.Models.Category
 {

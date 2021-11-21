@@ -1,4 +1,10 @@
-﻿using Application.Common.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using Application.Common.Helpers;
 using Application.Common.Interfaces.Services;
 using Application.Common.Security;
 using Application.Models.Identity;
@@ -8,12 +14,6 @@ using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
 {
