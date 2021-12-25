@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataGeneration", "src\DataGeneration\DataGeneration.csproj", "{C0CC93D0-817C-4276-8F8D-28C70F50F933}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain.csproj", "{5C80AC2D-0F58-4C13-9DA8-2C4EA529584F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{A19712CE-29BB-4803-9090-AB1F511507B5}"
@@ -26,10 +24,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C0CC93D0-817C-4276-8F8D-28C70F50F933}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0CC93D0-817C-4276-8F8D-28C70F50F933}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0CC93D0-817C-4276-8F8D-28C70F50F933}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0CC93D0-817C-4276-8F8D-28C70F50F933}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C80AC2D-0F58-4C13-9DA8-2C4EA529584F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C80AC2D-0F58-4C13-9DA8-2C4EA529584F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C80AC2D-0F58-4C13-9DA8-2C4EA529584F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,7 +45,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C0CC93D0-817C-4276-8F8D-28C70F50F933} = {AA669B93-C95E-462A-951D-4F4FBB25A62F}
 		{5C80AC2D-0F58-4C13-9DA8-2C4EA529584F} = {AA669B93-C95E-462A-951D-4F4FBB25A62F}
 		{A19712CE-29BB-4803-9090-AB1F511507B5} = {AA669B93-C95E-462A-951D-4F4FBB25A62F}
 		{5B9FEB49-427B-4FD6-942E-9E008EDD9760} = {AA669B93-C95E-462A-951D-4F4FBB25A62F}
