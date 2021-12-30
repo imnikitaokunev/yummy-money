@@ -8,4 +8,4 @@
 
 ## Application Architecture Diagram
 
-![.NET Podcast Application Diagram](docs/application-architecture-diagram.png)
+![.NET Podcast Application Diagram](docs/application-architecture-diagram.svg)
