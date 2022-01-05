@@ -6,6 +6,19 @@
 
 <!-- Add live version -->
 
+## Features
+
+This project includes:
+
+- REST API backend (.NET 6, Entity Framework Core 5.0, MSSQL) Azure App Service
+- Backend response caching via Redis
+- Frontend on Angular, Bootstrap, SCSS (Azure Blob Storage)
+- Logging via Serilog into Azure Blob Storage
+- Load balancer (Azure Front Door)
+- JWT Authentication
+- Secrets storage (Azure Keyvault)
+- Build, test, code coverage and deployment workflow (Azure DevOps)
+
 ## Application Architecture Diagram
 
-![.NET Podcast Application Diagram](docs/application-architecture-diagram.svg)
+![Application Architecture Diagram](docs/application-architecture-diagram.svg)
