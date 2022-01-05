@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Api.Filters;
 using Application.Common.Interfaces.Services;
 using Application.Models.Category;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,6 +19,7 @@ namespace Api.Controllers
         public CategoryController(ICategoryService categoryService) => _categoryService = categoryService;
 
         [HttpGet]
+        [Cached(30)]
         public async Task<IActionResult> GetAsync([FromQuery] GetCategoryRequest request)
         {
             var categories = await _categoryService.GetAsync(request);

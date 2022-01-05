@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Application.Common.Interfaces.Services;
+using Application.Models.Redis;
 using Infrastructure.Identity;
 using Infrastructure.Persistence.Contexts;
 using Infrastructure.Persistence.Repositories;
@@ -37,6 +38,16 @@ namespace Infrastructure
 
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ITransactionService, TransactionService>();
+
+            var redisCacheSettings = new RedisCacheSettings();
+            configuration.Bind(nameof(RedisCacheSettings), redisCacheSettings);
+            services.AddSingleton(redisCacheSettings);
+
+            if (redisCacheSettings.IsEnabled)
+            {
+                services.AddStackExchangeRedisCache(options => options.Configuration = redisCacheSettings.ConnectionString);
+                services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+            }
 
             return services;
         }
