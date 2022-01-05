@@ -21,4 +21,4 @@ This project includes:
 
 ## Application Architecture Diagram
 
-![Application Architecture Diagram](docs/application-architecture-diagram.svg)
+![Application Architecture Diagram](/docs/application-architecture-diagram.svg?)
