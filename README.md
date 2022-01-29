@@ -10,14 +10,16 @@
 
 This project includes:
 
-- REST API backend (.NET 6, Entity Framework Core 5.0, MSSQL) Azure App Service
-- Backend response caching via Redis
-- Frontend on Angular, Bootstrap, SCSS (Azure Blob Storage)
-- Logging via Serilog into Azure Blob Storage
-- Load balancer (Azure Front Door)
-- JWT Authentication
-- Secrets storage (Azure Keyvault)
-- Build, test, code coverage and deployment workflow (Azure DevOps)
+- [x] REST API backend (.NET 6, Entity Framework Core 5.0, MSSQL) Azure App Service
+- [x] Backend response caching via Redis
+- [x] Frontend on Angular, Bootstrap, SCSS (Azure Blob Storage)
+- [x] Logging via Serilog into Azure Blob Storage
+- [x] Load balancer (Azure Front Door)
+- [x] JWT Authentication
+- [x] Secrets storage (Azure Keyvault)
+- [x] Build, test, code coverage and deployment workflow (Azure DevOps)
+- [ ] Mail notifications
+- [ ] Azure infrastructure definition via Terraform
 
 ## Application Architecture Diagram
 
