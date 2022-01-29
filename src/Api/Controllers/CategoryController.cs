@@ -1,74 +1,73 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Api.Filters;
+using Api.Attributes;
 using Application.Common.Interfaces.Services;
 using Application.Models.Category;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers;
+
+[ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Route("api/categories")]
+public class CategoryController : ControllerBase
 {
-    [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("api/categories")]
-    public class CategoryController : ControllerBase
+    private readonly ICategoryService _categoryService;
+
+    public CategoryController(ICategoryService categoryService) => _categoryService = categoryService;
+
+    [HttpGet]
+    [Cached(30)]
+    public async Task<IActionResult> GetAsync([FromQuery] GetCategoryRequest request)
     {
-        private readonly ICategoryService _categoryService;
+        var categories = await _categoryService.GetAsync(request);
+        return Ok(categories);
+    }
 
-        public CategoryController(ICategoryService categoryService) => _categoryService = categoryService;
+    [HttpGet("paged")]
+    public async Task<IActionResult> GetPagedResponseAsync([FromQuery] GetCategoryWithPaginationRequest request)
+    {
+        var categories = await _categoryService.GetPagedResponseAsync(request);
+        return Ok(categories);
+    }
 
-        [HttpGet]
-        [Cached(30)]
-        public async Task<IActionResult> GetAsync([FromQuery] GetCategoryRequest request)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
+    {
+        var category = await _categoryService.GetByIdAsync(id);
+        if (category == null)
         {
-            var categories = await _categoryService.GetAsync(request);
-            return Ok(categories);
+            return NotFound();
         }
 
-        [HttpGet("paged")]
-        public async Task<IActionResult> GetPagedResponseAsync([FromQuery] GetCategoryWithPaginationRequest request)
+        return Ok(category);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddAsync([FromBody] CreateCategoryRequest category)
+    {
+        var created = await _categoryService.AddAsync(category);
+        return CreatedAtAction("GetById", new { id = created.Id }, created);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> UpdateAsync([FromBody] CategoryDto category, [FromRoute] Guid id)
+    {
+        if (category.Id != id)
         {
-            var categories = await _categoryService.GetPagedResponseAsync(request);
-            return Ok(categories);
+            return BadRequest("Incorrect id");
         }
 
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
-        {
-            var category = await _categoryService.GetByIdAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+        await _categoryService.UpdateAsync(category);
+        return NoContent();
+    }
 
-            return Ok(category);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddAsync([FromBody] CreateCategoryRequest category)
-        {
-            var created = await _categoryService.AddAsync(category);
-            return CreatedAtAction("GetById", new { id = created.Id }, created);
-        }
-
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateAsync([FromBody] CategoryDto category, [FromRoute] Guid id)
-        {
-            if (category.Id != id)
-            {
-                return BadRequest("Incorrect id");
-            }
-
-            await _categoryService.UpdateAsync(category);
-            return NoContent();
-        }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
-        {
-            await _categoryService.DeleteAsync(id);
-            return NoContent();
-        }
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
+    {
+        await _categoryService.DeleteAsync(id);
+        return NoContent();
     }
 }

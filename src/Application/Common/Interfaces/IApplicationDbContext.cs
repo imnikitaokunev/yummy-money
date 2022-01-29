@@ -3,13 +3,12 @@ using System.Threading.Tasks;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Common.Interfaces
-{
-    public interface IApplicationDbContext
-    {
-        DbSet<Category> Categories { get; }
-        DbSet<Transaction> Transactions { get; }
+namespace Application.Common.Interfaces;
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-    }
+public interface IApplicationDbContext
+{
+    DbSet<Category> Categories { get; }
+    DbSet<Transaction> Transactions { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

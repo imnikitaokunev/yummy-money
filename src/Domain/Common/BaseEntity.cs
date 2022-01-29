@@ -1,6 +1,5 @@
-﻿namespace Domain.Common
+﻿namespace Domain.Common;
+
+public abstract class BaseEntity
 {
-    public abstract class BaseEntity
-    {
-    }
 }

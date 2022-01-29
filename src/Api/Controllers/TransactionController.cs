@@ -5,68 +5,67 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers;
+
+[ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+[Route("api/transactions")]
+public class TransactionController : ControllerBase
 {
-    [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("api/transactions")]
-    public class TransactionController : ControllerBase
+    private readonly ITransactionService _transactionService;
+
+    public TransactionController(ITransactionService transactionService) =>
+        _transactionService = transactionService;
+
+    [HttpGet]
+    public async Task<IActionResult> GetAsync([FromQuery] GetTransactionsRequest request)
     {
-        private readonly ITransactionService _transactionService;
+        var transactions = await _transactionService.GetAsync(request);
+        return Ok(transactions);
+    }
 
-        public TransactionController(ITransactionService transactionService) =>
-            _transactionService = transactionService;
+    [HttpGet("paged")]
+    public async Task<IActionResult> GetPagedAsync([FromQuery] GetTransactionsWithPaginationRequest request)
+    {
+        var transactions = await _transactionService.GetPagedResponseAsync(request);
+        return Ok(transactions);
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery] GetTransactionsRequest request)
+    [HttpGet("{id:long}")]
+    public async Task<IActionResult> GetByIdAsync([FromRoute] long id)
+    {
+        var transaction = await _transactionService.GetByIdAsync(id);
+        if (transaction == null)
         {
-            var transactions = await _transactionService.GetAsync(request);
-            return Ok(transactions);
+            return NotFound();
         }
 
-        [HttpGet("paged")]
-        public async Task<IActionResult> GetPagedAsync([FromQuery] GetTransactionsWithPaginationRequest request)
+        return Ok(transaction);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddAsync([FromBody] CreateTransactionRequest request)
+    {
+        var created = await _transactionService.AddAsync(request);
+        return CreatedAtAction("GetById", new { id = created.Id }, created);
+    }
+
+    [HttpPut("{id:long}")]
+    public async Task<IActionResult> UpdateAsync([FromBody] TransactionDto transaction, [FromRoute] long id)
+    {
+        if (transaction.Id != id)
         {
-            var transactions = await _transactionService.GetPagedResponseAsync(request);
-            return Ok(transactions);
+            return BadRequest("Incorrect id");
         }
 
-        [HttpGet("{id:long}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] long id)
-        {
-            var transaction = await _transactionService.GetByIdAsync(id);
-            if (transaction == null)
-            {
-                return NotFound();
-            }
+        await _transactionService.UpdateAsync(transaction);
+        return NoContent();
+    }
 
-            return Ok(transaction);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddAsync([FromBody] CreateTransactionRequest request)
-        {
-            var created = await _transactionService.AddAsync(request);
-            return CreatedAtAction("GetById", new { id = created.Id }, created);
-        }
-
-        [HttpPut("{id:long}")]
-        public async Task<IActionResult> UpdateAsync([FromBody] TransactionDto transaction, [FromRoute] long id)
-        {
-            if (transaction.Id != id)
-            {
-                return BadRequest("Incorrect id");
-            }
-
-            await _transactionService.UpdateAsync(transaction);
-            return NoContent();
-        }
-
-        [HttpDelete("{id:long}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] long id)
-        {
-            await _transactionService.DeleteAsync(id);
-            return NoContent();
-        }
+    [HttpDelete("{id:long}")]
+    public async Task<IActionResult> DeleteAsync([FromRoute] long id)
+    {
+        await _transactionService.DeleteAsync(id);
+        return NoContent();
     }
 }

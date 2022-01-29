@@ -5,22 +5,21 @@ using Mapster;
 using MapsterMapper;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application
+namespace Application;
+
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
-        {
-            MappingProfile.ApplyMappings();
+        MappingProfile.ApplyMappings();
 
-            var config = TypeAdapterConfig.GlobalSettings;
+        var config = TypeAdapterConfig.GlobalSettings;
 
-            services.AddSingleton(config);
-            services.AddScoped<IMapper, ServiceMapper>();
+        services.AddSingleton(config);
+        services.AddScoped<IMapper, ServiceMapper>();
 
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            return services;
-        }
+        return services;
     }
 }

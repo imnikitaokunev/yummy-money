@@ -1,8 +1,7 @@
 ﻿using Application.Models.Common;
 
-namespace Application.Models.Transaction
+namespace Application.Models.Transaction;
+
+public class GetTransactionsWithPaginationRequest : PaginationRequest
 {
-    public class GetTransactionsWithPaginationRequest : PaginationRequest
-    {
-    }
 }

@@ -15,101 +15,101 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Identity
+namespace Infrastructure.Identity;
+
+public class IdentityService : IIdentityService
 {
-    public class IdentityService : IIdentityService
+    private readonly JwtSettings _jwtSettings;
+    private readonly IMapper _mapper;
+    private readonly UserManager<ApplicationUser> _userManager;
+
+    public IdentityService(JwtSettings jwtSettings, UserManager<ApplicationUser> userManager, IMapper mapper)
     {
-        private readonly JwtSettings _jwtSettings;
-        private readonly IMapper _mapper;
-        private readonly UserManager<ApplicationUser> _userManager;
+        _jwtSettings = jwtSettings;
+        _userManager = userManager;
+        _mapper = mapper;
+    }
 
-        public IdentityService(JwtSettings jwtSettings, UserManager<ApplicationUser> userManager, IMapper mapper)
+    public async Task<AuthenticateResponse> SignInAsync(SignInRequest request)
+    {
+        Require.NotNull(request, nameof(request));
+
+        var user = await _userManager.FindByEmailAsync(request.Login) ??
+                   await _userManager.FindByNameAsync(request.Login);
+        if (user == null)
         {
-            _jwtSettings = jwtSettings;
-            _userManager = userManager;
-            _mapper = mapper;
-        }
-
-        public async Task<AuthenticateResponse> SignInAsync(SignInRequest request)
-        {
-            Require.NotNull(request, nameof(request));
-
-            var user = await _userManager.FindByEmailAsync(request.Login) ??
-                       await _userManager.FindByNameAsync(request.Login);
-            if (user == null)
+            return new AuthenticateResponse
             {
-                return new AuthenticateResponse
+                Succeeded = false,
+                Errors = new[]
                 {
-                    Succeeded = false,
-                    Errors = new[]
-                    {
                         new IdentityError
                         {
                             Code = "UserNotFound",
                             Description = "User not found."
                         }
                     }
-                };
-            }
+            };
+        }
 
-            var result = await _userManager.CheckPasswordAsync(user, request.Password);
-            if (!result)
+        var result = await _userManager.CheckPasswordAsync(user, request.Password);
+        if (!result)
+        {
+            return new AuthenticateResponse
             {
-                return new AuthenticateResponse
+                Succeeded = false,
+                Errors = new[]
                 {
-                    Succeeded = false,
-                    Errors = new[]
-                    {
                         new IdentityError
                         {
                             Code = "InvalidPassword",
                             Description = "Invalid password."
                         }
                     }
-                };
-            }
-
-            var token = GenerateJwtToken(user);
-
-            return new AuthenticateResponse
-            {
-                Succeeded = true,
-                Token = token
             };
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsersAsync()
+        var token = GenerateJwtToken(user);
+
+        return new AuthenticateResponse
         {
-            return await _userManager.Users.ProjectToType<UserDto>().ToListAsync();
+            Succeeded = true,
+            Token = token
+        };
+    }
+
+    public async Task<IEnumerable<UserDto>> GetUsersAsync()
+    {
+        return await _userManager.Users.ProjectToType<UserDto>().ToListAsync();
+    }
+
+    public async Task<AuthenticateResponse> SignUpAsync(SignUpRequest request)
+    {
+        Require.NotNull(request);
+
+        var applicationUser = _mapper.Map<ApplicationUser>(request);
+        var result = await _userManager.CreateAsync(applicationUser, request.Password);
+        if (!result.Succeeded)
+        {
+            return _mapper.Map<AuthenticateResponse>(result);
         }
 
-        public async Task<AuthenticateResponse> SignUpAsync(SignUpRequest request)
+        var user = await _userManager.FindByNameAsync(request.Username);
+        var token = GenerateJwtToken(user);
+
+        return new AuthenticateResponse
         {
-            Require.NotNull(request);
+            Succeeded = true,
+            Token = token
+        };
+    }
 
-            var applicationUser = _mapper.Map<ApplicationUser>(request);
-            var result = await _userManager.CreateAsync(applicationUser, request.Password);
-            if (!result.Succeeded)
-            {
-                return _mapper.Map<AuthenticateResponse>(result);
-            }
+    private string GenerateJwtToken(ApplicationUser user)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
 
-            var user = await _userManager.FindByNameAsync(request.Username);
-            var token = GenerateJwtToken(user);
-
-            return new AuthenticateResponse
-            {
-                Succeeded = true,
-                Token = token
-            };
-        }
-
-        private string GenerateJwtToken(ApplicationUser user)
-        {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
-
-            var claims = new List<Claim>
+        var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, user.Id),
                 new(JwtRegisteredClaimNames.Jti, user.Id),
@@ -118,16 +118,15 @@ namespace Infrastructure.Identity
                 new(nameof(user.Id), user.Id)
             };
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddSeconds(_jwtSettings.TokenLifetimeInSeconds),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha512Signature)
-            };
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddSeconds(_jwtSettings.TokenLifetimeInSeconds),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha512Signature)
+        };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 }

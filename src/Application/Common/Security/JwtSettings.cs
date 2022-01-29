@@ -1,8 +1,7 @@
-﻿namespace Application.Common.Security
+﻿namespace Application.Common.Security;
+
+public class JwtSettings
 {
-    public class JwtSettings
-    {
-        public string Secret { get; set; }
-        public int TokenLifetimeInSeconds { get; set; }
-    }
+    public string Secret { get; set; }
+    public int TokenLifetimeInSeconds { get; set; }
 }

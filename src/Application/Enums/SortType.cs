@@ -1,9 +1,8 @@
-﻿namespace Application.Enums
+﻿namespace Application.Enums;
+
+public enum SortType
 {
-    public enum SortType
-    {
-        None,
-        Ascending,
-        Descending
-    }
+    None,
+    Ascending,
+    Descending
 }

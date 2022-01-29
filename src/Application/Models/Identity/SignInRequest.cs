@@ -1,8 +1,7 @@
-﻿namespace Application.Models.Identity
+﻿namespace Application.Models.Identity;
+
+public class SignInRequest
 {
-    public class SignInRequest
-    {
-        public string Login { get; set; }
-        public string Password { get; set; }
-    }
+    public string Login { get; set; }
+    public string Password { get; set; }
 }

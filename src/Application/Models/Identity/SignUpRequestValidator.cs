@@ -1,14 +1,13 @@
 ﻿using FluentValidation;
 
-namespace Application.Models.Identity
+namespace Application.Models.Identity;
+
+public class SignUpRequestValidator : AbstractValidator<SignUpRequest>
 {
-    public class SignUpRequestValidator : AbstractValidator<SignUpRequest>
+    public SignUpRequestValidator()
     {
-        public SignUpRequestValidator()
-        {
-            RuleFor(x => x.Username).NotEmpty();
-            RuleFor(x => x.Email).NotEmpty().EmailAddress();
-            RuleFor(x => x.Password).NotEmpty();
-        }
+        RuleFor(x => x.Username).NotEmpty();
+        RuleFor(x => x.Email).NotEmpty().EmailAddress();
+        RuleFor(x => x.Password).NotEmpty();
     }
 }

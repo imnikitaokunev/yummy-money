@@ -1,6 +1,5 @@
-﻿namespace Application.Models.Common
+﻿namespace Application.Models.Common;
+
+public abstract class Request
 {
-    public abstract class Request
-    {
-    }
 }

@@ -2,13 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
 
-namespace Application.Common.Security
-{
-    public class PrefixKeyVaultSecretManager : IKeyVaultSecretManager
-    {
-        public bool Load(SecretItem secret) => true;
+namespace Application.Common.Security;
 
-        public string GetKey(SecretBundle secret) =>
-            secret.SecretIdentifier.Name.Replace("-", ConfigurationPath.KeyDelimiter);
-    }
+public class PrefixKeyVaultSecretManager : IKeyVaultSecretManager
+{
+    public bool Load(SecretItem secret) => true;
+
+    public string GetKey(SecretBundle secret) =>
+        secret.SecretIdentifier.Name.Replace("-", ConfigurationPath.KeyDelimiter);
 }
