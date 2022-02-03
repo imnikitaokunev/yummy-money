@@ -20,6 +20,7 @@ This project includes:
 - [x] Build, test, code coverage and deployment workflow (Azure DevOps)
 - [ ] Mail notifications
 - [ ] Azure infrastructure definition via Terraform
+- [ ] Content localization
 
 ## Application Architecture Diagram
 
