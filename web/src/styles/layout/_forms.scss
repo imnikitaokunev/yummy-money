@@ -1,0 +1,15 @@
+@import "../abstracts/variables";
+
+.ng-valid.ng-touched:not([novalidate]),
+.ng-valid.ng-dirty:not([novalidate]) {
+    border-color: $success;
+}
+
+.ng-touched.ng-invalid:not(form),
+.ng-dirty.ng-invalid:not(form) {
+    border-color: $primary-red;
+}
+
+.form-check-label {
+    align-self: center;
+}

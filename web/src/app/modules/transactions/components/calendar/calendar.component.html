@@ -1,0 +1,36 @@
+<div class="calendar">
+    <div class="calendar-header d-flex justify-content-between text-center">
+        <div class="sheet-header w-100" *ngFor="let dayOfWeek of daysOfWeek | keyvalue: originalOrder">
+            {{ dayOfWeek.value }}
+        </div>
+    </div>
+
+    <ng-container *ngIf="!isLoading && !isError">
+        <div class="calendar-content">
+            <ng-container *ngFor="let week of weeks">
+                <div class="d-flex justify-content-between">
+                    <ng-container *ngFor="let day of week">
+                        <app-sheet class="min-w-0 w-100" (click)="viewTransactions(day.date)"
+                            [transactions]="getFromDay(transactions, day.date)" [day]="day.day" [date]="day.date"
+                            [isCurrentMonth]="day.isCurrentMonth" [isToday]="day.isToday">
+                        </app-sheet>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="isLoading && !isError">
+        <div class="d-flex justify-content-center calendar-content align-items-center h-100 bg-grey">
+            <app-loading-indicator [isLoading]="isLoading"></app-loading-indicator>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="isError">
+        <div class="d-flex justify-content-center calendar-content align-items-center h-100 bg-grey">
+            <button class="not-btn" (click)="reload()">
+                <i hover-class="fa-sync-alt" class="fas fa-2x fa-exclamation-circle"></i>
+            </button>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,11 @@
+@import "../abstracts/variables";
+
+$login-max-width: 32rem;
+
+.h-fill {
+    height: calc(100vh - #{$header-height}*2);
+}
+
+.login {
+    max-width: $login-max-width;
+}

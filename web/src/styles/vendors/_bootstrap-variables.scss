@@ -1,0 +1,71 @@
+@import "../abstracts/variables";
+
+$large: 992px;
+
+
+// Reboot
+$hr-margin-y: 0.75rem;
+
+$input-font-family: 'Inter';
+$form-select-font-family: 'Inter';
+
+// Tables
+
+$table-group-separator-color: $black;
+
+
+// forms
+
+$form-switch-padding-start: 0;
+$form-check-padding-start: 0;
+$input-group-addon-bg: $background-gray-color;
+
+// buttons
+
+$btn-padding-y: 0.3rem;
+$btn-close-width: 0.625rem;
+$btn-close-height: 0.625rem;
+$btn-close-padding-y: 0.75rem;
+$btn-close-padding-x: 0.75rem;
+$btn-close-focus-shadow: none;
+
+
+// Modal
+$modal-header-padding: 0.75rem 1rem;
+$modal-transition: transform 0.2s ease-in;
+// $modal-inner-padding: 1rem;
+
+
+// Alert
+$alert-bg-scale: 0%;
+$alert-color-scale: 0%;
+$alert-padding-y: 0.75rem;
+$alert-padding-x: 0.75rem;
+
+
+// Header
+
+$navbar-light-brand-color: $primary-black;
+$navbar-light-brand-hover-color: $primary-black;
+$navbar-light-color: $primary-black;
+$navbar-light-hover-color: $primary;
+$navbar-light-active-color: $primary;
+
+$navbar-nav-link-padding-x: 0.5rem;
+
+$nav-link-font-weight: bold;
+$nav-link-hover-color: $primary;
+$nav-link-font-size: 0.875rem;
+
+$nav-link-after-height: 0.125rem;
+$nav-link-after-width: 1.5rem;
+$nav-link-after-top: 1.7rem;
+$nav-link-after-left: 50%;
+
+
+// Dropdown
+
+// $dropdown-border-radius: 0;
+// $dropdown-divider-margin-y: 0.25rem;
+// $dropdown-padding-y: 0.25rem;
+

@@ -3,6 +3,26 @@
 # Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
+variables:
+  - name: vmImage
+    value: 'ubuntu-latest'
+  - name: buildConfiguration
+    value: 'Release'
+  - name: solution
+    value: '**/*.sln'
+  - name: solutionName
+    value: 'CostAccounting'
+  - name: webProjectName
+    value: Api
+  - name: azureSubscription
+    value: 'Azure subscription 1(f72f16a7-d118-460b-87c0-be802c869f19)'
+  - name: apiWebAppName
+    value: 'yummymoneyastesting'
+  - name: blobStorageName
+    value: 'yummymoneywebapp'
+  - name: angularFolder
+    value: web
+
 trigger:
 - develop
 - master
@@ -13,17 +33,13 @@ stages:
   - job: BuildAndPublish
     displayName: 'Build and Publish'
     pool:
-      vmImage: ubuntu-latest
-    variables:
-      buildConfiguration: 'Release'
-      solution: '**/*.sln'
-      solutionName: 'CostAccounting'
+      vmImage: $(vmImage)
     steps:
       - task: DotNetCoreCLI@2
         displayName: 'Restore NuGet packages'
         inputs:
           command: restore
-          projects: '$(solution)'
+          projects: $(solution)
 
       - task: DotNetCoreCLI@2
         displayName: 'Build Solution'
@@ -39,19 +55,41 @@ stages:
           arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" -- RunConfiguration.DisableAppDomain=true'
           workingDirectory: $(Build.SourcesDirectory)
 
+      - task: DotNetCoreCLI@2
+        displayName: 'Run Tests'
+        inputs:
+          command: test
+          projects: $(solution)
+          publishTestResults: true
+          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish Code Coverage results'
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: '**/*coverage.cobertura.xml'
+
+
       - task: Npm@1
         displayName: 'npm install'
         inputs:
-          workingDir: $(solutionName).Web.Angular/ClientApp
+          workingDir: $(angularFolder)
           verbose: false
 
       - task: Npm@1
         displayName: 'npm run build'
         inputs:
           command: custom
-          workingDir: $(solutionName).Web.Angular/ClientApp
+          workingDir: $(angularFolder)
           verbose: false
-          customCommand: 'run build'
+          customCommand: 'run build-prod'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish dist'
+        inputs:
+          PathtoPublish: '$(angularFolder)/dist'
+          ArtifactName: 'dist'
+          publishLocation: 'Container'
 
       - task: DotNetCoreCLI@2
         displayName: 'Publish Solution'
@@ -63,12 +101,15 @@ stages:
           zipAfterPublish: true
 
       - task: PublishBuildArtifacts@1
+        displayName: 'Publish build artifacts'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'drop'
 
 
 - stage: DeployToTesting
+  variables: 
+    - group: 'webAppTesting'
   displayName: 'Deploy to Testing'
   dependsOn: 'Build'
   condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.Reason'], 'Manual'))
@@ -77,49 +118,72 @@ stages:
       displayName: 'Deploy Web App'
       environment: 'Testing'
       pool:
-        vmImage: ubuntu-latest
+        vmImage: $(vmImage)
       strategy:
        runOnce:
         deploy:
           steps:
           - download: current
-            displayName: 'Download Artifact'
+            displayName: 'Download Api Artifact'
             artifact: drop
           - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: yummymoneytesting'
+            displayName: 'Publish Api'
             inputs:
               ConnectionType: 'AzureRM'
-              azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
+              azureSubscription: $(azureSubscription)
               appType: 'webAppLinux'
-              WebAppName: 'yummymoneytesting'
+              WebAppName: $(apiWebAppName)
               packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
-              StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
-
-
-- stage: DeployToStaging
-  displayName: 'Deploy to Staging'
-  dependsOn: 'Build'
-  condition: and(succeeded(), contains(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.Reason'], 'Manual'))
-  jobs:
-    - deployment: DeployWebApp
-      displayName: 'Deploy Web App'
-      environment: 'Staging'
-      pool:
-        vmImage: ubuntu-latest
-      strategy:
-       runOnce:
-        deploy:
-          steps:
+              StartupCommand: 'dotnet $(webProjectName).dll'
           - download: current
-            displayName: 'Download Artifact'
-            artifact: drop
-          - task: AzureRmWebAppDeployment@4
-            displayName: 'Azure App Service Deploy: yummymoneytesting'
+            displayName: 'Download Web App Artifact'
+            artifact: dist
+          - task: replacetokens@3
+            displayName: 'Replace environment variables'
             inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
-              appType: 'webAppLinux'
-              WebAppName: 'yummymoneytesting'
-              packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
-              StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'
+              targetFiles: '$(Pipeline.Workspace)/dist/**/main*.js'
+              encoding: 'auto'
+              writeBOM: true
+              verbosity: 'detailed'
+              actionOnMissing: 'warn'
+              keepToken: false
+              tokenPrefix: '#{'
+              tokenSuffix: '}#'
+              useLegacyPattern: false
+              enableTelemetry: true
+          - task: AzureCLI@2
+            displayName: 'Publish Web App'
+            inputs:
+              azureSubscription: $(azureSubscription)
+              scriptType: 'pscore'
+              scriptLocation: 'inlineScript'
+              inlineScript: 'az storage blob upload-batch --account-name $(blobStorageName) -s "$(Pipeline.Workspace)/dist/" -d "`$web"'
+          
 
+
+# - stage: DeployToStaging
+#   displayName: 'Deploy to Staging'
+#   dependsOn: 'Build'
+#   condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
+#   jobs:
+#     - deployment: DeployWebApp
+#       displayName: 'Deploy Web App'
+#       environment: 'Staging'
+#       pool:
+#         vmImage: ubuntu-latest
+#       strategy:
+#        runOnce:
+#         deploy:
+#           steps:
+#           - download: current
+#             displayName: 'Download Artifact'
+#             artifact: drop
+#           - task: AzureRmWebAppDeployment@4
+#             displayName: 'Azure App Service Deploy: yummymoneytesting'
+#             inputs:
+#               ConnectionType: 'AzureRM'
+#               azureSubscription: 'Azure для учащихся(39113b06-73c7-490e-bb95-f557739f6c3a)'
+#               appType: 'webAppLinux'
+#               WebAppName: 'yummymoneytesting'
+#               packageForLinux: '$(Pipeline.Workspace)/drop/*.zip'
+#               StartupCommand: 'dotnet CostAccounting.Web.Angular.dll'

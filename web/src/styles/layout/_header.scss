@@ -1,0 +1,20 @@
+@import "../vendors/bootstrap-variables";
+
+.header {
+    @include shadow();
+}
+
+.nav-link.active {
+    @media screen and (min-width: $large) {
+        &:after {
+            content: "";
+            position: absolute;
+            top: $nav-link-after-top;
+            left: $nav-link-after-left;
+            width: calc(100% - 2 * #{$navbar-nav-link-padding-x});
+            height: $nav-link-after-height;
+            background: $primary-blue;
+            transform: translateX(-50%);
+        }
+    }
+}

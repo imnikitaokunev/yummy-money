@@ -1,0 +1,27 @@
+@import "abstracts/mixins";
+
+@import "components/inputs";
+@import "components/calendar";
+@import "components/home";
+@import "components/loaders";
+@import "components/login";
+@import "components/modal";
+@import "components/password";
+@import "components/reports";
+
+@import "abstracts/animations";
+
+@import "layout/forms";
+@import "layout/header";
+
+@import "base/reset";
+@import "base/typography";
+
+@import "vendors/bootstrap";
+@import "vendors/font-awesome";
+
+/* Importing Bootstrap SCSS file. */
+// @import "~bootstrap/scss/bootstrap";
+
+/* Importing Bootstrap SCSS file. */
+// @import '~bootstrap/scss/bootstrap';

@@ -1,0 +1,77 @@
+<div class="modal-header">
+    <div class="modal-title"><span>{{ transaction.isIncome ? 'Income' : 'Expense'}}</span></div>
+    <button type="button" class="not-btn close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+    <div class="modal-body">
+
+        <ng-container *ngIf="isLoading">
+            <div class="d-flex justify-content-center my-3">
+                <app-loading-indicator-small [isLoading]="isLoading"></app-loading-indicator-small>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="errors?.length">
+            <div class="alert alert-invalid fw-bold text-secondary alert-dismissible">
+                <div *ngFor="let error of errors">{{ error }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="!isLoading">
+            <div class="d-flex mb-2">
+                <div class="w-50">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" placeholder="Amount" class="form-control form-control-sm" min="0"
+                        formControlName="amount">
+                    <div *ngIf="controls.amount.touched && controls.amount.invalid">
+                        <div *ngIf="controls.amount.errors?.required || controls.amount.errors?.min || controls.amount.errors?.max"
+                            class="invalid-feedback fw-bold d-block">
+                            Amount is required and must be greater than zero
+                        </div>
+                    </div>
+
+                </div>
+                <div class="w-50">
+                    <label for="categoryId">Category:</label>
+                    <select id="categoryId" placeholder="Category" class="form-select form-select-sm"
+                        formControlName="categoryId">
+                        <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
+                    </select>
+                    <div *ngIf="controls.categoryId.touched && controls.categoryId.invalid"
+                        class="invalid-feedback fw-bold d-block">
+                        Category is required
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <label for="date">Date:</label>
+                <input type="date" id="date" placeholder="Date" class="form-control form-control-sm"
+                    formControlName="date">
+                <div *ngIf="controls.date.touched && controls.date.invalid" class="invalid-feedback fw-bold d-block">
+                    Date is required
+                </div>
+            </div>
+
+            <div>
+                <label for="description">Description:</label>
+                <textarea class="form-control form-control-sm" name="description" id="description" cols="30" rows="2"
+                    formControlName="description" placeholder="Description"></textarea>
+                <div *ngIf="controls.description.touched && controls.description.invalid"
+                    class="invalid-feedback fw-bold d-block">
+                    Description length must be less or equal to 128
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" [ngClass]="transaction.isIncome ? 'btn-success' : 'btn-danger'"
+            class="btn text-light fw-bold" [disabled]="isLoading">Save {{ transaction.isIncome ? 'income' :
+            'expense'}}</button>
+    </div>  
+</form>

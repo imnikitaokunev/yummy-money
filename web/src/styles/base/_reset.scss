@@ -1,0 +1,103 @@
+@import "../base/typography";
+@import "../abstracts/variables";
+
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: $primary-black;
+    // font-family: "Open Sans";
+}
+
+*::selection {
+    background-color: $blue-color-selection;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+p {
+    padding-top: 0.25rem;
+    font-family: "Nimbus Sans D";
+    font-size: 0.9375rem;
+}
+
+div {
+    font-family: "Nimbus Sans D";
+}
+
+.not-btn {
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.not-select {
+    outline: none !important;
+    border: none !important;
+    background-color: transparent !important;
+}
+
+small {
+    font-size: 0.75rem !important;
+}
+
+a {
+    // font-weight: bold;
+    // color: $primary-blue;
+    text-decoration: none!important;
+    font-family: "Nimbus Sans D";
+}
+
+button {
+    font-family: "Nimbus Sans D";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Nimbus Sans D";
+}
+
+.bg-grey {
+    background-color: $grey;
+}
+
+.fs-small {
+    font-size: 0.875rem;
+    line-height: 1.0625rem;
+    margin-bottom: 0.0625rem;
+}
+
+@each $color, $value in $theme-colors {
+    .hover-bg-#{$color}:hover {
+        background: $value!important;
+    }
+}
+
+$utilities: (
+  "opacity": (
+    property: opacity,
+    class: opacity,
+    state: hover,
+    values: (
+      0: 0,
+      25: .25,
+      50: .5,
+      75: .75,
+      100: 1,
+    )
+  )
+);

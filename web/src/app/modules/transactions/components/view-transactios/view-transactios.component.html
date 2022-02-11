@@ -1,0 +1,80 @@
+<div class="modal-header">
+    <div class="modal-title">{{ displayDate }}</div>
+    <button type="button" class="not-btn close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+
+<div class="modal-body">
+
+    <ng-container *ngIf="isLoading">
+        <div class="d-flex justify-content-center my-3">
+            <app-loading-indicator-small [isLoading]="isLoading"></app-loading-indicator-small>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!isLoading">
+
+        <div class="d-flex justify-content-between mb-2">
+            <div class="d-flex">
+                <div>
+                    <div class="fs-small">Incomes</div>
+                    <div [ngClass]="{ 'text-success': incomesSum > 0 }" class="fw-bold fs-small">
+                        {{ incomesSum > 0 ? '+' : '' }}{{incomesSum | number: "1.0-2" }} </div>
+                </div>
+
+                <div class="ms-2 ps-2 border-start">
+                    <div class="fs-small">Expenses</div>
+                    <div [ngClass]="{ 'text-danger': expensesSum > 0 }" class="fw-bold fs-small text-danger">
+                        {{ expensesSum > 0 ? '-' : '' }}{{expensesSum | number: "1.0-2" }} </div>
+                </div>
+
+                <div class="ms-2 ps-2 border-start">
+                    <div class="fs-small">Net</div>
+                    <div [ngClass]=" {'text-danger' : net < 0, 'text-success' : net > 0 }" class="fw-bold fs-small">
+                        {{ net > 0 ? '+' : '' }}{{net | number: "1.0-2" }} </div>
+                </div>
+
+                <div class="ms-2 ps-2 align-self-center border-start">
+                    <div [ngClass]="{ 'text-success': netPercent > 0, 'text-danger' : netPercent < 0 }"
+                        class="text-danger mb-0 h3">
+                        {{ netPercent > 0 ? '+' : '' }}{{ netPercent | percent }}
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button class="btn btn-sm btn-light me-1" (click)="addTransaction()">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button class="btn btn-sm btn-light" (click)="load()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <hr />
+
+        <div *ngFor="let transaction of transactions">
+            <div class="d-flex justify-content-between hover-bg-highlight">
+                <div class="d-flex">
+                    <div class="fw-bold" [ngClass]="transaction.isIncome ? 'text-success' : 'text-danger'">
+                        {{transaction.isIncome ? '+' : '-'}}{{ transaction.amount }}</div>
+                    <div class="d-flex ms-1 text-truncate">{{ transaction.category.name }}</div>
+                </div>
+                <div>
+                    <button class="not-btn fs-small opacity-25 opacity-50-hover text-secondary align-self-center"
+                        (click)="editTransaction(transaction)" [disabled]="isDeleting">
+                        <i class="fas fa-pen"></i>
+                    </button>
+                    <button class="btn-close p-1 pe-2 align-self-center" (click)="deleteTransaction(transaction)"
+                        [disabled]="isDeleting"></button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="!transactions.length">There is no information for this day...</div>
+
+    </ng-container>
+
+</div>

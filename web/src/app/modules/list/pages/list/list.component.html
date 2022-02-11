@@ -1,0 +1,77 @@
+<div class="container">
+
+    <ng-container>
+
+        <div class="d-flex justify-content-between my-2">
+            <button [disabled]="!selectedCount" class="btn btn-sm btn-primary text-white">Update
+                category({{selectedCount}})</button>
+            <button [disabled]="!selectedCount"
+                class="btn btn-sm btn-danger text-white">Delete({{selectedCount}})</button>
+        </div>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <input [disabled]="isLoading || isError" [ngModel]="isAllSelected" [indeterminate]="partSelection" (ngModelChange)="selectAll()"
+                            type="checkbox" class="form-check-input" novalidate />
+                    </th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="data && data.items && !isError">
+                <tr *ngFor="let transaction of transactions">
+                    <td><input name="isSelected" [(ngModel)]="transaction.isSelected" type="checkbox"
+                            class="form-check-input" novalidate /></td>
+                    <td class="text-nowrap">{{transaction.date | date: 'MMM dd, y'}}</td>
+                    <td [ngClass]="transaction.isIncome ? 'text-success' : 'text-danger'" class="text-nowrap fw-bold">
+                        {{transaction.isIncome ? '+' : '-'}}{{transaction.amount}}</td>
+                    <td class="text-nowrap">{{transaction.category.name}}</td>
+                    <td class="text-truncate">{{transaction.description}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ng-container *ngIf="!isLoading && !isError">
+            <div *ngIf="!transactions" class="d-flex justify-content-center my-3">
+                No data
+            </div>
+
+            <div class="d-flex justify-content-between pb-5">
+                <div class="d-flex">
+                    <div class="align-self-center">Shown
+                        <b>{{data.pageSize}}</b> from <b>{{data.totalCount}}</b>
+                    </div>
+                    <button *ngIf="data.hasNextPage" (click)="load()" class="ms-2 btn btn-sm btn-light">Show
+                        more</button>
+                </div>
+                <div>
+                    <span>Export to </span>
+                    <a href="/export/csv" class="fw-bold text-decoration-none">Csv</a>
+                    <span>/</span>
+                    <a href="/export/excel" class="fw-bold text-decoration-none">Excel</a>
+                </div>
+            </div>
+        </ng-container>
+
+
+    </ng-container>
+
+    <ng-container *ngIf="!isError">
+        <div class="d-flex justify-content-center">
+            <app-loading-indicator-small [isError]="isError" [isLoading]="isLoading"></app-loading-indicator-small>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="isError">
+        <div class="d-flex justify-content-center">
+            <button class="not-btn" (click)="refresh()">
+                <i hover-class="fa-sync-alt" class="fas fa-2x fa-exclamation-circle"></i>
+            </button>
+        </div>
+    </ng-container>
+
+</div>
