@@ -12,7 +12,7 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Amount).IsRequired();
-            builder.Property(x => x.IsIncome).IsRequired();
+            builder.Property(x => x.Type).IsRequired();
             builder.Property(x => x.Date).IsRequired();
             builder.Property(x => x.Description).HasMaxLength(128);
 

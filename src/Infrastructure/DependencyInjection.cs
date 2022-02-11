@@ -46,7 +46,7 @@ namespace Infrastructure
             if (redisCacheSettings.IsEnabled)
             {
                 services.AddStackExchangeRedisCache(options => options.Configuration = redisCacheSettings.ConnectionString);
-                services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+                services.AddSingleton<ICacheService, CacheService>();
             }
 
             return services;

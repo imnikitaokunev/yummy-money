@@ -5,15 +5,14 @@ using Application.Common.Interfaces.Repositories;
 using Application.Models.Category;
 using Application.Models.Common;
 using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories
 {
     public class CategoryRepository : Repository<Category, Guid>, ICategoryRepository
     {
-        protected override DbSet<Category> DbSet => Context.Categories;
-
-        public CategoryRepository(IApplicationDbContext context) : base(context) { }
+        public CategoryRepository(IApplicationDbContext context) : base(context)
+        {
+        }
 
         protected override IQueryable<Category> ApplyFilterInternal(IQueryable<Category> query, Request request)
         {

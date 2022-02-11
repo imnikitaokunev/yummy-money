@@ -1,5 +1,6 @@
 ﻿using System;
 using Application.Models.Common;
+using Domain.Enums;
 
 namespace Application.Models.Transaction
 {
@@ -10,6 +11,8 @@ namespace Application.Models.Transaction
 
         public decimal? MinAmount { get; set; }
         public decimal? MaxAmount { get; set; }
+
+        public TransactionType? Type { get; set; }
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

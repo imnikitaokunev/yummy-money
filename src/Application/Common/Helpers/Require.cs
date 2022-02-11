@@ -10,7 +10,7 @@ namespace Application.Common.Helpers
         /// <param name="argumentValue">Argument value to test.</param>
         /// <param name="argumentName">Name of the argument being tested (optional).</param>
         /// <exception cref="System.ArgumentNullException"><parameref name="argumentValue" /> is null.</exception>
-        public static void NotNull<T>(T argumentValue, string argumentName = "") where T : class
+        public static void NotNull<T>(T argumentValue, string argumentName = null) where T : class
         {
             if (argumentValue != null)
             {
@@ -19,7 +19,9 @@ namespace Application.Common.Helpers
 
             if (string.IsNullOrEmpty(argumentName))
             {
+                #pragma warning disable CA2208 // Instantiate argument exceptions correctly
                 throw new ArgumentNullException();
+                #pragma warning restore CA2208 // Instantiate argument exceptions correctly
             }
 
             throw new ArgumentNullException(argumentName);

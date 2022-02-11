@@ -10,6 +10,7 @@ namespace Application.Common.Interfaces
         DbSet<Category> Categories { get; }
         DbSet<Transaction> Transactions { get; }
 
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

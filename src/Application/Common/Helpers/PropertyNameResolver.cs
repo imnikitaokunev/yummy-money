@@ -13,7 +13,9 @@ namespace Application.Common.Helpers
             return DefaultPropertyNameResolver(type, memberInfo, expression).ToCamelCase();
         }
 
+        #pragma warning disable IDE0060 // Remove unused parameter
         public static string DefaultPropertyNameResolver(Type type, MemberInfo memberInfo, LambdaExpression expression)
+        #pragma warning restore IDE0060 // Remove unused parameter
         {
             if (expression != null)
             {

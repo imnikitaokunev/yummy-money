@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
-using Application.Enums;
 using Application.Extensions;
 using Application.Models.Common;
 using Domain.Common;
@@ -15,10 +14,13 @@ namespace Infrastructure.Persistence.Repositories
     public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : Entity<TKey>
     {
         protected readonly IApplicationDbContext Context;
+        protected readonly DbSet<TEntity> DbSet;
 
-        protected abstract DbSet<TEntity> DbSet { get; }
-
-        protected Repository(IApplicationDbContext context) => Context = context;
+        protected Repository(IApplicationDbContext context)
+        {
+            Context = context;
+            DbSet = Context.Set<TEntity>();
+        }
 
         public virtual async Task<TEntity> GetByIdAsync(TKey id)
         {
@@ -27,15 +29,12 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<List<TEntity>> GetAsync(Request request)
         {
-            var filteredQuery = ApplyFilter(DbSet, request);
-            return await Include(filteredQuery).AsNoTracking().ToListAsync();
+            return await Include(ApplyFilter(DbSet, request)).AsNoTracking().ToListAsync();
         }
 
         public async Task<PaginatedList<TEntity>> GetPagedResponseAsync(PaginationRequest request)
         {
-            var filteredQuery = ApplyFilter(DbSet, request);
-            var sortedAndFilteredQuery = ApplySort(filteredQuery, request.SortBy, request.SortType);
-            return await Include(sortedAndFilteredQuery).AsNoTracking().PaginatedListAsync(request.PageNumber, request.PageSize);
+            return await Include(ApplyFilter(DbSet, request)).AsNoTracking().PaginatedListAsync(request.PageNumber, request.PageSize);
         }
 
         public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = new())
@@ -79,16 +78,6 @@ namespace Infrastructure.Persistence.Repositories
         protected IQueryable<TEntity> ApplyFilter(IQueryable<TEntity> query, Request request)
         {
             return ApplyFilterInternal(query, request);
-        }
-
-        protected static IQueryable<TEntity> ApplySort(IQueryable<TEntity> query, string sortBy, SortType sortType)
-        {
-            return sortType switch
-            {
-                SortType.Ascending => query.OrderBy(sortBy),
-                SortType.Descending => query.OrderByDescending(sortBy),
-                _ => query
-            };
         }
     }
 }

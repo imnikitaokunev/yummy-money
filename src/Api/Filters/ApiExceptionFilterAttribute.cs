@@ -21,7 +21,6 @@ namespace Api.Filters
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
                 { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(PropertyNotFoundException), HandlePropertyNotFoundException },
             };
         }
 
@@ -61,22 +60,7 @@ namespace Api.Filters
             context.ExceptionHandled = true;
         }
 
-        private void HandlePropertyNotFoundException(ExceptionContext context)
-        {
-            var exception = context.Exception as PropertyNotFoundException;
-
-            var details = new ProblemDetails
-            {
-                Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-                Title = "The specified property was not found.",
-                Detail = exception?.Message
-            };
-
-            context.Result = new BadRequestObjectResult(details);
-            context.ExceptionHandled = true;
-        }
-
-        private void HandleUnknownException(ExceptionContext context)
+        private static void HandleUnknownException(ExceptionContext context)
         {
             var details = new ProblemDetails
             {
