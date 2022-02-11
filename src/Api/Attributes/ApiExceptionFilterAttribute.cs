@@ -19,10 +19,9 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
         // Register known exception types and handlers.
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
-            {
-                { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(PropertyNotFoundException), HandlePropertyNotFoundException },
-            };
+        {
+            { typeof(NotFoundException), HandleNotFoundException },
+        };
     }
 
     public override void OnException(ExceptionContext context)
@@ -46,7 +45,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         HandleUnknownException(context);
     }
 
-    private void HandleNotFoundException(ExceptionContext context)
+    private static void HandleNotFoundException(ExceptionContext context)
     {
         var exception = context.Exception as NotFoundException;
 
@@ -61,22 +60,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
     }
 
-    private void HandlePropertyNotFoundException(ExceptionContext context)
-    {
-        var exception = context.Exception as PropertyNotFoundException;
-
-        var details = new ProblemDetails
-        {
-            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1",
-            Title = "The specified property was not found.",
-            Detail = exception?.Message
-        };
-
-        context.Result = new BadRequestObjectResult(details);
-        context.ExceptionHandled = true;
-    }
-
-    private void HandleUnknownException(ExceptionContext context)
+    private static void HandleUnknownException(ExceptionContext context)
     {
         var details = new ProblemDetails
         {

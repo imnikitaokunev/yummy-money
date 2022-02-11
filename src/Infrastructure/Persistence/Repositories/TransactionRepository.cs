@@ -8,10 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
 
+
 public class TransactionRepository : Repository<Transaction, long>, ITransactionRepository
 {
-    protected override DbSet<Transaction> DbSet => Context.Transactions;
-
     public TransactionRepository(IApplicationDbContext context) : base(context)
     {
     }
@@ -41,6 +40,11 @@ public class TransactionRepository : Repository<Transaction, long>, ITransaction
         if (getTransactionsRequest.MaxAmount.HasValue)
         {
             query = query.Where(x => x.Amount <= getTransactionsRequest.MaxAmount);
+        }
+
+        if (getTransactionsRequest.Type.HasValue)
+        {
+            query = query.Where(x => x.Type == getTransactionsRequest.Type.Value);
         }
 
         if (getTransactionsRequest.StartDate.HasValue)

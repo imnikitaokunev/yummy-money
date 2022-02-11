@@ -43,11 +43,11 @@ public static class DependencyInjection
         configuration.Bind(nameof(RedisCacheSettings), redisCacheSettings);
         services.AddSingleton(redisCacheSettings);
 
-        if (redisCacheSettings.IsEnabled)
-        {
-            services.AddStackExchangeRedisCache(options => options.Configuration = redisCacheSettings.ConnectionString);
-            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
-        }
+            if (redisCacheSettings.IsEnabled)
+            {
+                services.AddStackExchangeRedisCache(options => options.Configuration = redisCacheSettings.ConnectionString);
+                services.AddSingleton<ICacheService, CacheService>();
+            }
 
         return services;
     }

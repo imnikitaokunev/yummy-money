@@ -31,9 +31,9 @@ public class CachedAttribute : Attribute, IAsyncActionFilter
             return;
         }
 
-        var cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>();
+        var cacheService = context.HttpContext.RequestServices.GetRequiredService<ICacheService>();
         var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
-        var cachedResponse = await cacheService.GetCacheAsync(cacheKey);
+        var cachedResponse = await cacheService.GetAsync(cacheKey);
 
         if (!string.IsNullOrEmpty(cachedResponse))
         {

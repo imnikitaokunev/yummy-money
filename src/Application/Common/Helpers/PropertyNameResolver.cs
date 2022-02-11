@@ -4,26 +4,29 @@ using System.Reflection;
 using Application.Extensions;
 using FluentValidation.Internal;
 
-namespace Application.Common.Helpers;
-
-public class PropertyNameResolver
+namespace Application.Common.Helpers
 {
-    public static string CamelCasePropertyNameResolver(Type type, MemberInfo memberInfo, LambdaExpression expression)
+    public class PropertyNameResolver
     {
-        return DefaultPropertyNameResolver(type, memberInfo, expression).ToCamelCase();
-    }
-
-    public static string DefaultPropertyNameResolver(Type type, MemberInfo memberInfo, LambdaExpression expression)
-    {
-        if (expression != null)
+        public static string CamelCasePropertyNameResolver(Type type, MemberInfo memberInfo, LambdaExpression expression)
         {
-            var chain = PropertyChain.FromExpression(expression);
-            if (chain.Count > 0)
-            {
-                return chain.ToString();
-            }
+            return DefaultPropertyNameResolver(type, memberInfo, expression).ToCamelCase();
         }
 
-        return memberInfo?.Name;
+        #pragma warning disable IDE0060 // Remove unused parameter
+        public static string DefaultPropertyNameResolver(Type type, MemberInfo memberInfo, LambdaExpression expression)
+        #pragma warning restore IDE0060 // Remove unused parameter
+        {
+            if (expression != null)
+            {
+                var chain = PropertyChain.FromExpression(expression);
+                if (chain.Count > 0)
+                {
+                    return chain.ToString();
+                }
+            }
+
+            return memberInfo?.Name;
+        }
     }
 }

@@ -1,13 +1,15 @@
 ﻿using FluentValidation;
 
-namespace Application.Models.Transaction;
-
-public class CreateTransactionRequestValidator : AbstractValidator<CreateTransactionRequest>
+namespace Application.Models.Transaction
 {
-    public CreateTransactionRequestValidator()
+    public class CreateTransactionRequestValidator : AbstractValidator<CreateTransactionRequest>
     {
-        RuleFor(x => x.Amount).GreaterThan(0).LessThan(decimal.MaxValue);
-        RuleFor(x => x.Date).NotEmpty();
-        RuleFor(x => x.Description).MaximumLength(128);
+        public CreateTransactionRequestValidator()
+        {
+            RuleFor(x => x.Amount).GreaterThan(0).LessThan(decimal.MaxValue);
+            RuleFor(x => x.Date).NotEmpty();
+            RuleFor(x => x.Type).NotEmpty();
+            RuleFor(x => x.Description).MaximumLength(128);
+        }
     }
 }
