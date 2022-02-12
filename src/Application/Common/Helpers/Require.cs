@@ -38,8 +38,8 @@ namespace Application.Common.Helpers
         /// <exception cref="System.ArgumentException">
         ///     <paramref name="argumentValue" /> does not satisfy <paramref name="condition" />.
         /// </exception>
-        public static void Satisfies<T>(T argumentValue, Func<T, bool> condition, string violationMessage = "",
-            string argumentName = "")
+        public static void Satisfies<T>(T argumentValue, Func<T, bool> condition, string violationMessage = null,
+            string argumentName = null)
         {
             if (condition(argumentValue))
             {
@@ -67,7 +67,7 @@ namespace Application.Common.Helpers
         /// <exception cref="System.ArgumentException">
         ///     <paramref name="value" /> is null or empty>.
         /// </exception>
-        public static void NotNullOrEmpty(string value, string argumentName = "")
+        public static void NotNullOrEmpty(string value, string argumentName = null)
         {
             if (!string.IsNullOrEmpty(value))
             {

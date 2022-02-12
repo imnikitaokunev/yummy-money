@@ -34,10 +34,10 @@ public class CategoryRepository : Repository<Category, Guid>, ICategoryRepositor
             query = query.Where(x => x.Description.Contains(getCategoryRequest.Description));
         }
 
-        //if (getCategoryRequest.UserId != Guid.Empty)
-        //{
-        //    query = query.Where(x => x.UserId == getCategoryRequest.UserId);
-        //}
+        if (getCategoryRequest.UserId != Guid.Empty)
+        {
+            query = query.Where(x => x.UserId == getCategoryRequest.UserId);
+        }
 
         return query;
     }
